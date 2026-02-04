@@ -1,29 +1,21 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useState, useRef, useCallback, useMemo, useEffect } from "react"
 import { motion, useInView } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Briefcase, Target, Users, Play } from "lucide-react"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+import { useSectionInView } from "@/hooks/use-section-in-view"
+import { createStaggerVariants } from "@/lib/animations"
+import { BOOKING_URL, TRUST_MICROCOPY } from "@/lib/constants"
 
 export function OurStory() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const { ref, isInView } = useSectionInView()
   const [isPlaying, setIsPlaying] = useState(false)
-  const ref = useRef(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const phoneRef = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
   const isPhoneInView = useInView(phoneRef, { once: true, margin: "-50px" })
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches)
-    }
-    mediaQuery.addEventListener("change", handleChange)
-    return () => mediaQuery.removeEventListener("change", handleChange)
-  }, [])
 
   // Autoplay video when phone comes into view
   useEffect(() => {
@@ -43,7 +35,7 @@ export function OurStory() {
     }
   }, [isPhoneInView, isPlaying])
 
-  const handlePlayVideo = async () => {
+  const handlePlayVideo = useCallback(async () => {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause()
@@ -60,27 +52,12 @@ export function OurStory() {
         }
       }
     }
-  }
+  }, [isPlaying])
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: prefersReducedMotion ? 0 : 0.15,
-        delayChildren: prefersReducedMotion ? 0 : 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: prefersReducedMotion ? {} : { opacity: 0, y: 25 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  }
+  const { container: containerVariants, item: itemVariants } = useMemo(
+    () => createStaggerVariants(prefersReducedMotion),
+    [prefersReducedMotion]
+  )
 
   const highlights = [
     { icon: Briefcase, text: "Apple's first Canadian intern + return offer" },
@@ -159,7 +136,7 @@ export function OurStory() {
                 asChild
                 className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-6 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg shadow-[0_0_25px_rgba(58,166,168,0.3)]"
               >
-                <a href="https://cal.com/shaniaxc2c/30min?month=2026-02" target="_blank" rel="noopener noreferrer">
+                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
                   Free Consultation
                 </a>
               </Button>
@@ -170,7 +147,7 @@ export function OurStory() {
 
             {/* Trust microcopy */}
             <motion.p variants={itemVariants} className="mt-4 text-c2c-text-navy/60 text-xs">
-              30-min call • Free game plan • No pressure
+              {TRUST_MICROCOPY}
             </motion.p>
           </div>
 

@@ -1,10 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, memo } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import Image from "next/image"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+import { BOOKING_URL } from "@/lib/constants"
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -15,21 +17,10 @@ const navLinks = [
   { label: "Contact", href: "/#footer" },
 ]
 
-export function Header() {
+function HeaderComponent() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches)
-    }
-    mediaQuery.addEventListener("change", handleChange)
-    return () => mediaQuery.removeEventListener("change", handleChange)
-  }, [])
+  const prefersReducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,6 +30,14 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen((prev) => !prev)
+  }, [])
+
+  const closeMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(false)
+  }, [])
+
   return (
     <motion.header
       initial={prefersReducedMotion ? {} : { y: -100 }}
@@ -46,8 +45,8 @@ export function Header() {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-[#F4F6F8]/95 backdrop-blur-md shadow-sm py-1"
-          : "bg-[#F4F6F8] py-2"
+          ? "bg-c2c-offwhite/95 backdrop-blur-md shadow-sm py-1"
+          : "bg-c2c-offwhite py-2"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
@@ -58,6 +57,7 @@ export function Header() {
             alt="C2C - From Campus 2 Corporate"
             width={220}
             height={90}
+            sizes="220px"
             className="w-auto h-20 -my-4"
             priority
           />
@@ -81,9 +81,9 @@ export function Header() {
         <div className="hidden md:block">
           <Button
             asChild
-            className="relative bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 py-2 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg shadow-[0_0_15px_rgba(58,166,168,0.3)] ring-2 ring-c2c-teal/20 ring-offset-2 ring-offset-[#F4F6F8]"
+            className="relative bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 py-2 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg shadow-[0_0_15px_rgba(58,166,168,0.3)] ring-2 ring-c2c-teal/20 ring-offset-2 ring-offset-c2c-offwhite"
           >
-            <a href="https://cal.com/shaniaxc2c/30min?month=2026-02" target="_blank" rel="noopener noreferrer">
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
               Free Consultation
             </a>
           </Button>
@@ -91,7 +91,7 @@ export function Header() {
 
         {/* Mobile Menu Toggle */}
         <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          onClick={toggleMobileMenu}
           className="md:hidden text-c2c-navy p-2"
           aria-label="Toggle menu"
         >
@@ -105,14 +105,14 @@ export function Header() {
           initial={prefersReducedMotion ? {} : { opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="md:hidden bg-[#F4F6F8] border-t border-c2c-navy/10 mt-2"
+          className="md:hidden bg-c2c-offwhite border-t border-c2c-navy/10 mt-2"
         >
           <nav className="flex flex-col px-6 py-4 gap-4">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={closeMobileMenu}
                 className="text-c2c-navy hover:text-c2c-teal text-sm font-medium transition-colors duration-200"
               >
                 {link.label}
@@ -122,7 +122,7 @@ export function Header() {
               asChild
               className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 py-2 rounded-lg w-full mt-2"
             >
-              <a href="https://cal.com/shaniaxc2c/30min?month=2026-02" target="_blank" rel="noopener noreferrer">
+              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
                 Free Consultation
               </a>
             </Button>
@@ -132,3 +132,5 @@ export function Header() {
     </motion.header>
   )
 }
+
+export const Header = memo(HeaderComponent)

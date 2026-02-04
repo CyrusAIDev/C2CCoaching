@@ -1,19 +1,23 @@
 "use client"
 
-import React from "react"
-import { useState } from "react"
+import React, { useState, useCallback, memo } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Instagram, Linkedin } from "lucide-react"
 import Image from "next/image"
+import { EMAIL } from "@/lib/constants"
 
-export function Footer() {
+function FooterComponent() {
   const [email, setEmail] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault()
     setEmail("")
-  }
+  }, [])
+
+  const handleEmailChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value)
+  }, [])
 
   return (
     <footer id="footer" className="relative py-20 bg-gradient-to-b from-c2c-navy-light via-c2c-navy to-c2c-navy-dark noise-overlay">
@@ -27,6 +31,7 @@ export function Footer() {
                 alt="C2C - From Campus 2 Corporate"
                 width={140}
                 height={50}
+                sizes="140px"
                 className="h-12 w-auto"
               />
             </div>
@@ -48,7 +53,7 @@ export function Footer() {
                 type="email"
                 placeholder="Your email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmailChange}
                 className="bg-c2c-navy-light/50 border-c2c-text-navy/10 text-c2c-text-navy placeholder:text-c2c-text-navy/30 rounded-lg focus:border-c2c-teal focus:ring-c2c-teal text-sm"
               />
               <Button
@@ -66,10 +71,10 @@ export function Footer() {
               Questions?
             </h3>
             <a
-              href="mailto:shania@fromcampus2corporate.ca"
+              href={`mailto:${EMAIL}`}
               className="text-c2c-teal hover:text-c2c-teal/80 text-sm transition-colors break-all"
             >
-              shania@fromcampus2corporate.ca
+              {EMAIL}
             </a>
           </div>
 
@@ -110,3 +115,5 @@ export function Footer() {
     </footer>
   )
 }
+
+export const Footer = memo(FooterComponent)

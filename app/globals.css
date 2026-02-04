@@ -11,7 +11,6 @@
   --c2c-offwhite: #F4F6F8;
   --c2c-teal: #3AA6A8;
   --c2c-gold: #F4B23A;
-  --c2c-warm-accent: #F4B23A;
   --c2c-text-light: #0F172A;
   --c2c-text-navy: #EAEFF4;
   --c2c-muted: #64748B;
@@ -103,7 +102,6 @@
   --color-c2c-text-navy: var(--c2c-text-navy);
   --color-c2c-muted: var(--c2c-muted);
   --color-c2c-border: var(--c2c-border);
-  --color-c2c-warm-accent: var(--c2c-warm-accent);
 }
 
 /* Noise overlay for premium feel */
@@ -128,30 +126,6 @@
     @apply bg-c2c-offwhite text-c2c-text-light;
     line-height: 1.65;
   }
-}
-
-/* Animated underline */
-@keyframes underline-grow {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-.animated-underline {
-  animation: underline-grow 0.8s ease-out forwards;
-  transform-origin: left;
-}
-
-/* Highlighter effect */
-.highlight-teal {
-  background: linear-gradient(180deg, transparent 60%, rgba(42, 157, 159, 0.25) 60%);
-}
-
-.highlight-gold {
-  background: linear-gradient(180deg, transparent 60%, rgba(212, 165, 116, 0.3) 60%);
 }
 
 /* Custom scrollbar for a polished look */

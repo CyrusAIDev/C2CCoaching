@@ -1,9 +1,14 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
-import { motion, useInView } from "framer-motion"
+import { useMemo } from "react"
+import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+import { useSectionInView } from "@/hooks/use-section-in-view"
+import { createStaggerVariants } from "@/lib/animations"
+import { SectionHeading } from "@/components/c2c/section-heading"
+import { SectionBackground } from "@/components/c2c/section-background"
 
 const features = [
   {
@@ -36,46 +41,17 @@ const features = [
 ]
 
 export function WhyC2C() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const { ref, isInView } = useSectionInView()
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches)
-    }
-    mediaQuery.addEventListener("change", handleChange)
-    return () => mediaQuery.removeEventListener("change", handleChange)
-  }, [])
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: prefersReducedMotion ? 0 : 0.15,
-        delayChildren: prefersReducedMotion ? 0 : 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: prefersReducedMotion ? {} : { opacity: 0, y: 25 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  }
+  const { container: containerVariants, item: itemVariants } = useMemo(
+    () => createStaggerVariants(prefersReducedMotion),
+    [prefersReducedMotion]
+  )
 
   return (
     <section ref={ref} className="py-32 bg-c2c-offwhite relative overflow-hidden">
-      {/* Subtle background blobs */}
-      <div className="absolute top-20 -left-20 w-[400px] h-[400px] bg-c2c-teal/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 -right-20 w-[350px] h-[350px] bg-c2c-gold/5 rounded-full blur-3xl" />
+      <SectionBackground />
       <div className="max-w-6xl mx-auto px-6">
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
@@ -83,23 +59,7 @@ export function WhyC2C() {
           transition={{ duration: 0.6 }}
           className="text-center mb-20"
         >
-          <h2 className="text-3xl md:text-4xl font-semibold text-c2c-navy mb-4 relative inline-block">
-            Why C2C?
-            <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1">
-              <motion.span 
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-                className="w-12 h-1 bg-c2c-teal rounded-full origin-right"
-              />
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={isInView ? { scale: 1 } : {}}
-                transition={{ duration: 0.3, delay: 0.7, ease: "easeOut" }}
-                className="w-2 h-2 rounded-full bg-c2c-gold"
-              />
-            </span>
-          </h2>
+          <SectionHeading title="Why C2C?" isInView={isInView} className="mb-4" />
           <p className="text-c2c-muted text-lg max-w-xl mx-auto mt-8">
             <span className="font-semibold text-c2c-navy">Personalized support.</span> Insider-led strategy. <span className="font-semibold text-c2c-navy">Real results.</span>
           </p>
@@ -124,6 +84,8 @@ export function WhyC2C() {
                     src={feature.image || "/placeholder.svg"}
                     alt={feature.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    loading="lazy"
                     className="object-cover transition-transform duration-500 hover:scale-105"
                   />
                 </div>

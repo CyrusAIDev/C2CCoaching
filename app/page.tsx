@@ -1,11 +1,14 @@
+import dynamic from "next/dynamic"
 import { Header } from "@/components/c2c/header"
 import { Hero } from "@/components/c2c/hero"
-import { LogoStrip } from "@/components/c2c/logo-strip"
-import { OurStory } from "@/components/c2c/our-story"
-import { WhyC2C } from "@/components/c2c/why-c2c"
-import { ServicePerks } from "@/components/c2c/service-perks"
-import { Reviews } from "@/components/c2c/reviews"
-import { Footer } from "@/components/c2c/footer"
+
+// Lazy load below-the-fold components for better initial page load performance
+const LogoStrip = dynamic(() => import("@/components/c2c/logo-strip").then((mod) => ({ default: mod.LogoStrip })))
+const OurStory = dynamic(() => import("@/components/c2c/our-story").then((mod) => ({ default: mod.OurStory })))
+const WhyC2C = dynamic(() => import("@/components/c2c/why-c2c").then((mod) => ({ default: mod.WhyC2C })))
+const ServicePerks = dynamic(() => import("@/components/c2c/service-perks").then((mod) => ({ default: mod.ServicePerks })))
+const Reviews = dynamic(() => import("@/components/c2c/reviews").then((mod) => ({ default: mod.Reviews })))
+const Footer = dynamic(() => import("@/components/c2c/footer").then((mod) => ({ default: mod.Footer })))
 
 export default function Home() {
   return (

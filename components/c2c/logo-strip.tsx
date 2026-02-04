@@ -1,8 +1,11 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
-import { motion, useInView } from "framer-motion"
+import { useMemo, memo } from "react"
+import { motion } from "framer-motion"
 import Image from "next/image"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+import { useSectionInView } from "@/hooks/use-section-in-view"
+import { createStaggerVariants } from "@/lib/animations"
 
 const companies = [
   { 
@@ -43,41 +46,14 @@ const companies = [
   },
 ]
 
-export function LogoStrip() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+function LogoStripComponent() {
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const { ref, isInView } = useSectionInView()
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches)
-    }
-    mediaQuery.addEventListener("change", handleChange)
-    return () => mediaQuery.removeEventListener("change", handleChange)
-  }, [])
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: prefersReducedMotion ? 0 : 0.08,
-        delayChildren: prefersReducedMotion ? 0 : 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: prefersReducedMotion ? {} : { opacity: 0, y: 15 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.4, ease: "easeOut" },
-    },
-  }
+  const { container: containerVariants, item: itemVariants } = useMemo(
+    () => createStaggerVariants(prefersReducedMotion),
+    [prefersReducedMotion]
+  )
 
   return (
     <section ref={ref} className="py-16 bg-c2c-offwhite relative overflow-hidden">
@@ -110,8 +86,8 @@ export function LogoStrip() {
                 alt={`${company.name} logo`}
                 width={company.width}
                 height={company.height}
+                sizes="95px"
                 className="opacity-90 hover:opacity-100 transition-opacity duration-200 object-contain max-w-[95px] max-h-[48px]"
-                unoptimized
               />
             </motion.div>
           ))}
@@ -135,3 +111,5 @@ export function LogoStrip() {
     </section>
   )
 }
+
+export const LogoStrip = memo(LogoStripComponent)

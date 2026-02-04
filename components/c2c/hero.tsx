@@ -1,10 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-import { AnimatePresence } from "framer-motion"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+import { BOOKING_URL, TRUST_MICROCOPY } from "@/lib/constants"
 
 const rotatingWords = [
   "your resume.",
@@ -15,21 +16,10 @@ const rotatingWords = [
 ]
 
 export function Hero() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const prefersReducedMotion = usePrefersReducedMotion()
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [displayedText, setDisplayedText] = useState("")
   const [isTyping, setIsTyping] = useState(true)
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches)
-    }
-    mediaQuery.addEventListener("change", handleChange)
-    return () => mediaQuery.removeEventListener("change", handleChange)
-  }, [])
 
   // Typewriter effect
   useEffect(() => {
@@ -67,25 +57,31 @@ export function Hero() {
     }
   }, [displayedText, isTyping, currentWordIndex, prefersReducedMotion])
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: prefersReducedMotion ? 0 : 0.2,
-        delayChildren: prefersReducedMotion ? 0 : 0.3,
+  const containerVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: prefersReducedMotion ? 0 : 0.2,
+          delayChildren: prefersReducedMotion ? 0 : 0.3,
+        },
       },
-    },
-  }
+    }),
+    [prefersReducedMotion]
+  )
 
-  const itemVariants = {
-    hidden: prefersReducedMotion ? {} : { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  }
+  const itemVariants = useMemo(
+    () => ({
+      hidden: prefersReducedMotion ? {} : { opacity: 0, y: 30 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6, ease: "easeOut" },
+      },
+    }),
+    [prefersReducedMotion]
+  )
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
@@ -95,6 +91,7 @@ export function Hero() {
           src="/images/hero-bg.jpg"
           alt="Young professionals searching for internships and new grad roles"
           fill
+          sizes="100vw"
           className="object-cover object-top"
           priority
         />
@@ -145,7 +142,7 @@ export function Hero() {
                   size="lg"
                   className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-6 text-lg rounded-lg transition-all duration-200 hover:-translate-y-1 hover:shadow-xl shadow-[0_0_25px_rgba(58,166,168,0.4)] ring-2 ring-c2c-teal/30 ring-offset-2 ring-offset-c2c-navy/80"
                 >
-                  <a href="https://cal.com/shaniaxc2c/30min?month=2026-02" target="_blank" rel="noopener noreferrer">
+                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
                     Book Free Consultation
                   </a>
                 </Button>
@@ -154,7 +151,7 @@ export function Hero() {
                 </a>
               </div>
               <p className="text-white/50 text-xs">
-                30-min call • Free game plan • No pressure
+                {TRUST_MICROCOPY}
               </p>
             </motion.div>
         </div>

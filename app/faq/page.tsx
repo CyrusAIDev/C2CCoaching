@@ -2,9 +2,14 @@
 
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
-import { useRef, useEffect, useState } from "react"
+import { useRef, useMemo } from "react"
 import { Header } from "@/components/c2c/header"
 import { Footer } from "@/components/c2c/footer"
+import { SectionHeading } from "@/components/c2c/section-heading"
+import { SectionBackground } from "@/components/c2c/section-background"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+import { createStaggerVariants } from "@/lib/animations"
+import { EMAIL } from "@/lib/constants"
 import {
   Accordion,
   AccordionContent,
@@ -19,7 +24,7 @@ const faqs = [
   },
   {
     question: "How do I book?",
-    answer: "Payment confirms your session and secures your spot. Book through the website, or e-transfer to shania@fromcampus2corporate.com."
+    answer: `Payment confirms your session and secures your spot. Book through the website, or e-transfer to ${EMAIL}.`
   },
   {
     question: "What's your turnaround time?",
@@ -70,41 +75,19 @@ const faqs = [
 export default function FAQPage() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const prefersReducedMotion = usePrefersReducedMotion()
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setPrefersReducedMotion(mediaQuery.matches)
-  }, [])
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
-    },
-  }
+  const { container: containerVariants, item: itemVariants } = useMemo(
+    () => createStaggerVariants(prefersReducedMotion),
+    [prefersReducedMotion]
+  )
 
   return (
     <main className="min-h-screen bg-c2c-offwhite">
       <Header />
       
       <section ref={ref} className="pt-32 pb-24 bg-c2c-offwhite relative overflow-hidden">
-        {/* Subtle background blobs */}
-        <div className="absolute top-20 -right-32 w-[400px] h-[400px] bg-c2c-teal/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 -left-20 w-[300px] h-[300px] bg-c2c-gold/5 rounded-full blur-3xl" />
+        <SectionBackground />
 
         <div className="max-w-3xl mx-auto px-6 relative z-10">
           <motion.div
@@ -119,26 +102,9 @@ export default function FAQPage() {
             >
               Got Questions?
             </motion.span>
-            <motion.h1
-              variants={itemVariants}
-              className="text-4xl md:text-5xl font-semibold text-c2c-navy mb-6 relative inline-block"
-            >
-              Frequently Asked Questions
-              <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1">
-                <motion.span 
-                  initial={{ scaleX: 0 }}
-                  animate={isInView ? { scaleX: 1 } : {}}
-                  transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-                  className="w-16 h-1 bg-c2c-teal rounded-full origin-right"
-                />
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={isInView ? { scale: 1 } : {}}
-                  transition={{ duration: 0.3, delay: 0.7, ease: "easeOut" }}
-                  className="w-2 h-2 rounded-full bg-c2c-gold"
-                />
-              </span>
-            </motion.h1>
+            <motion.div variants={itemVariants} className="mb-6">
+              <SectionHeading title="Frequently Asked Questions" isInView={isInView} />
+            </motion.div>
             <motion.p
               variants={itemVariants}
               className="text-c2c-muted text-lg mt-8 max-w-xl mx-auto"
@@ -182,10 +148,10 @@ export default function FAQPage() {
               Still have questions?
             </p>
             <a 
-              href="mailto:shania@fromcampus2corporate.com"
+              href={`mailto:${EMAIL}`}
               className="text-c2c-teal hover:text-c2c-teal/80 font-medium transition-colors"
             >
-              Reach out to shania@fromcampus2corporate.com
+              Reach out to {EMAIL}
             </a>
           </motion.div>
         </div>

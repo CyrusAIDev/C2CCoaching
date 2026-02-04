@@ -2,11 +2,17 @@
 
 import { Button } from "@/components/ui/button"
 
-import { useEffect, useState, useRef } from "react"
-import { motion, useInView } from "framer-motion"
+import { useCallback, useMemo, memo } from "react"
+import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
-import { Star, StarHalf } from "lucide-react"
+import { Star } from "lucide-react"
 import Image from "next/image"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+import { useSectionInView } from "@/hooks/use-section-in-view"
+import { createStaggerVariants } from "@/lib/animations"
+import { SectionHeading } from "@/components/c2c/section-heading"
+import { SectionBackground } from "@/components/c2c/section-background"
+import { BOOKING_URL } from "@/lib/constants"
 
 const testimonials = [
   {
@@ -65,7 +71,7 @@ const testimonials = [
   },
 ]
 
-function StarRating({ count }: { count: number }) {
+const StarRating = memo(function StarRating({ count }: { count: number }) {
   const fullStars = Math.floor(count)
   const hasHalfStar = count % 1 !== 0
   
@@ -99,50 +105,24 @@ function StarRating({ count }: { count: number }) {
       })}
     </div>
   )
-}
+})
 
 export function Reviews() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const { ref, isInView } = useSectionInView()
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setPrefersReducedMotion(mediaQuery.matches)
+  const { container: containerVariants, item: itemVariants } = useMemo(
+    () => createStaggerVariants(prefersReducedMotion),
+    [prefersReducedMotion]
+  )
 
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches)
-    }
-    mediaQuery.addEventListener("change", handleChange)
-    return () => mediaQuery.removeEventListener("change", handleChange)
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
   }, [])
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: prefersReducedMotion ? 0 : 0.1,
-        delayChildren: prefersReducedMotion ? 0 : 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: prefersReducedMotion ? {} : { opacity: 0, y: 30, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.5, ease: "easeOut" },
-    },
-  }
 
   return (
     <section ref={ref} className="py-32 bg-c2c-offwhite relative overflow-hidden">
-      {/* Subtle background blobs */}
-      <div className="absolute top-40 -right-32 w-[450px] h-[450px] bg-c2c-teal/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 -left-20 w-[300px] h-[300px] bg-c2c-gold/5 rounded-full blur-3xl" />
+      <SectionBackground />
       <div className="max-w-6xl mx-auto px-6">
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
@@ -150,23 +130,7 @@ export function Reviews() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-semibold text-c2c-navy relative inline-block">
-            What Our Clients Say
-            <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1">
-              <motion.span 
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-                className="w-12 h-1 bg-c2c-teal rounded-full origin-right"
-              />
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={isInView ? { scale: 1 } : {}}
-                transition={{ duration: 0.3, delay: 0.7, ease: "easeOut" }}
-                className="w-2 h-2 rounded-full bg-c2c-gold"
-              />
-            </span>
-          </h2>
+          <SectionHeading title="What Our Clients Say" isInView={isInView} />
         </motion.div>
 
         <motion.div
@@ -191,6 +155,7 @@ export function Reviews() {
                         src={testimonial.avatar || "/placeholder.svg"}
                         alt={testimonial.name}
                         fill
+                        sizes="48px"
                         className="object-cover"
                       />
                     </div>
@@ -240,7 +205,7 @@ export function Reviews() {
             asChild
             className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-6 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg shadow-[0_0_25px_rgba(58,166,168,0.25)]"
           >
-            <a href="https://cal.com/shaniaxc2c/30min?month=2026-02" target="_blank" rel="noopener noreferrer">
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
               Book Free Consultation
             </a>
           </Button>
@@ -254,7 +219,7 @@ export function Reviews() {
           className="flex justify-center mt-12"
         >
           <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={scrollToTop}
             className="flex flex-col items-center gap-2 text-c2c-navy/50 hover:text-c2c-teal transition-colors duration-200 group"
           >
             <svg

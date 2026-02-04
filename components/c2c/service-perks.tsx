@@ -1,10 +1,15 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
-import { motion, useInView, AnimatePresence } from "framer-motion"
+import { useState, useCallback, useMemo, memo } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Check, ChevronDown } from "lucide-react"
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+import { useSectionInView } from "@/hooks/use-section-in-view"
+import { createStaggerVariants } from "@/lib/animations"
+import { SectionHeading } from "@/components/c2c/section-heading"
+import { BOOKING_URL } from "@/lib/constants"
 
 // Grouped content structure for cleaner hierarchy
 const fastTrackGroups = [
@@ -85,7 +90,7 @@ const plans = [
   },
 ]
 
-function GroupedBullets({ groups, compact = false }: { groups: typeof fastTrackGroups; compact?: boolean }) {
+const GroupedBullets = memo(function GroupedBullets({ groups, compact = false }: { groups: typeof fastTrackGroups; compact?: boolean }) {
   return (
     <div className={`space-y-${compact ? '3' : '4'}`}>
       {groups.map((group, idx) => (
@@ -108,10 +113,14 @@ function GroupedBullets({ groups, compact = false }: { groups: typeof fastTrackG
       ))}
     </div>
   )
-}
+})
 
-function PricingCard({ plan, prefersReducedMotion }: { plan: typeof plans[0]; prefersReducedMotion: boolean }) {
+const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion }: { plan: typeof plans[0]; prefersReducedMotion: boolean }) {
   const [isExpanded, setIsExpanded] = useState(false)
+
+  const toggleExpanded = useCallback(() => {
+    setIsExpanded((prev) => !prev)
+  }, [])
 
   return (
     <Card
@@ -197,7 +206,7 @@ function PricingCard({ plan, prefersReducedMotion }: { plan: typeof plans[0]; pr
             </AnimatePresence>
             
             <button
-              onClick={() => setIsExpanded(!isExpanded)}
+              onClick={toggleExpanded}
               className="w-full mt-4 flex items-center justify-center gap-1.5 text-white/60 hover:text-white/80 text-xs font-medium transition-colors"
             >
               <span>{isExpanded ? "Show less" : "See full breakdown"}</span>
@@ -225,7 +234,7 @@ function PricingCard({ plan, prefersReducedMotion }: { plan: typeof plans[0]; pr
               : "bg-white/10 hover:bg-white/20 text-white border border-white/20"
           }`}
         >
-          <a href="https://cal.com/shaniaxc2c/30min?month=2026-02" target="_blank" rel="noopener noreferrer">
+          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
             Get Started
           </a>
         </Button>
@@ -235,43 +244,16 @@ function PricingCard({ plan, prefersReducedMotion }: { plan: typeof plans[0]; pr
       </div>
     </Card>
   )
-}
+})
 
 export function ServicePerks() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const { ref, isInView } = useSectionInView()
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches)
-    }
-    mediaQuery.addEventListener("change", handleChange)
-    return () => mediaQuery.removeEventListener("change", handleChange)
-  }, [])
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: prefersReducedMotion ? 0 : 0.15,
-        delayChildren: prefersReducedMotion ? 0 : 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: prefersReducedMotion ? {} : { opacity: 0, y: 25 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  }
+  const { container: containerVariants, item: itemVariants } = useMemo(
+    () => createStaggerVariants(prefersReducedMotion),
+    [prefersReducedMotion]
+  )
 
   return (
     <section id="services" ref={ref} className="relative py-32 bg-gradient-to-br from-c2c-navy via-c2c-navy-light to-c2c-navy-dark noise-overlay overflow-hidden">
@@ -284,23 +266,9 @@ export function ServicePerks() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4 relative inline-block">
-            Service Perks
-            <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1">
-              <motion.span 
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-                className="w-12 h-1 bg-c2c-teal rounded-full origin-right"
-              />
-              <motion.span
-                initial={{ scale: 0 }}
-                animate={isInView ? { scale: 1 } : {}}
-                transition={{ duration: 0.3, delay: 0.7, ease: "easeOut" }}
-                className="w-2 h-2 rounded-full bg-c2c-gold"
-              />
-            </span>
-          </h2>
+          <div className="text-white">
+            <SectionHeading title="Service Perks" isInView={isInView} className="mb-4" />
+          </div>
           <p className="text-c2c-gold text-lg font-semibold mt-6 mb-3">
             1:1 Coaching Sessions
           </p>
@@ -342,7 +310,7 @@ export function ServicePerks() {
             size="lg"
             className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-10 py-6 rounded-lg transition-all duration-200 hover:-translate-y-1 hover:shadow-xl shadow-[0_0_30px_rgba(58,166,168,0.3)]"
           >
-            <a href="https://cal.com/shaniaxc2c/30min?month=2026-02" target="_blank" rel="noopener noreferrer">
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
               Book Free Consultation
             </a>
           </Button>
