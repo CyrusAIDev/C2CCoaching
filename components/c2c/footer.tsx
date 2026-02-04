@@ -107,6 +107,14 @@ function FooterComponent() {
 
         {/* Bottom */}
         <div className="mt-16 pt-8 border-t border-c2c-text-navy/10 text-center">
+          <div className="mb-4">
+            <a
+              href="/policies"
+              className="text-c2c-teal hover:text-c2c-teal/80 text-sm font-medium transition-colors"
+            >
+              Policies
+            </a>
+          </div>
           <p className="text-c2c-text-navy/50 text-sm">
             © {new Date().getFullYear()} From Campus 2 Corporate. All rights reserved.
           </p>

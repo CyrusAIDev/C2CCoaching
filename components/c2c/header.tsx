@@ -51,7 +51,7 @@ function HeaderComponent() {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2">
+        <a href="/" className="flex items-center gap-2">
           <Image
             src="/images/c2c-logo.png"
             alt="C2C - From Campus 2 Corporate"

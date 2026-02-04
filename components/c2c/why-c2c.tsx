@@ -4,39 +4,47 @@ import { useMemo } from "react"
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
+import { Button } from "@/components/ui/button"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 import { useSectionInView } from "@/hooks/use-section-in-view"
 import { createStaggerVariants } from "@/lib/animations"
 import { SectionHeading } from "@/components/c2c/section-heading"
 import { SectionBackground } from "@/components/c2c/section-background"
+import { BOOKING_URL } from "@/lib/constants"
 
 const features = [
   {
-    title: "Access That Moves the Needle",
-    description: "Build real connections that open doors—no cold begging required.",
+    title: "THE PLAN",
+    description: "Stop applying blindly.",
+    subdescription: "A clear weekly game plan that turns \"I'm trying\" into interviews booked.",
     bullets: [
-      "Outreach scripts that sound like you",
-      "Community events that create opportunities",
+      "Target roles + exact next steps (no spiral)",
+      "Resume + LinkedIn that actually reads \"hire me\"",
+      "A tracker that keeps you accountable",
     ],
-    image: "/images/c2c-workshop.jpg",
+    image: "/images/c2c-workshop-new.jpg",
   },
   {
-    title: "Affordable Co-op Alternative",
-    description: "Real results without the hefty co-op price tag.",
+    title: "THE ACCESS",
+    description: "Alternative to Co-op Results. Minus Co-op Pricing",
+    subdescription: "You'll build real connections, without cold begging or awkward DMs.",
     bullets: [
-      "Save thousands vs. expensive programs",
-      "High-impact, cost-effective coaching",
+      "Scripts that sound like you (and get replies)",
+      "Who to reach out to + what to say + when to follow up",
+      "Coffee chats that turn into referrals",
     ],
-    image: "/images/team-collaboration.jpg",
+    image: "/images/team-collaboration-new.jpg",
   },
   {
-    title: "Led by an Industry Insider",
-    description: "Work with someone who's done it at Apple, Scotiabank, and MLSE.",
+    title: "THE EDGE",
+    description: "Insider-Led. Recruiter-Level Coaching",
+    subdescription: "This is the difference between \"maybe\" and offer.",
     bullets: [
-      "Stronger story, sharper positioning",
-      "Recruiter-level resume standards",
+      "Stronger story + sharper positioning (your \"why you\")",
+      "Interview prep that makes you calm, not shaky",
+      "Application support so deadlines don't beat you",
     ],
-    image: "/images/shania-apple-hq.jpg",
+    image: "/images/shania-apple-hq-new.jpg",
   },
 ]
 
@@ -59,9 +67,9 @@ export function WhyC2C() {
           transition={{ duration: 0.6 }}
           className="text-center mb-20"
         >
-          <SectionHeading title="Why C2C?" isInView={isInView} className="mb-4" />
+          <SectionHeading title="This is how you get the interview." isInView={isInView} className="mb-4" />
           <p className="text-c2c-muted text-lg max-w-xl mx-auto mt-8">
-            <span className="font-semibold text-c2c-navy">Personalized support.</span> Insider-led strategy. <span className="font-semibold text-c2c-navy">Real results.</span>
+            No guesswork. No spray-and-pray.
           </p>
         </motion.div>
 
@@ -90,11 +98,14 @@ export function WhyC2C() {
                   />
                 </div>
                 <div className="p-7">
-                  <h3 className="text-lg font-semibold text-c2c-navy mb-3 whitespace-nowrap">
+                  <h3 className="text-lg font-semibold text-c2c-navy mb-3">
                     {feature.title}
                   </h3>
-                  <p className="text-c2c-navy/80 text-base mb-5 leading-relaxed">
+                  <p className="text-c2c-navy font-semibold text-base mb-2 leading-relaxed">
                     {feature.description}
+                  </p>
+                  <p className="text-c2c-navy/80 text-base mb-5 leading-relaxed">
+                    {feature.subdescription}
                   </p>
                   <ul className="space-y-3">
                     {feature.bullets.map((bullet, idx) => (
@@ -111,6 +122,26 @@ export function WhyC2C() {
               </Card>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* CTA Section */}
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-center mt-16"
+        >
+          <Button
+            asChild
+            className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-6 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg shadow-[0_0_25px_rgba(58,166,168,0.3)]"
+          >
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+              Book a free consult
+            </a>
+          </Button>
+          <p className="mt-4 text-c2c-muted/60 text-sm">
+            We'll map your next 2 weeks in 10 minutes.
+          </p>
         </motion.div>
       </div>
     </section>
