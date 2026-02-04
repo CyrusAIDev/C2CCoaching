@@ -96,10 +96,10 @@ export default function PoliciesPage() {
         {/* Hero Section */}
         <section className="relative py-24 bg-gradient-to-br from-c2c-navy via-c2c-navy-light/90 to-c2c-navy noise-overlay">
           <div className="max-w-4xl mx-auto px-6 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
               Policies
             </h1>
-            <p className="text-c2c-text-navy text-lg">
+            <p className="text-c2c-text-navy text-xl drop-shadow-md">
               Clear expectations for working together
             </p>
           </div>
@@ -110,15 +110,15 @@ export default function PoliciesPage() {
           <div className="max-w-4xl mx-auto px-6">
             <div className="space-y-12">
               {sections.map((section, index) => (
-                <div key={index} className="bg-white rounded-2xl p-8 shadow-md border border-c2c-navy/10">
-                  <h2 className="text-2xl font-semibold text-c2c-navy mb-6">
+                <div key={index} className="bg-white rounded-2xl p-8 shadow-lg border border-c2c-navy/10">
+                  <h2 className="text-3xl font-semibold text-c2c-navy mb-6">
                     {section.title}
                   </h2>
                   <ul className="space-y-4">
                     {section.items.map((item, itemIndex) => (
                       <li
                         key={itemIndex}
-                        className="flex items-start gap-3 text-c2c-navy/80 leading-relaxed"
+                        className="flex items-start gap-3 text-c2c-navy text-base leading-relaxed"
                       >
                         <span className="w-2 h-2 rounded-full bg-c2c-teal mt-2 flex-shrink-0" />
                         <span>{item}</span>

@@ -35,17 +35,17 @@ function FooterComponent() {
                 className="h-12 w-auto"
               />
             </div>
-            <p className="text-c2c-text-navy/70 text-sm">
+            <p className="text-c2c-text-navy/80 text-base">
               From Campus to Corporate
             </p>
           </div>
 
           {/* Newsletter */}
           <div className="md:col-span-1">
-            <h3 className="text-c2c-text-navy font-semibold text-base mb-3">
+            <h3 className="text-c2c-text-navy font-semibold text-lg mb-3">
               Newsletter
             </h3>
-            <p className="text-c2c-text-navy/70 text-sm mb-4">
+            <p className="text-c2c-text-navy/80 text-base mb-4">
               Don{"'"}t miss out on tips!
             </p>
             <form onSubmit={handleSubmit} className="flex gap-2">
@@ -67,12 +67,12 @@ function FooterComponent() {
 
           {/* Contact */}
           <div className="md:col-span-1">
-            <h3 className="text-c2c-text-navy font-semibold text-base mb-3">
+            <h3 className="text-c2c-text-navy font-semibold text-lg mb-3">
               Questions?
             </h3>
             <a
               href={`mailto:${EMAIL}`}
-              className="text-c2c-teal hover:text-c2c-teal/80 text-sm transition-colors break-all"
+              className="text-c2c-teal hover:text-c2c-teal/80 text-base transition-colors break-all"
             >
               {EMAIL}
             </a>
@@ -80,10 +80,10 @@ function FooterComponent() {
 
           {/* Social */}
           <div className="md:col-span-1">
-            <h3 className="text-c2c-text-navy font-semibold text-base mb-3">
+            <h3 className="text-c2c-text-navy font-semibold text-lg mb-3">
               Follow C2C
             </h3>
-            <p className="text-c2c-text-navy/70 text-sm mb-4">
+            <p className="text-c2c-text-navy/80 text-base mb-4">
               Free content & tips
             </p>
             <div className="flex gap-3">
@@ -110,12 +110,12 @@ function FooterComponent() {
           <div className="mb-4">
             <a
               href="/policies"
-              className="text-c2c-teal hover:text-c2c-teal/80 text-sm font-medium transition-colors"
+              className="text-c2c-teal hover:text-c2c-teal/80 text-base font-medium transition-colors"
             >
               Policies
             </a>
           </div>
-          <p className="text-c2c-text-navy/50 text-sm">
+          <p className="text-c2c-text-navy/70 text-base">
             © {new Date().getFullYear()} From Campus 2 Corporate. All rights reserved.
           </p>
         </div>

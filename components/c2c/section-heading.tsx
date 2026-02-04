@@ -1,6 +1,7 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { useRef } from "react"
 
 interface SectionHeadingProps {
   title: string
@@ -9,21 +10,29 @@ interface SectionHeadingProps {
 }
 
 export function SectionHeading({ title, isInView, className = "" }: SectionHeadingProps) {
+  const ref = useRef<HTMLHeadingElement>(null)
+  
+  // Track scroll progress relative to this element
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  })
+  
+  // Transform scroll progress to scale values
+  const lineScaleX = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0.8])
+  const dotScale = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0.9])
+  
   return (
-    <h2 className={`text-3xl md:text-4xl font-semibold text-c2c-navy relative inline-block ${className}`}>
+    <h2 ref={ref} className={`text-4xl md:text-5xl font-semibold text-c2c-navy relative inline-block ${className}`}>
       {title}
-      <span className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1">
+      <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1">
         <motion.span
-          initial={{ scaleX: 0 }}
-          animate={isInView ? { scaleX: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-          className="w-12 h-1 bg-c2c-teal rounded-full origin-right"
+          style={{ scaleX: isInView ? lineScaleX : 0 }}
+          className="w-16 h-1 bg-c2c-teal rounded-full origin-center"
         />
         <motion.span
-          initial={{ scale: 0 }}
-          animate={isInView ? { scale: 1 } : {}}
-          transition={{ duration: 0.3, delay: 0.7, ease: "easeOut" }}
-          className="w-2 h-2 rounded-full bg-c2c-gold"
+          style={{ scale: isInView ? dotScale : 0 }}
+          className="w-2.5 h-2.5 rounded-full bg-c2c-gold"
         />
       </span>
     </h2>

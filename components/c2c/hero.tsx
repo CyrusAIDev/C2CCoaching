@@ -110,7 +110,7 @@ export function Hero() {
             {/* Main headline */}
             <motion.h1
               variants={itemVariants}
-              className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white leading-tight mb-6"
+              className="text-5xl md:text-6xl lg:text-7xl font-semibold text-white leading-tight mb-6"
             >
               <span className="block">Recruiting sucks.</span>
               <span className="block mt-2">We simplify it.</span>
@@ -119,18 +119,18 @@ export function Hero() {
             {/* Typing animation on its own line */}
             <motion.div
               variants={itemVariants}
-              className="text-xl md:text-2xl font-semibold mb-6 h-9 flex items-center justify-center"
+              className="text-2xl md:text-3xl font-semibold mb-6 h-12 flex items-center justify-center"
             >
-              <span className="text-white/70 mr-2">{"We help with"}</span>
-              <span className="inline-block text-left min-w-[160px] text-c2c-teal">
+              <span className="text-white/90 mr-2">{"We help with"}</span>
+              <span className="inline-block text-left min-w-[200px] text-c2c-teal">
                 {displayedText}
-                <span className="inline-block w-0.5 h-5 md:h-6 bg-c2c-teal ml-0.5 animate-pulse align-middle" />
+                <span className="inline-block w-0.5 h-6 md:h-7 bg-c2c-teal ml-0.5 animate-pulse align-middle" />
               </span>
             </motion.div>
 
             <motion.p
               variants={itemVariants}
-              className="text-lg text-white/80 mb-8 leading-relaxed"
+              className="text-xl text-white/95 mb-8 leading-relaxed font-medium"
             >
               Land internships and new grad roles without the guesswork.
             </motion.p>
@@ -150,7 +150,7 @@ export function Hero() {
                   See services
                 </a>
               </div>
-              <p className="text-white/50 text-xs">
+              <p className="text-white/70 text-sm font-medium">
                 {TRUST_MICROCOPY}
               </p>
             </motion.div>

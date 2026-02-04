@@ -95,13 +95,13 @@ export function OurStory() {
 
             <motion.h2
               variants={itemVariants}
-              className="text-3xl md:text-4xl font-semibold text-white mb-2"
+              className="text-4xl md:text-5xl font-semibold text-white mb-2 drop-shadow-lg"
             >
               More callbacks.
             </motion.h2>
             <motion.h2
               variants={itemVariants}
-              className="text-3xl md:text-4xl font-semibold text-white mb-8"
+              className="text-4xl md:text-5xl font-semibold text-white mb-8 drop-shadow-lg"
             >
               Less chaos.
             </motion.h2>
@@ -110,10 +110,10 @@ export function OurStory() {
               variants={itemVariants}
               className="space-y-4 text-c2c-text-navy max-w-xl leading-relaxed"
             >
-              <p className="text-lg italic text-white/90">
+              <p className="text-xl italic text-white/95 drop-shadow-md">
                 Your materials should open doors, not get ignored.
               </p>
-              <p className="text-white/80 text-base">
+              <p className="text-white/95 text-lg drop-shadow-md">
                 We sharpen your applications and get you where you want to be with less pressure and more support.
               </p>
             </motion.div>
@@ -125,7 +125,7 @@ export function OurStory() {
                   <div className="w-8 h-8 rounded-full bg-c2c-teal/15 flex items-center justify-center flex-shrink-0">
                     <item.icon className="w-4 h-4 text-c2c-teal" />
                   </div>
-                  <span className="text-c2c-text-navy text-sm">{item.text}</span>
+                  <span className="text-c2c-text-navy text-base drop-shadow-md">{item.text}</span>
                 </div>
               ))}
             </motion.div>
@@ -146,7 +146,7 @@ export function OurStory() {
             </motion.div>
 
             {/* Trust microcopy */}
-            <motion.p variants={itemVariants} className="mt-4 text-c2c-text-navy/60 text-xs">
+            <motion.p variants={itemVariants} className="mt-4 text-c2c-text-navy/80 text-sm drop-shadow-md">
               {TRUST_MICROCOPY}
             </motion.p>
           </div>
@@ -207,7 +207,7 @@ export function OurStory() {
             </div>
             
             {/* Caption centered under phone */}
-            <p className="text-c2c-text-navy/50 text-xs mt-6 text-center">
+            <p className="text-c2c-text-navy/70 text-sm mt-6 text-center drop-shadow-md">
               Watch: how C2C works (60s)
             </p>
           </motion.div>

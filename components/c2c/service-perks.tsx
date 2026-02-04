@@ -95,16 +95,16 @@ const GroupedBullets = memo(function GroupedBullets({ groups, compact = false }:
     <div className={`space-y-${compact ? '3' : '4'}`}>
       {groups.map((group, idx) => (
         <div key={idx} className="space-y-1">
-          <p className="text-c2c-teal text-xs font-semibold uppercase tracking-wider">{group.label}</p>
+          <p className="text-c2c-teal text-sm font-semibold uppercase tracking-wider">{group.label}</p>
           {group.items.map((item, itemIdx) => (
             <div key={itemIdx} className="flex items-start gap-2.5">
               <div className="w-4 h-4 rounded-full bg-c2c-teal/15 flex items-center justify-center flex-shrink-0 mt-0.5">
                 <Check className="w-2.5 h-2.5 text-c2c-teal" />
               </div>
               <div>
-                <p className="text-white/90 text-sm leading-relaxed">{item}</p>
+                <p className="text-white/95 text-base leading-relaxed">{item}</p>
                 {group.detail && (
-                  <p className="text-white/50 text-xs mt-0.5">{group.detail}</p>
+                  <p className="text-white/70 text-sm mt-0.5">{group.detail}</p>
                 )}
               </div>
             </div>
@@ -140,21 +140,21 @@ const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion }: { 
 
       {/* Header: Name + Hours + Price */}
       <div className="text-center mb-6">
-        <h3 className="text-c2c-gold text-xs font-semibold tracking-widest mb-1">
+        <h3 className="text-c2c-gold text-sm font-semibold tracking-widest mb-1">
           {plan.name}
         </h3>
-        <p className="text-white/50 text-sm mb-4">{plan.hours}</p>
+        <p className="text-white/70 text-base mb-4">{plan.hours}</p>
         <div className="flex items-baseline justify-center gap-1">
-          <span className="text-3xl md:text-4xl font-semibold text-white">
+          <span className="text-4xl md:text-5xl font-semibold text-white">
             {plan.price}
           </span>
         </div>
-        <span className="text-white/40 text-xs">{plan.priceNote}</span>
+        <span className="text-white/60 text-sm">{plan.priceNote}</span>
       </div>
 
       {/* Outcome - Highlighted */}
       <div className="bg-c2c-teal/10 border border-c2c-teal/20 rounded-lg px-4 py-3 mb-6">
-        <p className="text-white/95 text-sm text-center font-medium leading-relaxed">
+        <p className="text-white/95 text-base text-center font-medium leading-relaxed">
           {plan.outcome}
         </p>
       </div>
@@ -170,7 +170,7 @@ const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion }: { 
           
           {/* Collapsed Fast Track summary */}
           <div className="bg-white/5 rounded-lg px-4 py-3">
-            <p className="text-white/70 text-xs text-center">
+            <p className="text-white/80 text-sm text-center">
               Materials + Strategy + Networking + Interview + Support
             </p>
           </div>
@@ -218,8 +218,8 @@ const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion }: { 
 
       {/* Perfect If */}
       <div className="mt-6 pt-5 border-t border-white/10">
-        <p className="text-white/50 text-xs font-semibold uppercase tracking-wider mb-1.5">Perfect if</p>
-        <p className="text-white/70 text-sm leading-relaxed">
+        <p className="text-white/70 text-sm font-semibold uppercase tracking-wider mb-1.5">Perfect if</p>
+        <p className="text-white/90 text-base leading-relaxed">
           {plan.perfectIf}
         </p>
       </div>
@@ -228,7 +228,7 @@ const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion }: { 
       <div className="mt-6 space-y-2">
         <Button
           asChild
-          className={`w-full font-semibold py-5 rounded-lg transition-all duration-200 hover:-translate-y-0.5 ${
+          className={`w-full font-semibold py-5 text-base rounded-lg transition-all duration-200 hover:-translate-y-0.5 ${
             plan.featured
               ? "bg-c2c-teal hover:bg-c2c-teal/90 text-white shadow-[0_0_20px_rgba(58,166,168,0.3)]"
               : "bg-white/10 hover:bg-white/20 text-white border border-white/20"
@@ -238,7 +238,7 @@ const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion }: { 
             Get Started
           </a>
         </Button>
-        <p className="text-white/40 text-xs text-center">
+        <p className="text-white/60 text-sm text-center">
           Free 30-min consult + perks included
         </p>
       </div>
@@ -267,12 +267,14 @@ export function ServicePerks() {
           className="text-center mb-16"
         >
           <div className="text-white">
-            <SectionHeading title="Service Perks" isInView={isInView} className="mb-4" />
+            <h2 className="text-5xl md:text-6xl font-bold text-white mb-8 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+              Service Perks
+            </h2>
           </div>
-          <p className="text-c2c-gold text-lg font-semibold mt-6 mb-3">
+          <p className="text-c2c-gold text-xl font-semibold mb-3 drop-shadow-md">
             1:1 Coaching Sessions
           </p>
-          <p className="text-white/70 text-base max-w-lg mx-auto leading-relaxed">
+          <p className="text-white/90 text-lg max-w-lg mx-auto leading-relaxed drop-shadow-md">
             Whether you need a fast reset or full recruiting support, pick the level that matches where you{"'"}re at.
           </p>
         </motion.div>
@@ -301,8 +303,8 @@ export function ServicePerks() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center"
         >
-          <p className="text-white/90 text-lg mb-1">Not sure which one fits?</p>
-          <p className="text-white/60 text-sm mb-6">
+          <p className="text-white/95 text-xl mb-1 drop-shadow-md">Not sure which one fits?</p>
+          <p className="text-white/80 text-base mb-6 drop-shadow-md">
             Book a FREE consultation, and we{"'"}ll choose the right plan in 30 minutes.
           </p>
           <Button

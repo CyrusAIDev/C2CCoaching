@@ -68,7 +68,7 @@ export function WhyC2C() {
           className="text-center mb-20"
         >
           <SectionHeading title="This is how you get the interview." isInView={isInView} className="mb-4" />
-          <p className="text-c2c-muted text-lg max-w-xl mx-auto mt-8">
+          <p className="text-c2c-navy/80 text-xl max-w-xl mx-auto mt-8 font-medium">
             No guesswork. No spray-and-pray.
           </p>
         </motion.div>
@@ -86,7 +86,7 @@ export function WhyC2C() {
               whileHover={prefersReducedMotion ? {} : { y: -6 }}
               transition={{ duration: 0.25 }}
             >
-              <Card className="bg-white border-c2c-navy/10 rounded-2xl overflow-hidden h-full transition-all duration-300 hover:shadow-xl shadow-md">
+              <Card className="bg-white border-c2c-navy/10 rounded-2xl overflow-hidden h-full transition-all duration-300 hover:shadow-xl shadow-lg">
                 <div className="relative h-52 w-full overflow-hidden">
                   <Image
                     src={feature.image || "/placeholder.svg"}
@@ -98,13 +98,13 @@ export function WhyC2C() {
                   />
                 </div>
                 <div className="p-7">
-                  <h3 className="text-lg font-semibold text-c2c-navy mb-3">
+                  <h3 className="text-xl font-semibold text-c2c-navy mb-3">
                     {feature.title}
                   </h3>
-                  <p className="text-c2c-navy font-semibold text-base mb-2 leading-relaxed">
+                  <p className="text-c2c-navy font-semibold text-lg mb-2 leading-relaxed">
                     {feature.description}
                   </p>
-                  <p className="text-c2c-navy/80 text-base mb-5 leading-relaxed">
+                  <p className="text-c2c-navy/90 text-lg mb-5 leading-relaxed">
                     {feature.subdescription}
                   </p>
                   <ul className="space-y-3">
@@ -139,7 +139,7 @@ export function WhyC2C() {
               Book a free consult
             </a>
           </Button>
-          <p className="mt-4 text-c2c-muted/60 text-sm">
+          <p className="mt-4 text-c2c-navy/70 text-base">
             We'll map your next 2 weeks in 10 minutes.
           </p>
         </motion.div>

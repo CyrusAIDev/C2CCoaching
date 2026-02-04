@@ -128,7 +128,7 @@ export function Reviews() {
               whileHover={prefersReducedMotion ? {} : { y: -8, scale: 1.02 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              <Card className="bg-white border-c2c-border rounded-2xl p-6 h-full transition-shadow duration-300 hover:shadow-2xl shadow-md group">
+              <Card className="bg-white border-c2c-border rounded-2xl p-6 h-full transition-shadow duration-300 hover:shadow-2xl shadow-lg group">
                 {/* Header with avatar and stars */}
                 <div className="flex items-start justify-between mb-5">
                   <div className="flex items-center gap-3">
@@ -145,7 +145,7 @@ export function Reviews() {
                       <p className="font-semibold text-c2c-navy text-base">
                         {testimonial.name}
                       </p>
-                      <p className="text-c2c-navy/70 text-sm">
+                      <p className="text-c2c-navy/80 text-sm">
                         {testimonial.title}
                       </p>
                     </div>
@@ -154,18 +154,18 @@ export function Reviews() {
                 </div>
                 
                 {/* Headline */}
-                <h3 className="text-lg font-semibold text-c2c-navy mb-3 leading-snug">
+                <h3 className="text-xl font-semibold text-c2c-navy mb-3 leading-snug">
                   &ldquo;{testimonial.headline}&rdquo;
                 </h3>
                 
                 {/* Body */}
-                <p className="text-c2c-navy/80 text-sm leading-relaxed mb-4">
+                <p className="text-c2c-navy text-base leading-relaxed mb-4">
                   {testimonial.body}
                 </p>
                 
                 {/* Result */}
                 <div className="bg-c2c-teal/5 rounded-lg p-3 border-l-2 border-c2c-teal">
-                  <p className="text-sm">
+                  <p className="text-base">
                     <span className="font-semibold text-c2c-teal">Result: </span>
                     <span className="text-c2c-navy">{testimonial.result}</span>
                   </p>
@@ -182,7 +182,7 @@ export function Reviews() {
           transition={{ duration: 0.6, delay: 0.8 }}
           className="flex flex-col items-center mt-16 gap-4"
         >
-          <p className="text-c2c-muted text-center">Ready to start your journey?</p>
+          <p className="text-c2c-navy/80 text-lg text-center font-medium">Ready to start your journey?</p>
           <Button
             asChild
             className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-6 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg shadow-[0_0_25px_rgba(58,166,168,0.25)]"
@@ -202,7 +202,7 @@ export function Reviews() {
         >
           <button
             onClick={scrollToTop}
-            className="flex flex-col items-center gap-2 text-c2c-navy/50 hover:text-c2c-teal transition-colors duration-200 group"
+            className="flex flex-col items-center gap-2 text-c2c-navy/70 hover:text-c2c-teal transition-colors duration-200 group"
           >
             <svg
               className="w-5 h-5 group-hover:-translate-y-1 transition-transform duration-200"
@@ -212,7 +212,7 @@ export function Reviews() {
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
             </svg>
-            <span className="text-sm">Back to top</span>
+            <span className="text-base font-medium">Back to top</span>
           </button>
         </motion.div>
       </div>

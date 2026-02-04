@@ -98,7 +98,7 @@ export default function FAQPage() {
           >
             <motion.span
               variants={itemVariants}
-              className="text-c2c-gold font-semibold text-sm tracking-wider uppercase mb-4 block"
+              className="text-c2c-gold font-semibold text-base tracking-wider uppercase mb-4 block"
             >
               Got Questions?
             </motion.span>
@@ -107,7 +107,7 @@ export default function FAQPage() {
             </motion.div>
             <motion.p
               variants={itemVariants}
-              className="text-c2c-muted text-lg mt-8 max-w-xl mx-auto"
+              className="text-c2c-navy/80 text-xl mt-8 max-w-xl mx-auto"
             >
               Everything you need to know about working with C2C.
             </motion.p>
@@ -123,12 +123,12 @@ export default function FAQPage() {
                 <motion.div key={index} variants={itemVariants}>
                   <AccordionItem 
                     value={`item-${index}`}
-                    className="bg-white border border-c2c-border rounded-xl px-6 shadow-sm hover:shadow-md transition-shadow duration-200"
+                    className="bg-white border border-c2c-border rounded-xl px-6 shadow-lg hover:shadow-xl transition-shadow duration-200"
                   >
-                    <AccordionTrigger className="text-left text-c2c-navy font-medium py-5 hover:no-underline hover:text-c2c-teal transition-colors">
+                    <AccordionTrigger className="text-left text-c2c-navy font-medium text-lg py-5 hover:no-underline hover:text-c2c-teal transition-colors">
                       {faq.question}
                     </AccordionTrigger>
-                    <AccordionContent className="text-c2c-muted pb-5 leading-relaxed">
+                    <AccordionContent className="text-c2c-navy/90 text-base pb-5 leading-relaxed">
                       {faq.answer}
                     </AccordionContent>
                   </AccordionItem>
@@ -144,12 +144,12 @@ export default function FAQPage() {
             animate={isInView ? "visible" : "hidden"}
             className="mt-16 text-center"
           >
-            <p className="text-c2c-muted mb-4">
+            <p className="text-c2c-navy/80 text-lg mb-4">
               Still have questions?
             </p>
             <a 
               href={`mailto:${EMAIL}`}
-              className="text-c2c-teal hover:text-c2c-teal/80 font-medium transition-colors"
+              className="text-c2c-teal hover:text-c2c-teal/80 font-medium text-lg transition-colors"
             >
               Reach out to {EMAIL}
             </a>
