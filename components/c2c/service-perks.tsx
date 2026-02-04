@@ -1,11 +1,12 @@
 "use client"
 
-import { useState, useCallback, useMemo, memo } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { useState, useCallback, useMemo, memo, useRef } from "react"
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Check, ChevronDown } from "lucide-react"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+import { useIsMobile } from "@/hooks/use-is-mobile"
 import { useSectionInView } from "@/hooks/use-section-in-view"
 import { createStaggerVariants } from "@/lib/animations"
 import { SectionHeading } from "@/components/c2c/section-heading"
@@ -115,21 +116,55 @@ const GroupedBullets = memo(function GroupedBullets({ groups, compact = false }:
   )
 })
 
-const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion }: { plan: typeof plans[0]; prefersReducedMotion: boolean }) {
+const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion, isMobile }: { plan: typeof plans[0]; prefersReducedMotion: boolean; isMobile: boolean }) {
   const [isExpanded, setIsExpanded] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null)
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [3, -3]), { stiffness: 300, damping: 30 })
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-3, 3]), { stiffness: 300, damping: 30 })
+
+  const shouldAnimate = !prefersReducedMotion && !isMobile
 
   const toggleExpanded = useCallback(() => {
     setIsExpanded((prev) => !prev)
   }, [])
+  
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!shouldAnimate || !cardRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const centerX = rect.left + rect.width / 2
+    const centerY = rect.top + rect.height / 2
+    mouseX.set((e.clientX - centerX) / rect.width)
+    mouseY.set((e.clientY - centerY) / rect.height)
+  }, [prefersReducedMotion, mouseX, mouseY])
+  
+  const handleMouseLeave = useCallback(() => {
+    mouseX.set(0)
+    mouseY.set(0)
+  }, [mouseX, mouseY])
 
   return (
-    <Card
-      className={`relative bg-c2c-navy-light/30 backdrop-blur-sm border rounded-2xl p-6 md:p-8 h-full transition-all duration-300 ${
-        plan.featured
-          ? "border-c2c-teal/40 shadow-[0_0_50px_-15px_rgba(58,166,168,0.35)]"
-          : "border-white/10 hover:border-white/15"
-      }`}
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX: shouldAnimate ? rotateX : 0,
+        rotateY: shouldAnimate ? rotateY : 0,
+        transformStyle: "preserve-3d",
+      }}
+      whileHover={shouldAnimate ? { y: -4 } : {}}
+      transition={{ duration: 0.3 }}
     >
+      <Card
+        className={`relative bg-c2c-navy-light/30 backdrop-blur-sm border rounded-2xl p-6 md:p-8 h-full transition-all duration-300 ${
+          plan.featured
+            ? "border-c2c-teal/40 shadow-[0_0_50px_-15px_rgba(58,166,168,0.35)]"
+            : "border-white/10 hover:border-white/15"
+        }`}
+      >
       {plan.featured && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2">
           <span className="bg-c2c-teal text-white text-xs font-semibold px-4 py-1.5 rounded-full shadow-lg">
@@ -242,12 +277,14 @@ const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion }: { 
           Free 30-min consult + perks included
         </p>
       </div>
-    </Card>
+      </Card>
+    </motion.div>
   )
 })
 
 export function ServicePerks() {
   const prefersReducedMotion = usePrefersReducedMotion()
+  const isMobile = useIsMobile()
   const { ref, isInView } = useSectionInView()
 
   const { container: containerVariants, item: itemVariants } = useMemo(
@@ -292,7 +329,7 @@ export function ServicePerks() {
               whileHover={prefersReducedMotion ? {} : { y: -6 }}
               transition={{ duration: 0.25 }}
             >
-              <PricingCard plan={plan} prefersReducedMotion={prefersReducedMotion} />
+              <PricingCard plan={plan} prefersReducedMotion={prefersReducedMotion} isMobile={isMobile} />
             </motion.div>
           ))}
         </motion.div>

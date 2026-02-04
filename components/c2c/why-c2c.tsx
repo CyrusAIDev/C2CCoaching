@@ -1,11 +1,12 @@
 "use client"
 
-import { useMemo } from "react"
-import { motion } from "framer-motion"
+import { useMemo, useState } from "react"
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+import { useIsMobile } from "@/hooks/use-is-mobile"
 import { useSectionInView } from "@/hooks/use-section-in-view"
 import { createStaggerVariants } from "@/lib/animations"
 import { SectionHeading } from "@/components/c2c/section-heading"
@@ -48,8 +49,89 @@ const features = [
   },
 ]
 
+function FeatureCard({ feature, itemVariants, prefersReducedMotion, isMobile }: any) {
+  const [isHovered, setIsHovered] = useState(false)
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [5, -5]), { stiffness: 300, damping: 30 })
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-5, 5]), { stiffness: 300, damping: 30 })
+  
+  const shouldAnimate = !prefersReducedMotion && !isMobile
+  
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    if (!shouldAnimate) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    const centerX = rect.left + rect.width / 2
+    const centerY = rect.top + rect.height / 2
+    mouseX.set((e.clientX - centerX) / rect.width)
+    mouseY.set((e.clientY - centerY) / rect.height)
+  }
+  
+  function handleMouseLeave() {
+    mouseX.set(0)
+    mouseY.set(0)
+    setIsHovered(false)
+  }
+  
+  return (
+    <motion.div
+      variants={itemVariants}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX: shouldAnimate ? rotateX : 0,
+        rotateY: shouldAnimate ? rotateY : 0,
+        transformStyle: "preserve-3d",
+      }}
+      whileHover={shouldAnimate ? { y: -8 } : {}}
+      transition={{ duration: 0.3 }}
+    >
+      <Card className="bg-white border-c2c-navy/10 rounded-2xl overflow-hidden h-full transition-all duration-300 hover:shadow-2xl shadow-lg">
+        <div className="relative h-52 w-full overflow-hidden">
+          <Image
+            src={feature.image || "/placeholder.svg"}
+            alt={feature.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            loading="lazy"
+            className="object-cover transition-transform duration-500"
+            style={{
+              transform: isHovered ? 'scale(1.05)' : 'scale(1)'
+            }}
+          />
+        </div>
+        <div className="p-7">
+          <h3 className="text-xl font-semibold text-c2c-navy mb-3">
+            {feature.title}
+          </h3>
+          <p className="text-c2c-navy font-semibold text-lg mb-2 leading-relaxed">
+            {feature.description}
+          </p>
+          <p className="text-c2c-navy/90 text-lg mb-5 leading-relaxed">
+            {feature.subdescription}
+          </p>
+          <ul className="space-y-3">
+            {feature.bullets.map((bullet: string, idx: number) => (
+              <li
+                key={idx}
+                className="flex items-start gap-3 text-base text-c2c-navy"
+              >
+                <span className="w-2 h-2 rounded-full bg-c2c-teal mt-2 flex-shrink-0" />
+                <span className="leading-relaxed font-medium">{bullet}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Card>
+    </motion.div>
+  )
+}
+
 export function WhyC2C() {
   const prefersReducedMotion = usePrefersReducedMotion()
+  const isMobile = useIsMobile()
   const { ref, isInView } = useSectionInView()
 
   const { container: containerVariants, item: itemVariants } = useMemo(
@@ -80,47 +162,13 @@ export function WhyC2C() {
           className="grid md:grid-cols-3 gap-8"
         >
           {features.map((feature) => (
-            <motion.div
+            <FeatureCard 
               key={feature.title}
-              variants={itemVariants}
-              whileHover={prefersReducedMotion ? {} : { y: -6 }}
-              transition={{ duration: 0.25 }}
-            >
-              <Card className="bg-white border-c2c-navy/10 rounded-2xl overflow-hidden h-full transition-all duration-300 hover:shadow-xl shadow-lg">
-                <div className="relative h-52 w-full overflow-hidden">
-                  <Image
-                    src={feature.image || "/placeholder.svg"}
-                    alt={feature.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    loading="lazy"
-                    className="object-cover transition-transform duration-500 hover:scale-105"
-                  />
-                </div>
-                <div className="p-7">
-                  <h3 className="text-xl font-semibold text-c2c-navy mb-3">
-                    {feature.title}
-                  </h3>
-                  <p className="text-c2c-navy font-semibold text-lg mb-2 leading-relaxed">
-                    {feature.description}
-                  </p>
-                  <p className="text-c2c-navy/90 text-lg mb-5 leading-relaxed">
-                    {feature.subdescription}
-                  </p>
-                  <ul className="space-y-3">
-                    {feature.bullets.map((bullet, idx) => (
-                      <li
-                        key={idx}
-                        className="flex items-start gap-3 text-base text-c2c-navy"
-                      >
-                        <span className="w-2 h-2 rounded-full bg-c2c-teal mt-2 flex-shrink-0" />
-                        <span className="leading-relaxed font-medium">{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Card>
-            </motion.div>
+              feature={feature}
+              itemVariants={itemVariants}
+              prefersReducedMotion={prefersReducedMotion}
+              isMobile={isMobile}
+            />
           ))}
         </motion.div>
 

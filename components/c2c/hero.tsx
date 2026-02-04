@@ -1,10 +1,11 @@
 "use client"
 
 import { useEffect, useState, useMemo } from "react"
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+import { useIsMobile } from "@/hooks/use-is-mobile"
 import { BOOKING_URL, TRUST_MICROCOPY } from "@/lib/constants"
 
 const rotatingWords = [
@@ -17,9 +18,18 @@ const rotatingWords = [
 
 export function Hero() {
   const prefersReducedMotion = usePrefersReducedMotion()
+  const isMobile = useIsMobile()
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [displayedText, setDisplayedText] = useState("")
   const [isTyping, setIsTyping] = useState(true)
+  
+  // Parallax scroll effects - reduced on mobile
+  const { scrollY } = useScroll()
+  const backgroundY = useTransform(scrollY, [0, 1000], [0, isMobile ? 150 : 300])
+  const contentY = useTransform(scrollY, [0, 1000], [0, isMobile ? 75 : 150])
+  const opacity = useTransform(scrollY, [0, 400], [1, 0])
+  
+  const shouldAnimate = !prefersReducedMotion && !isMobile
 
   // Typewriter effect
   useEffect(() => {
@@ -85,25 +95,32 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Image - newspaper job seekers */}
-      <div className="absolute inset-0 z-0">
+      {/* Background Image - newspaper job seekers with parallax */}
+      <motion.div 
+        className="absolute inset-0 z-0"
+        style={{ y: shouldAnimate ? backgroundY : 0 }}
+      >
         <Image
           src="/images/hero-bg.jpg"
           alt="Young professionals searching for internships and new grad roles"
           fill
           sizes="100vw"
-          className="object-cover object-top"
+          className="object-cover object-top scale-110"
           priority
         />
         {/* Gradient overlay - darker at bottom for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-c2c-navy/20 via-c2c-navy/40 to-c2c-navy/95" />
-      </div>
+      </motion.div>
 
-      {/* Content - positioned at bottom center */}
+      {/* Content - positioned at bottom center with parallax */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
+        style={{ 
+          y: shouldAnimate ? contentY : 0,
+          opacity: shouldAnimate ? opacity : 1
+        }}
         className="relative z-10 w-full max-w-4xl mx-auto px-6 pt-[45vh] pb-32 flex flex-col items-center text-center"
       >
         <div className="w-full">
@@ -146,7 +163,20 @@ export function Hero() {
                     Book Free Consultation
                   </a>
                 </Button>
-                <a href="#services" className="text-white/70 hover:text-white font-medium text-sm transition-colors duration-200 underline underline-offset-4">
+                <a 
+                  href="#services" 
+                  onClick={(e) => {
+                    e.preventDefault()
+                    const element = document.getElementById("services")
+                    if (element) {
+                      const headerOffset = 80
+                      const elementPosition = element.getBoundingClientRect().top
+                      const offsetPosition = elementPosition + window.scrollY - headerOffset
+                      window.scrollTo({ top: offsetPosition, behavior: "smooth" })
+                    }
+                  }}
+                  className="text-white/70 hover:text-white font-medium text-sm transition-colors duration-200 underline underline-offset-4"
+                >
                   See services
                 </a>
               </div>

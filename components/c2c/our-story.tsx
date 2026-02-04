@@ -1,21 +1,34 @@
 "use client"
 
 import { useState, useRef, useCallback, useMemo, useEffect } from "react"
-import { motion, useInView } from "framer-motion"
+import { motion, useInView, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Briefcase, Target, Users, Play } from "lucide-react"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
+import { useIsMobile } from "@/hooks/use-is-mobile"
 import { useSectionInView } from "@/hooks/use-section-in-view"
 import { createStaggerVariants } from "@/lib/animations"
 import { BOOKING_URL, TRUST_MICROCOPY } from "@/lib/constants"
 
 export function OurStory() {
   const prefersReducedMotion = usePrefersReducedMotion()
+  const isMobile = useIsMobile()
   const { ref, isInView } = useSectionInView()
   const [isPlaying, setIsPlaying] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const phoneRef = useRef(null)
   const isPhoneInView = useInView(phoneRef, { once: true, margin: "-50px" })
+  
+  // Cinematic zoom effect for iPhone mockup - reduced on mobile
+  const { scrollYProgress } = useScroll({
+    target: phoneRef,
+    offset: ["start end", "center center"]
+  })
+  
+  const scale = useTransform(scrollYProgress, [0, 1], isMobile ? [0.95, 1] : [0.8, 1])
+  const glowIntensity = useTransform(scrollYProgress, [0, 1], [0.05, 0.15])
+  
+  const shouldAnimate = !prefersReducedMotion && !isMobile
 
   // Autoplay video when phone comes into view
   useEffect(() => {
@@ -140,7 +153,20 @@ export function OurStory() {
                   Free Consultation
                 </a>
               </Button>
-              <a href="#services" className="text-c2c-text-navy hover:text-white font-medium text-sm transition-colors duration-200 underline underline-offset-4">
+              <a 
+                href="#services" 
+                onClick={(e) => {
+                  e.preventDefault()
+                  const element = document.getElementById("services")
+                  if (element) {
+                    const headerOffset = 80
+                    const elementPosition = element.getBoundingClientRect().top
+                    const offsetPosition = elementPosition + window.scrollY - headerOffset
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" })
+                  }
+                }}
+                className="text-c2c-text-navy hover:text-white font-medium text-sm transition-colors duration-200 underline underline-offset-4"
+              >
                 View services
               </a>
             </motion.div>
@@ -151,9 +177,15 @@ export function OurStory() {
             </motion.p>
           </div>
 
-          {/* Right - iPhone Video Mock */}
+          {/* Right - iPhone Video Mock with cinematic zoom */}
           <motion.div variants={itemVariants} className="flex flex-col items-center">
-            <div className="relative" ref={phoneRef}>
+            <motion.div 
+              ref={phoneRef}
+              className="relative"
+              style={{ 
+                scale: shouldAnimate ? scale : 1
+              }}
+            >
               {/* iPhone Frame */}
               <div className="relative w-[320px] md:w-[360px] bg-black rounded-[55px] p-3.5 shadow-2xl shadow-black/50">
                 {/* Dynamic Island */}
@@ -202,9 +234,14 @@ export function OurStory() {
                 <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 w-36 h-1.5 bg-white/30 rounded-full" />
               </div>
               
-              {/* Decorative glow */}
-              <div className="absolute -inset-10 bg-c2c-teal/10 rounded-[80px] blur-3xl -z-10" />
-            </div>
+              {/* Decorative glow with dynamic intensity */}
+              <motion.div 
+                className="absolute -inset-10 bg-c2c-teal rounded-[80px] blur-3xl -z-10"
+                style={{
+                  opacity: shouldAnimate ? glowIntensity : 0.1
+                }}
+              />
+            </motion.div>
             
             {/* Caption centered under phone */}
             <p className="text-c2c-text-navy/70 text-sm mt-6 text-center drop-shadow-md">
