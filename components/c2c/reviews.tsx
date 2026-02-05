@@ -117,7 +117,7 @@ const MobileReviewCard = memo(function MobileReviewCard({
           <p className="font-semibold text-c2c-navy text-sm truncate">
             {testimonial.name}
           </p>
-          <p className="text-c2c-navy/70 text-xs truncate">
+          <p className="text-c2c-navy/80 text-xs truncate">
             {testimonial.title}
           </p>
         </div>

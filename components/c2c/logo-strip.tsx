@@ -6,7 +6,6 @@ import Image from "next/image"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 import { useSectionInView } from "@/hooks/use-section-in-view"
 import { createStaggerVariants } from "@/lib/animations"
-import { MobileAutoCarousel } from "@/components/c2c/mobile-auto-carousel"
 
 const companies = [
   { 
@@ -62,32 +61,36 @@ function LogoStripComponent() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-c2c-teal/5 rounded-full blur-3xl" />
       
       {/* ==================== MOBILE VERSION ==================== */}
-      <div className="md:hidden px-4">
+      <div className="md:hidden">
         <motion.p
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5 }}
-          className="text-center text-c2c-navy text-sm font-semibold tracking-wide uppercase mb-6"
+          className="text-center text-c2c-navy text-sm font-semibold tracking-wide uppercase mb-6 px-4"
         >
           Companies Our Clients Have Landed
         </motion.p>
 
-        {/* Carousel with fade edges */}
-        <div className="relative">
+        {/* Seamless CSS Marquee with fade edges */}
+        <div className="relative overflow-hidden">
           {/* Left fade edge */}
-          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-c2c-offwhite to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-c2c-offwhite to-transparent z-10 pointer-events-none" />
           {/* Right fade edge */}
-          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-c2c-offwhite to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-c2c-offwhite to-transparent z-10 pointer-events-none" />
           
-          <MobileAutoCarousel 
-            intervalMs={3000} 
-            showDots={false}
-            slideSize="45%"
+          {/* Marquee track */}
+          <div 
+            className="flex gap-3"
+            style={{
+              animation: prefersReducedMotion ? 'none' : 'marquee 25s linear infinite',
+              width: 'max-content',
+            }}
           >
+            {/* First set of logos */}
             {companies.map((company) => (
               <div
-                key={company.name}
-                className="bg-white border border-c2c-border rounded-xl h-[70px] shadow-sm flex items-center justify-center mx-1"
+                key={`first-${company.name}`}
+                className="bg-white border border-c2c-border rounded-xl h-[70px] w-[120px] shadow-sm flex items-center justify-center flex-shrink-0"
               >
                 <Image
                   src={company.logo || "/placeholder.svg"}
@@ -99,7 +102,23 @@ function LogoStripComponent() {
                 />
               </div>
             ))}
-          </MobileAutoCarousel>
+            {/* Duplicate set for seamless loop */}
+            {companies.map((company) => (
+              <div
+                key={`second-${company.name}`}
+                className="bg-white border border-c2c-border rounded-xl h-[70px] w-[120px] shadow-sm flex items-center justify-center flex-shrink-0"
+              >
+                <Image
+                  src={company.logo || "/placeholder.svg"}
+                  alt={`${company.name} logo`}
+                  width={company.width}
+                  height={company.height}
+                  sizes="80px"
+                  className="opacity-90 object-contain max-w-[80px] max-h-[44px]"
+                />
+              </div>
+            ))}
+          </div>
         </div>
         
         {/* Trust line - mobile */}
@@ -107,7 +126,7 @@ function LogoStripComponent() {
           initial={prefersReducedMotion ? {} : { opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="text-center mt-5"
+          className="text-center mt-5 px-4"
         >
           <p className="text-c2c-navy font-medium text-base">
             and many more...

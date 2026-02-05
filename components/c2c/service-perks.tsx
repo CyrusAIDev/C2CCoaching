@@ -366,133 +366,152 @@ export function ServicePerks() {
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8"
+          className="text-center mb-6"
         >
-          <h2 className="text-3xl font-bold text-white mb-4 drop-shadow-lg">
+          <h2 className="text-3xl font-bold text-white mb-3 drop-shadow-lg">
             Service Perks
           </h2>
           <p className="text-c2c-gold text-base font-semibold mb-2">
             1:1 Coaching Sessions
           </p>
-          <p className="text-white/85 text-sm max-w-xs mx-auto leading-relaxed">
+          <p className="text-white/90 text-sm max-w-xs mx-auto leading-relaxed">
             Pick the level that matches where you're at.
           </p>
         </motion.div>
 
-        {/* Price comparison header */}
+        {/* Sticky price headers */}
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="grid grid-cols-2 gap-2 mb-4"
+          className="grid grid-cols-2 gap-2 mb-3"
         >
           {/* Fast Track Header */}
-          <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
-            <p className="text-c2c-gold text-xs font-semibold tracking-wider mb-1">FAST TRACK</p>
-            <p className="text-white text-xl font-bold">$678</p>
-            <p className="text-white/50 text-xs">4 hours</p>
+          <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
+            <p className="text-c2c-gold text-[10px] font-semibold tracking-wider mb-0.5">FAST TRACK</p>
+            <p className="text-white text-lg font-bold">$678</p>
+            <p className="text-white/50 text-[10px]">4 hours</p>
           </div>
           
           {/* Insider Edge Header */}
-          <div className="bg-c2c-teal/15 border border-c2c-teal/30 rounded-xl p-4 text-center relative">
+          <div className="bg-c2c-teal/15 border border-c2c-teal/30 rounded-xl p-3 text-center relative">
             <div className="absolute -top-2 left-1/2 -translate-x-1/2">
-              <span className="bg-c2c-teal text-white text-[10px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
-                <Sparkles className="w-2.5 h-2.5" />
+              <span className="bg-c2c-teal text-white text-[9px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                <Sparkles className="w-2 h-2" />
                 Popular
               </span>
             </div>
-            <p className="text-c2c-gold text-xs font-semibold tracking-wider mb-1">INSIDER EDGE</p>
-            <p className="text-white text-xl font-bold">$1130</p>
-            <p className="text-white/50 text-xs">8 hours</p>
+            <p className="text-c2c-gold text-[10px] font-semibold tracking-wider mb-0.5">INSIDER EDGE</p>
+            <p className="text-white text-lg font-bold">$1130</p>
+            <p className="text-white/50 text-[10px]">8 hours</p>
           </div>
         </motion.div>
 
-        {/* Comparison accordion */}
+        {/* Who it's for row */}
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.15 }}
+          className="grid grid-cols-2 gap-2 mb-3"
+        >
+          <div className="bg-white/5 border border-white/10 rounded-lg p-2.5">
+            <p className="text-white/50 text-[9px] font-semibold uppercase tracking-wider mb-1">Best if you</p>
+            <p className="text-white/90 text-[11px] leading-relaxed">Need clarity + sharp materials to start landing interviews</p>
+          </div>
+          <div className="bg-c2c-teal/10 border border-c2c-teal/20 rounded-lg p-2.5">
+            <p className="text-c2c-teal text-[9px] font-semibold uppercase tracking-wider mb-1">Best if you</p>
+            <p className="text-white/90 text-[11px] leading-relaxed">Want end-to-end support through recruiting season</p>
+          </div>
+        </motion.div>
+
+        {/* Comparison matrix - always visible */}
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.2 }}
+          className="bg-white/5 border border-white/10 rounded-xl overflow-hidden mb-4"
         >
-          <Accordion type="multiple" className="space-y-2">
-            {comparisonFeatures.map((feature, idx) => (
-              <AccordionItem 
-                key={feature.category} 
-                value={feature.category}
-                className="bg-white/5 border border-white/10 rounded-xl overflow-hidden"
-              >
-                <AccordionTrigger className="px-4 py-3 hover:no-underline">
-                  <div className="flex items-center gap-2 flex-1">
-                    <span className="text-white font-medium text-sm">{feature.category}</span>
-                    {feature.insiderEdgeExtra && (
-                      <span className="bg-c2c-teal/20 text-c2c-teal text-[10px] font-semibold px-1.5 py-0.5 rounded">
-                        +Edge
-                      </span>
-                    )}
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="px-4 pb-4">
-                  <div className="grid grid-cols-2 gap-3">
-                    {/* Fast Track column */}
-                    <div className="space-y-1">
-                      <p className="text-white/50 text-[10px] font-semibold uppercase tracking-wider">Fast Track</p>
-                      {feature.fastTrack ? (
-                        <div className="flex items-start gap-1.5">
-                          <Check className="w-3.5 h-3.5 text-c2c-teal flex-shrink-0 mt-0.5" />
-                          <div>
-                            <p className="text-white/90 text-xs leading-relaxed">{feature.fastTrack}</p>
-                            {feature.fastTrackDetail && (
-                              <p className="text-white/50 text-[10px] mt-0.5">{feature.fastTrackDetail}</p>
-                            )}
-                          </div>
-                        </div>
-                      ) : (
-                        <p className="text-white/30 text-xs italic">Not included</p>
-                      )}
-                    </div>
-                    
-                    {/* Insider Edge column */}
-                    <div className="space-y-1">
-                      <p className="text-c2c-teal text-[10px] font-semibold uppercase tracking-wider">Insider Edge</p>
-                      <div className="flex items-start gap-1.5">
-                        {feature.insiderEdgeExtra ? (
-                          <Plus className="w-3.5 h-3.5 text-c2c-gold flex-shrink-0 mt-0.5" />
-                        ) : (
-                          <Check className="w-3.5 h-3.5 text-c2c-teal flex-shrink-0 mt-0.5" />
-                        )}
-                        <div>
-                          <p className="text-white/90 text-xs leading-relaxed">{feature.insiderEdge}</p>
-                          {feature.insiderEdgeDetail && (
-                            <p className="text-white/50 text-[10px] mt-0.5">{feature.insiderEdgeDetail}</p>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          {/* Matrix rows */}
+          {comparisonFeatures.map((feature, idx) => (
+            <div 
+              key={feature.category}
+              className={`grid grid-cols-[1fr,auto,auto] items-center gap-2 px-3 py-2.5 ${
+                idx !== comparisonFeatures.length - 1 ? 'border-b border-white/5' : ''
+              }`}
+            >
+              {/* Feature name */}
+              <div className="flex items-center gap-1.5">
+                <span className="text-white/90 text-xs font-medium">{feature.category}</span>
+                {feature.insiderEdgeExtra && (
+                  <span className="bg-c2c-gold/20 text-c2c-gold text-[8px] font-bold px-1 py-0.5 rounded">
+                    +
+                  </span>
+                )}
+              </div>
+              
+              {/* Fast Track check */}
+              <div className="w-10 flex justify-center">
+                {feature.fastTrack ? (
+                  <Check className="w-4 h-4 text-c2c-teal" />
+                ) : (
+                  <span className="text-white/20 text-xs">—</span>
+                )}
+              </div>
+              
+              {/* Insider Edge check */}
+              <div className="w-10 flex justify-center">
+                {feature.insiderEdgeExtra ? (
+                  <Plus className="w-4 h-4 text-c2c-gold" />
+                ) : (
+                  <Check className="w-4 h-4 text-c2c-teal" />
+                )}
+              </div>
+            </div>
+          ))}
         </motion.div>
 
-        {/* CTA Section - Mobile */}
+        {/* Shania's note - personal connection */}
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.25 }}
+          className="bg-c2c-gold/10 border border-c2c-gold/20 rounded-xl p-4 mb-6"
+        >
+          <p className="text-c2c-gold text-xs font-semibold mb-1.5">From Shania:</p>
+          <p className="text-white/90 text-sm leading-relaxed">
+            If you want the fastest results, <span className="text-c2c-teal font-medium">Insider Edge</span> adds application support, positioning help, and ongoing feedback. <span className="text-white/70">Fast Track is perfect if you already have some momentum and just need sharper materials + a clear plan.</span>
+          </p>
+        </motion.div>
+
+        {/* Dual CTAs */}
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-center mt-8"
+          className="space-y-3"
         >
-          <p className="text-white/90 text-base mb-1">Not sure which one fits?</p>
-          <p className="text-white/70 text-sm mb-5">
-            We'll help you choose in a free 30-min call.
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              asChild
+              variant="outline"
+              className="bg-white/10 hover:bg-white/15 text-white border-white/20 font-semibold py-4 text-sm rounded-lg"
+            >
+              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                Fast Track
+              </a>
+            </Button>
+            <Button
+              asChild
+              className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold py-4 text-sm rounded-lg shadow-[0_0_20px_rgba(58,166,168,0.25)]"
+            >
+              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                Insider Edge
+              </a>
+            </Button>
+          </div>
+          <p className="text-white/60 text-xs text-center">
+            Both start with a free 30-min consultation
           </p>
-          <Button
-            asChild
-            className="w-full max-w-xs bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 py-5 rounded-lg shadow-[0_0_25px_rgba(58,166,168,0.3)]"
-          >
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-              Book Free Consultation
-            </a>
-          </Button>
         </motion.div>
       </div>
 

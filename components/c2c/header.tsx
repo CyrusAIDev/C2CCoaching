@@ -105,9 +105,6 @@ function HeaderComponent() {
     }
   }, [pathname])
 
-  // Mobile quick nav links (subset for the visible row)
-  const mobileQuickLinks = navLinks.slice(0, 4) // Home, About, Services, FAQ
-
   return (
     <motion.header
       initial={prefersReducedMotion ? {} : { y: -100 }}
@@ -209,7 +206,7 @@ function HeaderComponent() {
           <Button
             asChild
             size="sm"
-            className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-4 py-2 text-sm rounded-lg"
+            className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-4 py-2 text-sm rounded-lg shadow-[0_0_12px_rgba(58,166,168,0.25)]"
           >
             <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
               Book
@@ -217,106 +214,96 @@ function HeaderComponent() {
           </Button>
           <button
             onClick={toggleMobileMenu}
-            className="text-c2c-navy p-2"
+            className="text-c2c-navy p-2 rounded-lg hover:bg-c2c-navy/5 transition-colors"
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Quick Nav Row - Always visible */}
-      <div className="md:hidden border-t border-c2c-navy/10 bg-c2c-offwhite/80 backdrop-blur-sm">
-        <div className="overflow-x-auto scrollbar-hide">
-          <nav className="flex items-center gap-1.5 px-4 py-2 min-w-max">
-            {mobileQuickLinks.map((link) => {
-              const isActive = 
-                (link.href === "/" && activeSection === "" && pathname === "/") ||
-                (link.href === "/#our-story" && activeSection === "our-story" && pathname === "/") ||
-                (link.href === "/#services" && activeSection === "services" && pathname === "/") ||
-                (link.href === "/faq" && pathname === "/faq")
-              
-              return (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={(e) => {
-                    handleNavClick(e, link.href)
-                    closeMobileMenu()
-                  }}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 ${
-                    isActive 
-                      ? "bg-c2c-teal text-white" 
-                      : "bg-c2c-navy/5 text-c2c-navy hover:bg-c2c-navy/10"
-                  }`}
-                >
-                  {link.label === "About C2C" ? "About" : link.label}
-                </a>
-              )
-            })}
-            {/* Contact as a special pill */}
-            <a
-              href="/contact"
-              className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 ${
-                pathname === "/contact"
-                  ? "bg-c2c-teal text-white"
-                  : "bg-c2c-gold/10 text-c2c-navy border border-c2c-gold/30 hover:bg-c2c-gold/20"
-              }`}
-            >
-              Contact
-            </a>
-          </nav>
-        </div>
-      </div>
-
-      {/* Mobile Full Menu (hamburger) */}
+      {/* Mobile Full Menu (hamburger) - Improved presentation */}
       {isMobileMenuOpen && (
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="md:hidden bg-c2c-offwhite border-t border-c2c-navy/10"
+          className="md:hidden bg-c2c-offwhite border-t border-c2c-navy/10 shadow-lg"
         >
-          <nav className="flex flex-col px-6 py-4 gap-4">
-            {navLinks.map((link, index) => {
-              const isActive = 
-                (link.href === "/" && activeSection === "" && pathname === "/") ||
-                (link.href === "/#our-story" && activeSection === "our-story" && pathname === "/") ||
-                (link.href === "/#services" && activeSection === "services" && pathname === "/") ||
-                (link.href === "/contact" && pathname === "/contact") ||
-                (link.href === "/faq" && pathname === "/faq")
-              
-              // Add separator after "Services" (index 2)
-              const showSeparator = index === 2
-              
-              return (
-                <React.Fragment key={link.label}>
+          <nav className="flex flex-col px-6 py-5">
+            {/* Section: Explore */}
+            <p className="text-xs font-semibold text-c2c-navy/50 uppercase tracking-wider mb-3">
+              Explore
+            </p>
+            <div className="flex flex-col gap-1 mb-5">
+              {navLinks.slice(0, 3).map((link) => {
+                const isActive = 
+                  (link.href === "/" && activeSection === "" && pathname === "/") ||
+                  (link.href === "/#our-story" && activeSection === "our-story" && pathname === "/") ||
+                  (link.href === "/#services" && activeSection === "services" && pathname === "/")
+                
+                return (
                   <a
+                    key={link.label}
                     href={link.href}
                     onClick={(e) => {
                       handleNavClick(e, link.href)
                       closeMobileMenu()
                     }}
-                    className={`text-base font-medium transition-colors duration-200 ${
-                      isActive ? "text-c2c-teal" : "text-c2c-navy hover:text-c2c-teal"
+                    className={`py-2.5 px-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                      isActive 
+                        ? "text-c2c-teal bg-c2c-teal/10" 
+                        : "text-c2c-navy hover:bg-c2c-navy/5"
                     }`}
                   >
                     {link.label}
                   </a>
-                  {showSeparator && (
-                    <div className="h-px w-full bg-c2c-navy/20 my-2" />
-                  )}
-                </React.Fragment>
-              )
-            })}
+                )
+              })}
+            </div>
+
+            {/* Section: Support */}
+            <p className="text-xs font-semibold text-c2c-navy/50 uppercase tracking-wider mb-3">
+              Support
+            </p>
+            <div className="flex flex-col gap-1 mb-6">
+              {navLinks.slice(3).map((link) => {
+                const isActive = 
+                  (link.href === "/contact" && pathname === "/contact") ||
+                  (link.href === "/faq" && pathname === "/faq")
+                
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={(e) => {
+                      handleNavClick(e, link.href)
+                      closeMobileMenu()
+                    }}
+                    className={`py-2.5 px-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                      isActive 
+                        ? "text-c2c-teal bg-c2c-teal/10" 
+                        : "text-c2c-navy hover:bg-c2c-navy/5"
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                )
+              })}
+            </div>
+
+            {/* CTA */}
             <Button
               asChild
-              className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-3 text-base rounded-lg w-full mt-2"
+              className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold py-4 text-base rounded-lg w-full shadow-[0_0_20px_rgba(58,166,168,0.25)]"
             >
               <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                Book Now
+                Book Free Consultation
               </a>
             </Button>
+            <p className="text-center text-c2c-navy/60 text-xs mt-2">
+              30 minutes • No commitment
+            </p>
           </nav>
         </motion.div>
       )}

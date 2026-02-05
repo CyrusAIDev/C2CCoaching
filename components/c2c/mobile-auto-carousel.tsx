@@ -18,6 +18,12 @@ interface MobileAutoCarouselProps {
   slideClassName?: string
   /** How much of the slide is visible (e.g., "85%" for peek effect) */
   slideSize?: string
+  /** Starting slide index (default 0) */
+  startIndex?: number
+  /** When this key changes, carousel resets to startIndex */
+  resetKey?: string | number
+  /** Delay in ms before starting auto-advance after reset (default 0) */
+  autoplayDelayMs?: number
 }
 
 export function MobileAutoCarousel({
@@ -27,12 +33,17 @@ export function MobileAutoCarousel({
   className,
   slideClassName,
   slideSize = "85%",
+  startIndex = 0,
+  resetKey,
+  autoplayDelayMs = 0,
 }: MobileAutoCarouselProps) {
   const prefersReducedMotion = usePrefersReducedMotion()
   const [api, setApi] = React.useState<CarouselApi>()
-  const [current, setCurrent] = React.useState(0)
+  const [current, setCurrent] = React.useState(startIndex)
   const [count, setCount] = React.useState(0)
   const [isPaused, setIsPaused] = React.useState(false)
+  const [isAutoplayDelayed, setIsAutoplayDelayed] = React.useState(autoplayDelayMs > 0)
+  const prevResetKeyRef = React.useRef(resetKey)
 
   // Track slide count and current index
   React.useEffect(() => {
@@ -46,9 +57,31 @@ export function MobileAutoCarousel({
     })
   }, [api])
 
+  // Handle resetKey changes - scroll to startIndex
+  React.useEffect(() => {
+    if (!api || resetKey === undefined) return
+    
+    // Only trigger on actual changes (not initial mount)
+    if (prevResetKeyRef.current !== resetKey && prevResetKeyRef.current !== undefined) {
+      api.scrollTo(startIndex)
+      setCurrent(startIndex)
+      
+      // Delay autoplay after reset
+      if (autoplayDelayMs > 0) {
+        setIsAutoplayDelayed(true)
+        const delayTimeout = setTimeout(() => {
+          setIsAutoplayDelayed(false)
+        }, autoplayDelayMs)
+        return () => clearTimeout(delayTimeout)
+      }
+    }
+    
+    prevResetKeyRef.current = resetKey
+  }, [api, resetKey, startIndex, autoplayDelayMs])
+
   // Auto-advance logic
   React.useEffect(() => {
-    if (!api || prefersReducedMotion || isPaused || count === 0) return
+    if (!api || prefersReducedMotion || isPaused || isAutoplayDelayed || count === 0) return
 
     const interval = setInterval(() => {
       if (api.canScrollNext()) {
@@ -60,7 +93,7 @@ export function MobileAutoCarousel({
     }, intervalMs)
 
     return () => clearInterval(interval)
-  }, [api, intervalMs, isPaused, prefersReducedMotion, count])
+  }, [api, intervalMs, isPaused, prefersReducedMotion, count, isAutoplayDelayed])
 
   // Pause handlers
   const handleInteractionStart = React.useCallback(() => {

@@ -178,7 +178,7 @@ export function OurStory() {
             </div>
             
             {/* Caption */}
-            <p className="text-c2c-text-navy/70 text-xs mt-4 text-center">
+            <p className="text-white/60 text-xs mt-4 text-center">
               Watch: how C2C works (60s)
             </p>
           </motion.div>
@@ -186,12 +186,12 @@ export function OurStory() {
           {/* 3. Text content and highlights */}
           <motion.div
             variants={itemVariants}
-            className="space-y-3 text-center max-w-sm leading-relaxed mb-6"
+            className="space-y-3 text-center max-w-sm leading-relaxed mb-6 bg-white/5 rounded-xl px-4 py-5 border border-white/10 backdrop-blur-[2px]"
           >
-            <p className="text-lg italic text-white/95 drop-shadow-md">
+            <p className="text-lg italic text-white font-medium drop-shadow-md">
               Your materials should open doors, not get ignored.
             </p>
-            <p className="text-white/90 text-base drop-shadow-md">
+            <p className="text-white/95 text-base drop-shadow-md">
               We sharpen your applications and get you where you want to be with less pressure and more support.
             </p>
           </motion.div>
@@ -199,11 +199,11 @@ export function OurStory() {
           {/* Bullet highlights - mobile grid */}
           <motion.div variants={itemVariants} className="grid grid-cols-1 gap-2.5 mb-8 w-full max-w-sm">
             {highlights.map((item, idx) => (
-              <div key={idx} className="flex items-center gap-2.5 bg-white/5 rounded-lg px-3 py-2.5 border border-white/10">
-                <div className="w-7 h-7 rounded-full bg-c2c-teal/20 flex items-center justify-center flex-shrink-0">
+              <div key={idx} className="flex items-center gap-2.5 bg-white/8 rounded-lg px-3 py-2.5 border border-white/15">
+                <div className="w-7 h-7 rounded-full bg-c2c-teal/25 flex items-center justify-center flex-shrink-0">
                   <item.icon className="w-3.5 h-3.5 text-c2c-teal" />
                 </div>
-                <span className="text-c2c-text-navy text-sm drop-shadow-md">{item.text}</span>
+                <span className="text-white/95 text-sm font-medium">{item.text}</span>
               </div>
             ))}
           </motion.div>
@@ -230,14 +230,14 @@ export function OurStory() {
                   window.scrollTo({ top: offsetPosition, behavior: "smooth" })
                 }
               }}
-              className="text-c2c-text-navy hover:text-white font-medium text-sm transition-colors duration-200 underline underline-offset-4"
+              className="text-white/80 hover:text-white font-medium text-sm transition-colors duration-200 underline underline-offset-4"
             >
               View services
             </a>
           </motion.div>
 
           {/* Trust microcopy */}
-          <motion.p variants={itemVariants} className="mt-4 text-c2c-text-navy/80 text-xs text-center">
+          <motion.p variants={itemVariants} className="mt-4 text-white/70 text-xs text-center">
             {TRUST_MICROCOPY}
           </motion.p>
         </motion.div>

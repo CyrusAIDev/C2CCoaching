@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect, useRef } from "react"
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
@@ -134,6 +134,18 @@ export function WhyC2C() {
   const prefersReducedMotion = usePrefersReducedMotion()
   const isMobile = useIsMobile()
   const { ref, isInView } = useSectionInView()
+  
+  // Track when section comes into view to reset carousel
+  const [carouselResetKey, setCarouselResetKey] = useState(0)
+  const wasInViewRef = useRef(false)
+  
+  useEffect(() => {
+    // When isInView transitions from false to true, increment reset key
+    if (isInView && !wasInViewRef.current) {
+      setCarouselResetKey(prev => prev + 1)
+    }
+    wasInViewRef.current = isInView
+  }, [isInView])
 
   const { container: containerVariants, item: itemVariants } = useMemo(
     () => createStaggerVariants(prefersReducedMotion),
@@ -153,7 +165,7 @@ export function WhyC2C() {
           className="text-center mb-10"
         >
           <SectionHeading title="This is how you get the interview." isInView={isInView} className="mb-3 text-2xl" />
-          <p className="text-c2c-navy/80 text-base max-w-xs mx-auto mt-4 font-medium">
+          <p className="text-c2c-navy/90 text-base max-w-xs mx-auto mt-4 font-medium">
             No guesswork. No spray-and-pray.
           </p>
         </motion.div>
@@ -163,6 +175,9 @@ export function WhyC2C() {
           intervalMs={5000} 
           showDots={true}
           slideSize="88%"
+          startIndex={0}
+          resetKey={carouselResetKey}
+          autoplayDelayMs={2500}
         >
           {features.map((feature, index) => (
             <motion.div
@@ -193,7 +208,7 @@ export function WhyC2C() {
                   <p className="text-c2c-navy font-semibold text-base mb-1.5 leading-relaxed">
                     {feature.description}
                   </p>
-                  <p className="text-c2c-navy/85 text-sm mb-4 leading-relaxed">
+                  <p className="text-c2c-navy/90 text-sm mb-4 leading-relaxed">
                     {feature.subdescription}
                   </p>
                   <ul className="space-y-2">
