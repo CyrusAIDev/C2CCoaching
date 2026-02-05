@@ -12,6 +12,7 @@ import { createStaggerVariants } from "@/lib/animations"
 import { SectionHeading } from "@/components/c2c/section-heading"
 import { SectionBackground } from "@/components/c2c/section-background"
 import { BOOKING_URL } from "@/lib/constants"
+import { MobileAutoCarousel } from "@/components/c2c/mobile-auto-carousel"
 
 const features = [
   {
@@ -140,9 +141,101 @@ export function WhyC2C() {
   )
 
   return (
-    <section ref={ref} className="py-32 bg-c2c-offwhite relative overflow-hidden">
+    <section ref={ref} className="py-20 md:py-32 bg-c2c-offwhite relative overflow-hidden">
       <SectionBackground />
-      <div className="max-w-6xl mx-auto px-6">
+      
+      {/* ==================== MOBILE VERSION ==================== */}
+      <div className="md:hidden px-4">
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-10"
+        >
+          <SectionHeading title="This is how you get the interview." isInView={isInView} className="mb-3 text-2xl" />
+          <p className="text-c2c-navy/80 text-base max-w-xs mx-auto mt-4 font-medium">
+            No guesswork. No spray-and-pray.
+          </p>
+        </motion.div>
+
+        {/* Mobile Carousel */}
+        <MobileAutoCarousel 
+          intervalMs={5000} 
+          showDots={true}
+          slideSize="88%"
+        >
+          {features.map((feature, index) => (
+            <motion.div
+              key={feature.title}
+              initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <Card className="bg-white border border-c2c-navy/10 rounded-2xl overflow-hidden shadow-lg mx-1">
+                <div className="relative h-44 w-full overflow-hidden">
+                  <Image
+                    src={feature.image || "/placeholder.svg"}
+                    alt={feature.title}
+                    fill
+                    sizes="(max-width: 768px) 90vw, 33vw"
+                    loading="lazy"
+                    className="object-cover"
+                  />
+                  {/* Step indicator badge */}
+                  <div className="absolute top-3 left-3 bg-c2c-navy/90 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                    Step {index + 1} of 3
+                  </div>
+                </div>
+                <div className="p-5">
+                  <h3 className="text-lg font-semibold text-c2c-navy mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-c2c-navy font-semibold text-base mb-1.5 leading-relaxed">
+                    {feature.description}
+                  </p>
+                  <p className="text-c2c-navy/85 text-sm mb-4 leading-relaxed">
+                    {feature.subdescription}
+                  </p>
+                  <ul className="space-y-2">
+                    {feature.bullets.map((bullet: string, idx: number) => (
+                      <li
+                        key={idx}
+                        className="flex items-start gap-2.5 text-sm text-c2c-navy"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-c2c-teal mt-1.5 flex-shrink-0" />
+                        <span className="leading-relaxed font-medium">{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Card>
+            </motion.div>
+          ))}
+        </MobileAutoCarousel>
+
+        {/* CTA Section - Mobile */}
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-center mt-10"
+        >
+          <Button
+            asChild
+            className="w-full max-w-xs bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 py-5 rounded-lg shadow-[0_0_25px_rgba(58,166,168,0.3)]"
+          >
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+              Book a free consult
+            </a>
+          </Button>
+          <p className="mt-3 text-c2c-navy/70 text-sm">
+            We'll map your next 2 weeks in 10 minutes.
+          </p>
+        </motion.div>
+      </div>
+
+      {/* ==================== DESKTOP VERSION (unchanged) ==================== */}
+      <div className="hidden md:block max-w-6xl mx-auto px-6">
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}

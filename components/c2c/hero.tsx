@@ -94,18 +94,28 @@ export function Hero() {
   )
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-[100svh] md:min-h-screen flex items-center overflow-hidden">
       {/* Background Image - newspaper job seekers with parallax */}
       <motion.div 
         className="absolute inset-0 z-0"
         style={{ y: shouldAnimate ? backgroundY : 0 }}
       >
+        {/* Desktop background image - unchanged */}
         <Image
           src="/images/hero-bg.jpg"
           alt="Young professionals searching for internships and new grad roles"
           fill
           sizes="100vw"
-          className="object-cover object-top scale-110"
+          className="hidden md:block object-cover object-top scale-110"
+          priority
+        />
+        {/* Mobile background image - optimized for mobile viewing */}
+        <Image
+          src="/images/hero-mobile.jpg"
+          alt="Young professionals searching for internships and new grad roles"
+          fill
+          sizes="100vw"
+          className="md:hidden object-cover object-[50%_30%]"
           priority
         />
         {/* Gradient overlay - darker at bottom for text readability */}

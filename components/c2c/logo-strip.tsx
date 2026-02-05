@@ -6,6 +6,7 @@ import Image from "next/image"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 import { useSectionInView } from "@/hooks/use-section-in-view"
 import { createStaggerVariants } from "@/lib/animations"
+import { MobileAutoCarousel } from "@/components/c2c/mobile-auto-carousel"
 
 const companies = [
   { 
@@ -56,10 +57,69 @@ function LogoStripComponent() {
   )
 
   return (
-    <section ref={ref} className="py-16 bg-c2c-offwhite relative overflow-hidden">
+    <section ref={ref} className="py-12 md:py-16 bg-c2c-offwhite relative overflow-hidden">
       {/* Subtle background blob */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-c2c-teal/5 rounded-full blur-3xl" />
-      <div className="max-w-5xl mx-auto px-6">
+      
+      {/* ==================== MOBILE VERSION ==================== */}
+      <div className="md:hidden px-4">
+        <motion.p
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-center text-c2c-navy text-sm font-semibold tracking-wide uppercase mb-6"
+        >
+          Companies Our Clients Have Landed
+        </motion.p>
+
+        {/* Carousel with fade edges */}
+        <div className="relative">
+          {/* Left fade edge */}
+          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-c2c-offwhite to-transparent z-10 pointer-events-none" />
+          {/* Right fade edge */}
+          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-c2c-offwhite to-transparent z-10 pointer-events-none" />
+          
+          <MobileAutoCarousel 
+            intervalMs={3000} 
+            showDots={false}
+            slideSize="45%"
+          >
+            {companies.map((company) => (
+              <div
+                key={company.name}
+                className="bg-white border border-c2c-border rounded-xl h-[70px] shadow-sm flex items-center justify-center mx-1"
+              >
+                <Image
+                  src={company.logo || "/placeholder.svg"}
+                  alt={`${company.name} logo`}
+                  width={company.width}
+                  height={company.height}
+                  sizes="80px"
+                  className="opacity-90 object-contain max-w-[80px] max-h-[44px]"
+                />
+              </div>
+            ))}
+          </MobileAutoCarousel>
+        </div>
+        
+        {/* Trust line - mobile */}
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="text-center mt-5"
+        >
+          <p className="text-c2c-navy font-medium text-base">
+            and many more...
+          </p>
+          <p className="text-c2c-navy/80 text-sm mt-0.5">
+            Real results from students at top schools.
+          </p>
+        </motion.div>
+      </div>
+
+      {/* ==================== DESKTOP VERSION (unchanged) ==================== */}
+      <div className="hidden md:block max-w-5xl mx-auto px-6">
         <motion.p
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}

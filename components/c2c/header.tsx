@@ -105,6 +105,9 @@ function HeaderComponent() {
     }
   }, [pathname])
 
+  // Mobile quick nav links (subset for the visible row)
+  const mobileQuickLinks = navLinks.slice(0, 4) // Home, About, Services, FAQ
+
   return (
     <motion.header
       initial={prefersReducedMotion ? {} : { y: -100 }}
@@ -129,7 +132,7 @@ function HeaderComponent() {
             width={260}
             height={105}
             sizes="260px"
-            className="w-auto h-24 -my-6"
+            className="w-auto h-24 md:h-24 -my-6 max-h-20 md:max-h-24"
             priority
           />
         </a>
@@ -201,23 +204,78 @@ function HeaderComponent() {
           </Button>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          onClick={toggleMobileMenu}
-          className="md:hidden text-c2c-navy p-2"
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Mobile: Book button + Menu Toggle */}
+        <div className="md:hidden flex items-center gap-2">
+          <Button
+            asChild
+            size="sm"
+            className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-4 py-2 text-sm rounded-lg"
+          >
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+              Book
+            </a>
+          </Button>
+          <button
+            onClick={toggleMobileMenu}
+            className="text-c2c-navy p-2"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Quick Nav Row - Always visible */}
+      <div className="md:hidden border-t border-c2c-navy/10 bg-c2c-offwhite/80 backdrop-blur-sm">
+        <div className="overflow-x-auto scrollbar-hide">
+          <nav className="flex items-center gap-1.5 px-4 py-2 min-w-max">
+            {mobileQuickLinks.map((link) => {
+              const isActive = 
+                (link.href === "/" && activeSection === "" && pathname === "/") ||
+                (link.href === "/#our-story" && activeSection === "our-story" && pathname === "/") ||
+                (link.href === "/#services" && activeSection === "services" && pathname === "/") ||
+                (link.href === "/faq" && pathname === "/faq")
+              
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => {
+                    handleNavClick(e, link.href)
+                    closeMobileMenu()
+                  }}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 ${
+                    isActive 
+                      ? "bg-c2c-teal text-white" 
+                      : "bg-c2c-navy/5 text-c2c-navy hover:bg-c2c-navy/10"
+                  }`}
+                >
+                  {link.label === "About C2C" ? "About" : link.label}
+                </a>
+              )
+            })}
+            {/* Contact as a special pill */}
+            <a
+              href="/contact"
+              className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 ${
+                pathname === "/contact"
+                  ? "bg-c2c-teal text-white"
+                  : "bg-c2c-gold/10 text-c2c-navy border border-c2c-gold/30 hover:bg-c2c-gold/20"
+              }`}
+            >
+              Contact
+            </a>
+          </nav>
+        </div>
+      </div>
+
+      {/* Mobile Full Menu (hamburger) */}
       {isMobileMenuOpen && (
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="md:hidden bg-c2c-offwhite border-t border-c2c-navy/10 mt-2"
+          className="md:hidden bg-c2c-offwhite border-t border-c2c-navy/10"
         >
           <nav className="flex flex-col px-6 py-4 gap-4">
             {navLinks.map((link, index) => {

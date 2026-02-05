@@ -80,12 +80,171 @@ export function OurStory() {
   ]
 
   return (
-    <section id="our-story" ref={ref} className="relative py-32 bg-gradient-to-br from-c2c-navy via-c2c-navy-light/90 to-c2c-navy noise-overlay overflow-hidden">
+    <section id="our-story" ref={ref} className="relative py-20 md:py-32 bg-gradient-to-br from-c2c-navy via-c2c-navy-light/90 to-c2c-navy noise-overlay overflow-hidden">
       {/* Subtle radial gradient spotlight */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-c2c-teal/8 to-transparent rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-c2c-gold/5 rounded-full blur-3xl" />
       
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+      {/* ==================== MOBILE VERSION (sandwich layout) ==================== */}
+      <div className="md:hidden px-5 relative z-10">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="flex flex-col items-center"
+        >
+          {/* 1. Headline first */}
+          <motion.div variants={itemVariants} className="text-center mb-2">
+            <span className="text-c2c-gold text-xs font-semibold tracking-wide uppercase relative inline-block">
+              Unlock Your Dream Role
+              <motion.span 
+                initial={{ scaleX: 0 }}
+                animate={isInView ? { scaleX: 1 } : {}}
+                transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+                className="absolute -bottom-1 left-0 w-full h-0.5 bg-c2c-gold origin-left"
+              />
+            </span>
+          </motion.div>
+
+          <motion.h2
+            variants={itemVariants}
+            className="text-3xl font-semibold text-white text-center mb-1 drop-shadow-lg"
+          >
+            More callbacks.
+          </motion.h2>
+          <motion.h2
+            variants={itemVariants}
+            className="text-3xl font-semibold text-white text-center mb-6 drop-shadow-lg"
+          >
+            Less chaos.
+          </motion.h2>
+
+          {/* 2. Phone/Video Mock in the middle */}
+          <motion.div variants={itemVariants} className="flex flex-col items-center mb-8">
+            <div 
+              ref={phoneRef}
+              className="relative"
+            >
+              {/* iPhone Frame - mobile optimized size */}
+              <div className="relative w-[260px] bg-black rounded-[45px] p-3 shadow-2xl shadow-black/50 border border-white/10">
+                {/* Dynamic Island */}
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full z-20" />
+                
+                {/* Screen */}
+                <div className="relative bg-c2c-navy rounded-[38px] overflow-hidden aspect-[9/19.5]">
+                  {/* Video Player */}
+                  <video
+                    ref={videoRef}
+                    className="w-full h-full object-cover"
+                    muted
+                    loop
+                    playsInline
+                    onPlay={() => setIsPlaying(true)}
+                    onPause={() => setIsPlaying(false)}
+                  >
+                    <source src="/videos/c2c-intro.mp4" type="video/mp4" />
+                  </video>
+                  
+                  {/* Play button overlay */}
+                  {!isPlaying && (
+                    <button
+                      onClick={handlePlayVideo}
+                      className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-c2c-navy/60 to-c2c-navy/80 transition-opacity duration-300"
+                      aria-label="Play video"
+                    >
+                      <div className="w-16 h-16 rounded-full bg-c2c-teal/90 flex items-center justify-center mb-3 shadow-lg shadow-c2c-teal/30">
+                        <Play className="w-6 h-6 text-white ml-0.5" fill="white" />
+                      </div>
+                      <span className="text-white/90 text-sm font-medium">Watch intro</span>
+                    </button>
+                  )}
+
+                  {/* Pause overlay when playing */}
+                  {isPlaying && (
+                    <button
+                      onClick={handlePlayVideo}
+                      className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 active:opacity-100 transition-opacity duration-300"
+                      aria-label="Pause video"
+                    />
+                  )}
+                </div>
+                
+                {/* Home Indicator */}
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-1 bg-white/30 rounded-full" />
+              </div>
+              
+              {/* Decorative glow */}
+              <div className="absolute -inset-8 bg-c2c-teal/10 rounded-[60px] blur-2xl -z-10" />
+            </div>
+            
+            {/* Caption */}
+            <p className="text-c2c-text-navy/70 text-xs mt-4 text-center">
+              Watch: how C2C works (60s)
+            </p>
+          </motion.div>
+
+          {/* 3. Text content and highlights */}
+          <motion.div
+            variants={itemVariants}
+            className="space-y-3 text-center max-w-sm leading-relaxed mb-6"
+          >
+            <p className="text-lg italic text-white/95 drop-shadow-md">
+              Your materials should open doors, not get ignored.
+            </p>
+            <p className="text-white/90 text-base drop-shadow-md">
+              We sharpen your applications and get you where you want to be with less pressure and more support.
+            </p>
+          </motion.div>
+
+          {/* Bullet highlights - mobile grid */}
+          <motion.div variants={itemVariants} className="grid grid-cols-1 gap-2.5 mb-8 w-full max-w-sm">
+            {highlights.map((item, idx) => (
+              <div key={idx} className="flex items-center gap-2.5 bg-white/5 rounded-lg px-3 py-2.5 border border-white/10">
+                <div className="w-7 h-7 rounded-full bg-c2c-teal/20 flex items-center justify-center flex-shrink-0">
+                  <item.icon className="w-3.5 h-3.5 text-c2c-teal" />
+                </div>
+                <span className="text-c2c-text-navy text-sm drop-shadow-md">{item.text}</span>
+              </div>
+            ))}
+          </motion.div>
+
+          {/* CTA */}
+          <motion.div variants={itemVariants} className="flex flex-col items-center gap-3 w-full max-w-xs">
+            <Button
+              asChild
+              className="w-full bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 py-5 rounded-lg shadow-[0_0_25px_rgba(58,166,168,0.3)]"
+            >
+              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                Free Consultation
+              </a>
+            </Button>
+            <a 
+              href="#services" 
+              onClick={(e) => {
+                e.preventDefault()
+                const element = document.getElementById("services")
+                if (element) {
+                  const headerOffset = 80
+                  const elementPosition = element.getBoundingClientRect().top
+                  const offsetPosition = elementPosition + window.scrollY - headerOffset
+                  window.scrollTo({ top: offsetPosition, behavior: "smooth" })
+                }
+              }}
+              className="text-c2c-text-navy hover:text-white font-medium text-sm transition-colors duration-200 underline underline-offset-4"
+            >
+              View services
+            </a>
+          </motion.div>
+
+          {/* Trust microcopy */}
+          <motion.p variants={itemVariants} className="mt-4 text-c2c-text-navy/80 text-xs text-center">
+            {TRUST_MICROCOPY}
+          </motion.p>
+        </motion.div>
+      </div>
+
+      {/* ==================== DESKTOP VERSION (unchanged) ==================== */}
+      <div className="hidden md:block max-w-6xl mx-auto px-6 relative z-10">
         <motion.div
           variants={containerVariants}
           initial="hidden"

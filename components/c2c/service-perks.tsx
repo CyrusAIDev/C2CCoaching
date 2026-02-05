@@ -4,13 +4,19 @@ import { useState, useCallback, useMemo, memo, useRef } from "react"
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Check, ChevronDown } from "lucide-react"
+import { Check, ChevronDown, Plus, Sparkles } from "lucide-react"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 import { useIsMobile } from "@/hooks/use-is-mobile"
 import { useSectionInView } from "@/hooks/use-section-in-view"
 import { createStaggerVariants } from "@/lib/animations"
 import { SectionHeading } from "@/components/c2c/section-heading"
 import { BOOKING_URL } from "@/lib/constants"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 // Grouped content structure for cleaner hierarchy
 const fastTrackGroups = [
@@ -282,6 +288,63 @@ const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion, isMo
   )
 })
 
+// Mobile comparison data structure
+const comparisonFeatures = [
+  {
+    category: "Materials",
+    fastTrack: "Resume + LinkedIn audit + rewrite",
+    insiderEdge: "Resume + LinkedIn audit + rewrite",
+    fastTrackDetail: "So you look hireable fast",
+    insiderEdgeDetail: "So you look hireable fast",
+    isExtra: false,
+  },
+  {
+    category: "Strategy",
+    fastTrack: "Target roles + company list + next steps",
+    insiderEdge: "Target roles + company list + next steps",
+    isExtra: false,
+  },
+  {
+    category: "Networking",
+    fastTrack: "Scripts that sound like you",
+    insiderEdge: "Scripts + who to reach out to + follow-up strategy",
+    fastTrackDetail: "No cringe outreach",
+    insiderEdgeExtra: true,
+  },
+  {
+    category: "Interview Prep",
+    fastTrack: "Basics + common questions",
+    insiderEdge: "Multiple rounds + case/behavioural confidence",
+    insiderEdgeExtra: true,
+  },
+  {
+    category: "Applications",
+    fastTrack: null,
+    insiderEdge: "Tailoring + submissions support",
+    insiderEdgeDetail: "So you don't miss deadlines",
+    insiderEdgeExtra: true,
+  },
+  {
+    category: "Positioning",
+    fastTrack: null,
+    insiderEdge: "Your story + memorable answers",
+    insiderEdgeExtra: true,
+  },
+  {
+    category: "Offers & Negotiation",
+    fastTrack: null,
+    insiderEdge: "Guidance + negotiation basics",
+    insiderEdgeDetail: "When it gets real",
+    insiderEdgeExtra: true,
+  },
+  {
+    category: "Ongoing Support",
+    fastTrack: "Simple tracker",
+    insiderEdge: "Ongoing feedback + accountability",
+    insiderEdgeExtra: true,
+  },
+]
+
 export function ServicePerks() {
   const prefersReducedMotion = usePrefersReducedMotion()
   const isMobile = useIsMobile()
@@ -293,10 +356,148 @@ export function ServicePerks() {
   )
 
   return (
-    <section id="services" ref={ref} className="relative py-32 bg-gradient-to-br from-c2c-navy via-c2c-navy-light to-c2c-navy-dark noise-overlay overflow-hidden">
+    <section id="services" ref={ref} className="relative py-20 md:py-32 bg-gradient-to-br from-c2c-navy via-c2c-navy-light to-c2c-navy-dark noise-overlay overflow-hidden">
       {/* Subtle spotlight effect */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-c2c-teal/5 rounded-full blur-3xl" />
-      <div className="max-w-5xl mx-auto px-6 relative z-10">
+      
+      {/* ==================== MOBILE VERSION ==================== */}
+      <div className="md:hidden px-4 relative z-10">
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-8"
+        >
+          <h2 className="text-3xl font-bold text-white mb-4 drop-shadow-lg">
+            Service Perks
+          </h2>
+          <p className="text-c2c-gold text-base font-semibold mb-2">
+            1:1 Coaching Sessions
+          </p>
+          <p className="text-white/85 text-sm max-w-xs mx-auto leading-relaxed">
+            Pick the level that matches where you're at.
+          </p>
+        </motion.div>
+
+        {/* Price comparison header */}
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="grid grid-cols-2 gap-2 mb-4"
+        >
+          {/* Fast Track Header */}
+          <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+            <p className="text-c2c-gold text-xs font-semibold tracking-wider mb-1">FAST TRACK</p>
+            <p className="text-white text-xl font-bold">$678</p>
+            <p className="text-white/50 text-xs">4 hours</p>
+          </div>
+          
+          {/* Insider Edge Header */}
+          <div className="bg-c2c-teal/15 border border-c2c-teal/30 rounded-xl p-4 text-center relative">
+            <div className="absolute -top-2 left-1/2 -translate-x-1/2">
+              <span className="bg-c2c-teal text-white text-[10px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
+                <Sparkles className="w-2.5 h-2.5" />
+                Popular
+              </span>
+            </div>
+            <p className="text-c2c-gold text-xs font-semibold tracking-wider mb-1">INSIDER EDGE</p>
+            <p className="text-white text-xl font-bold">$1130</p>
+            <p className="text-white/50 text-xs">8 hours</p>
+          </div>
+        </motion.div>
+
+        {/* Comparison accordion */}
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <Accordion type="multiple" className="space-y-2">
+            {comparisonFeatures.map((feature, idx) => (
+              <AccordionItem 
+                key={feature.category} 
+                value={feature.category}
+                className="bg-white/5 border border-white/10 rounded-xl overflow-hidden"
+              >
+                <AccordionTrigger className="px-4 py-3 hover:no-underline">
+                  <div className="flex items-center gap-2 flex-1">
+                    <span className="text-white font-medium text-sm">{feature.category}</span>
+                    {feature.insiderEdgeExtra && (
+                      <span className="bg-c2c-teal/20 text-c2c-teal text-[10px] font-semibold px-1.5 py-0.5 rounded">
+                        +Edge
+                      </span>
+                    )}
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="px-4 pb-4">
+                  <div className="grid grid-cols-2 gap-3">
+                    {/* Fast Track column */}
+                    <div className="space-y-1">
+                      <p className="text-white/50 text-[10px] font-semibold uppercase tracking-wider">Fast Track</p>
+                      {feature.fastTrack ? (
+                        <div className="flex items-start gap-1.5">
+                          <Check className="w-3.5 h-3.5 text-c2c-teal flex-shrink-0 mt-0.5" />
+                          <div>
+                            <p className="text-white/90 text-xs leading-relaxed">{feature.fastTrack}</p>
+                            {feature.fastTrackDetail && (
+                              <p className="text-white/50 text-[10px] mt-0.5">{feature.fastTrackDetail}</p>
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-white/30 text-xs italic">Not included</p>
+                      )}
+                    </div>
+                    
+                    {/* Insider Edge column */}
+                    <div className="space-y-1">
+                      <p className="text-c2c-teal text-[10px] font-semibold uppercase tracking-wider">Insider Edge</p>
+                      <div className="flex items-start gap-1.5">
+                        {feature.insiderEdgeExtra ? (
+                          <Plus className="w-3.5 h-3.5 text-c2c-gold flex-shrink-0 mt-0.5" />
+                        ) : (
+                          <Check className="w-3.5 h-3.5 text-c2c-teal flex-shrink-0 mt-0.5" />
+                        )}
+                        <div>
+                          <p className="text-white/90 text-xs leading-relaxed">{feature.insiderEdge}</p>
+                          {feature.insiderEdgeDetail && (
+                            <p className="text-white/50 text-[10px] mt-0.5">{feature.insiderEdgeDetail}</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </motion.div>
+
+        {/* CTA Section - Mobile */}
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-center mt-8"
+        >
+          <p className="text-white/90 text-base mb-1">Not sure which one fits?</p>
+          <p className="text-white/70 text-sm mb-5">
+            We'll help you choose in a free 30-min call.
+          </p>
+          <Button
+            asChild
+            className="w-full max-w-xs bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 py-5 rounded-lg shadow-[0_0_25px_rgba(58,166,168,0.3)]"
+          >
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+              Book Free Consultation
+            </a>
+          </Button>
+        </motion.div>
+      </div>
+
+      {/* ==================== DESKTOP VERSION (unchanged) ==================== */}
+      <div className="hidden md:block max-w-5xl mx-auto px-6 relative z-10">
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}

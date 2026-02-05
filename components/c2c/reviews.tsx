@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 
-import { useCallback, useMemo, memo } from "react"
+import { useCallback, useMemo, memo, useState } from "react"
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Star } from "lucide-react"
@@ -13,6 +13,7 @@ import { createStaggerVariants } from "@/lib/animations"
 import { SectionHeading } from "@/components/c2c/section-heading"
 import { SectionBackground } from "@/components/c2c/section-background"
 import { BOOKING_URL } from "@/lib/constants"
+import { MobileAutoCarousel } from "@/components/c2c/mobile-auto-carousel"
 
 const testimonials = [
   {
@@ -53,9 +54,10 @@ const testimonials = [
   },
 ]
 
-const StarRating = memo(function StarRating({ count }: { count: number }) {
+const StarRating = memo(function StarRating({ count, size = "sm" }: { count: number; size?: "sm" | "xs" }) {
   const fullStars = Math.floor(count)
   const hasHalfStar = count % 1 !== 0
+  const sizeClass = size === "xs" ? "w-3 h-3" : "w-4 h-4"
   
   return (
     <div className="flex gap-0.5">
@@ -64,16 +66,16 @@ const StarRating = memo(function StarRating({ count }: { count: number }) {
           return (
             <Star
               key={i}
-              className="w-4 h-4 fill-c2c-gold text-c2c-gold"
+              className={`${sizeClass} fill-c2c-gold text-c2c-gold`}
             />
           )
         }
         if (i === fullStars && hasHalfStar) {
           return (
-            <div key={i} className="relative w-4 h-4">
-              <Star className="absolute w-4 h-4 fill-c2c-muted/30 text-c2c-muted/30" />
-              <div className="absolute overflow-hidden w-2 h-4">
-                <Star className="w-4 h-4 fill-c2c-gold text-c2c-gold" />
+            <div key={i} className={`relative ${sizeClass}`}>
+              <Star className={`absolute ${sizeClass} fill-c2c-muted/30 text-c2c-muted/30`} />
+              <div className={`absolute overflow-hidden ${size === "xs" ? "w-1.5" : "w-2"} h-full`}>
+                <Star className={`${sizeClass} fill-c2c-gold text-c2c-gold`} />
               </div>
             </div>
           )
@@ -81,11 +83,78 @@ const StarRating = memo(function StarRating({ count }: { count: number }) {
         return (
           <Star
             key={i}
-            className="w-4 h-4 fill-c2c-muted/30 text-c2c-muted/30"
+            className={`${sizeClass} fill-c2c-muted/30 text-c2c-muted/30`}
           />
         )
       })}
     </div>
+  )
+})
+
+// Mobile review card with expandable text
+const MobileReviewCard = memo(function MobileReviewCard({ 
+  testimonial 
+}: { 
+  testimonial: typeof testimonials[0] 
+}) {
+  const [isExpanded, setIsExpanded] = useState(false)
+  const shouldTruncate = testimonial.body.length > 120
+
+  return (
+    <Card className="bg-white border-c2c-border rounded-xl p-4 h-full shadow-md mx-1">
+      {/* Header with avatar and stars */}
+      <div className="flex items-center gap-3 mb-3">
+        <div className="relative w-10 h-10 rounded-full overflow-hidden bg-c2c-offwhite ring-2 ring-c2c-teal/20 flex-shrink-0">
+          <Image
+            src={testimonial.avatar || "/placeholder.svg"}
+            alt={testimonial.name}
+            fill
+            sizes="40px"
+            className="object-cover"
+          />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="font-semibold text-c2c-navy text-sm truncate">
+            {testimonial.name}
+          </p>
+          <p className="text-c2c-navy/70 text-xs truncate">
+            {testimonial.title}
+          </p>
+        </div>
+        <StarRating count={testimonial.stars} size="xs" />
+      </div>
+      
+      {/* Headline */}
+      <h3 className="text-base font-semibold text-c2c-navy mb-2 leading-snug">
+        &ldquo;{testimonial.headline}&rdquo;
+      </h3>
+      
+      {/* Body with read more */}
+      <div className="mb-3">
+        <p className="text-c2c-navy/90 text-sm leading-relaxed">
+          {shouldTruncate && !isExpanded 
+            ? `${testimonial.body.slice(0, 120)}...`
+            : testimonial.body
+          }
+        </p>
+        {shouldTruncate && (
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-c2c-teal text-xs font-medium mt-1 hover:underline"
+          >
+            {isExpanded ? "Show less" : "Read more"}
+          </button>
+        )}
+      </div>
+      
+      {/* Result */}
+      <div className="bg-c2c-teal/5 rounded-lg p-2.5 border-l-2 border-c2c-teal">
+        <p className="text-sm">
+          <span className="font-semibold text-c2c-teal">Result: </span>
+          <span className="text-c2c-navy">{testimonial.result}</span>
+        </p>
+      </div>
+    </Card>
   )
 })
 
@@ -103,9 +172,75 @@ export function Reviews() {
   }, [])
 
   return (
-    <section ref={ref} className="py-32 bg-c2c-offwhite relative overflow-hidden">
+    <section ref={ref} className="py-20 md:py-32 bg-c2c-offwhite relative overflow-hidden">
       <SectionBackground />
-      <div className="max-w-6xl mx-auto px-6">
+      
+      {/* ==================== MOBILE VERSION ==================== */}
+      <div className="md:hidden px-4">
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-8"
+        >
+          <SectionHeading title="What Our Clients Say" isInView={isInView} className="text-2xl" />
+        </motion.div>
+
+        {/* Mobile Carousel */}
+        <MobileAutoCarousel 
+          intervalMs={6000} 
+          showDots={true}
+          slideSize="90%"
+        >
+          {testimonials.map((testimonial, idx) => (
+            <MobileReviewCard key={idx} testimonial={testimonial} />
+          ))}
+        </MobileAutoCarousel>
+
+        {/* CTA - Mobile */}
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex flex-col items-center mt-10 gap-3"
+        >
+          <p className="text-c2c-navy/80 text-base text-center font-medium">Ready to start your journey?</p>
+          <Button
+            asChild
+            className="w-full max-w-xs bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 py-5 rounded-lg shadow-[0_0_25px_rgba(58,166,168,0.25)]"
+          >
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+              Book Free Consultation
+            </a>
+          </Button>
+        </motion.div>
+        
+        {/* Back to top - Mobile */}
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="flex justify-center mt-8"
+        >
+          <button
+            onClick={scrollToTop}
+            className="flex flex-col items-center gap-1.5 text-c2c-navy/60 hover:text-c2c-teal transition-colors duration-200"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            </svg>
+            <span className="text-sm font-medium">Back to top</span>
+          </button>
+        </motion.div>
+      </div>
+
+      {/* ==================== DESKTOP VERSION (unchanged) ==================== */}
+      <div className="hidden md:block max-w-6xl mx-auto px-6">
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
