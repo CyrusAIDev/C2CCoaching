@@ -65,7 +65,7 @@ function LogoStripComponent() {
         <motion.p
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="text-center text-c2c-navy text-sm font-semibold tracking-wide uppercase mb-6 px-4"
         >
           Companies Our Clients Have Landed
@@ -125,13 +125,13 @@ function LogoStripComponent() {
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.35, delay: 0.25 }}
           className="text-center mt-5 px-4"
         >
           <p className="text-c2c-navy font-medium text-base">
             and many more...
           </p>
-          <p className="text-c2c-navy/80 text-sm mt-0.5">
+          <p className="text-c2c-navy/70 text-sm mt-0.5">
             Real results from students at top schools.
           </p>
         </motion.div>

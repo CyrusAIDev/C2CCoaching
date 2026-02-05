@@ -68,8 +68,8 @@ export function OurStory() {
   }, [isPlaying])
 
   const { container: containerVariants, item: itemVariants } = useMemo(
-    () => createStaggerVariants(prefersReducedMotion),
-    [prefersReducedMotion]
+    () => createStaggerVariants(prefersReducedMotion, isMobile),
+    [prefersReducedMotion, isMobile]
   )
 
   const highlights = [
@@ -183,27 +183,38 @@ export function OurStory() {
             </p>
           </motion.div>
 
-          {/* 3. Text content and highlights */}
+          {/* 3. Text content - tinted glass panel */}
           <motion.div
             variants={itemVariants}
-            className="space-y-3 text-center max-w-sm leading-relaxed mb-6 bg-white/5 rounded-xl px-4 py-5 border border-white/10 backdrop-blur-[2px]"
+            className="relative max-w-sm mb-6"
           >
-            <p className="text-lg italic text-white font-medium drop-shadow-md">
-              Your materials should open doors, not get ignored.
-            </p>
-            <p className="text-white/95 text-base drop-shadow-md">
-              We sharpen your applications and get you where you want to be with less pressure and more support.
-            </p>
+            <div className="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-5 py-5 border border-white/[0.12] shadow-lg shadow-black/10">
+              {/* Decorative quote icon */}
+              <div className="absolute -top-3 left-5 w-7 h-7 rounded-lg bg-c2c-gold/20 border border-c2c-gold/30 flex items-center justify-center">
+                <span className="text-c2c-gold text-lg font-serif leading-none">"</span>
+              </div>
+              <div className="space-y-3 text-center pt-2">
+                <p className="text-lg italic text-white font-medium leading-relaxed">
+                  Your materials should open doors, not get ignored.
+                </p>
+                <p className="text-white/90 text-[15px] leading-relaxed">
+                  We sharpen your applications and get you where you want to be with less pressure and more support.
+                </p>
+              </div>
+            </div>
           </motion.div>
 
-          {/* Bullet highlights - mobile grid */}
-          <motion.div variants={itemVariants} className="grid grid-cols-1 gap-2.5 mb-8 w-full max-w-sm">
+          {/* Bullet highlights - premium tinted glass items */}
+          <motion.div variants={itemVariants} className="grid grid-cols-1 gap-2 mb-8 w-full max-w-sm">
             {highlights.map((item, idx) => (
-              <div key={idx} className="flex items-center gap-2.5 bg-white/8 rounded-lg px-3 py-2.5 border border-white/15">
-                <div className="w-7 h-7 rounded-full bg-c2c-teal/25 flex items-center justify-center flex-shrink-0">
-                  <item.icon className="w-3.5 h-3.5 text-c2c-teal" />
+              <div 
+                key={idx} 
+                className="flex items-center gap-3 bg-white/[0.06] backdrop-blur-sm rounded-xl px-4 py-3 border border-white/[0.1] shadow-sm shadow-black/5"
+              >
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-c2c-teal/30 to-c2c-teal/10 border border-c2c-teal/20 flex items-center justify-center flex-shrink-0">
+                  <item.icon className="w-4 h-4 text-c2c-teal" />
                 </div>
-                <span className="text-white/95 text-sm font-medium">{item.text}</span>
+                <span className="text-white text-sm font-medium leading-snug">{item.text}</span>
               </div>
             ))}
           </motion.div>

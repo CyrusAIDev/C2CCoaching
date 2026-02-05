@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import {
   Carousel,
   CarouselContent,
@@ -14,6 +15,7 @@ interface MobileAutoCarouselProps {
   children: React.ReactNode
   intervalMs?: number
   showDots?: boolean
+  showArrows?: boolean
   className?: string
   slideClassName?: string
   /** How much of the slide is visible (e.g., "85%" for peek effect) */
@@ -30,6 +32,7 @@ export function MobileAutoCarousel({
   children,
   intervalMs = 4500,
   showDots = true,
+  showArrows = false,
   className,
   slideClassName,
   slideSize = "85%",
@@ -108,6 +111,21 @@ export function MobileAutoCarousel({
     return () => clearTimeout(timeout)
   }, [])
 
+  // Arrow navigation handlers
+  const handlePrev = React.useCallback(() => {
+    if (!api) return
+    api.scrollPrev()
+    setIsPaused(true)
+    setTimeout(() => setIsPaused(false), 2000)
+  }, [api])
+
+  const handleNext = React.useCallback(() => {
+    if (!api) return
+    api.scrollNext()
+    setIsPaused(true)
+    setTimeout(() => setIsPaused(false), 2000)
+  }, [api])
+
   // Convert children to array for mapping
   const slides = React.Children.toArray(children)
 
@@ -144,6 +162,28 @@ export function MobileAutoCarousel({
           </CarouselContent>
         </div>
       </Carousel>
+
+      {/* Faint arrow buttons */}
+      {showArrows && count > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={handlePrev}
+            aria-label="Previous slide"
+            className="absolute left-1 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-c2c-navy/50 hover:bg-white/20 hover:text-c2c-navy/80 transition-all duration-200"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <button
+            type="button"
+            onClick={handleNext}
+            aria-label="Next slide"
+            className="absolute right-1 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center text-c2c-navy/50 hover:bg-white/20 hover:text-c2c-navy/80 transition-all duration-200"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </>
+      )}
 
       {/* Dots indicator */}
       {showDots && count > 1 && (

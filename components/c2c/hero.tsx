@@ -118,8 +118,10 @@ export function Hero() {
           className="md:hidden object-cover object-[50%_30%]"
           priority
         />
-        {/* Gradient overlay - darker at bottom for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-c2c-navy/20 via-c2c-navy/40 to-c2c-navy/95" />
+        {/* Gradient overlay - desktop: multi-step gradient */}
+        <div className="hidden md:block absolute inset-0 bg-gradient-to-b from-c2c-navy/20 via-c2c-navy/40 to-c2c-navy/95" />
+        {/* Gradient overlay - mobile: single clean scrim for text area, lighter at top */}
+        <div className="md:hidden absolute inset-0 bg-gradient-to-b from-transparent via-c2c-navy/50 to-c2c-navy" />
       </motion.div>
 
       {/* Content - positioned at bottom center with parallax */}
@@ -131,43 +133,43 @@ export function Hero() {
           y: shouldAnimate ? contentY : 0,
           opacity: shouldAnimate ? opacity : 1
         }}
-        className="relative z-10 w-full max-w-4xl mx-auto px-6 pt-[45vh] pb-32 flex flex-col items-center text-center"
+        className="relative z-10 w-full max-w-4xl mx-auto px-5 md:px-6 pt-[40vh] md:pt-[45vh] pb-24 md:pb-32 flex flex-col items-center text-center"
       >
         <div className="w-full">
             {/* Main headline */}
             <motion.h1
               variants={itemVariants}
-              className="text-5xl md:text-6xl lg:text-7xl font-semibold text-white leading-tight mb-6"
+              className="text-4xl md:text-6xl lg:text-7xl font-semibold text-white leading-[1.15] md:leading-tight mb-5 md:mb-6"
             >
               <span className="block">Recruiting sucks.</span>
-              <span className="block mt-2">We simplify it.</span>
+              <span className="block mt-1 md:mt-2">We simplify it.</span>
             </motion.h1>
 
             {/* Typing animation on its own line */}
             <motion.div
               variants={itemVariants}
-              className="text-2xl md:text-3xl font-semibold mb-6 h-12 flex items-center justify-center"
+              className="text-xl md:text-3xl font-semibold mb-5 md:mb-6 h-10 md:h-12 flex items-center justify-center"
             >
-              <span className="text-white/90 mr-2">{"We help with"}</span>
-              <span className="inline-block text-left min-w-[200px] text-c2c-teal">
+              <span className="text-white/90 mr-1.5 md:mr-2">{"We help with"}</span>
+              <span className="inline-block text-left min-w-[140px] md:min-w-[200px] text-c2c-teal">
                 {displayedText}
-                <span className="inline-block w-0.5 h-6 md:h-7 bg-c2c-teal ml-0.5 animate-pulse align-middle" />
+                <span className="inline-block w-0.5 h-5 md:h-7 bg-c2c-teal ml-0.5 animate-pulse align-middle" />
               </span>
             </motion.div>
 
             <motion.p
               variants={itemVariants}
-              className="text-xl text-white/95 mb-8 leading-relaxed font-medium"
+              className="text-lg md:text-xl text-white/95 mb-6 md:mb-8 leading-relaxed font-medium"
             >
               Land internships and new grad roles without the guesswork.
             </motion.p>
 
-            <motion.div variants={itemVariants} className="space-y-4">
-              <div className="flex flex-wrap items-center justify-center gap-4">
+            <motion.div variants={itemVariants} className="space-y-3 md:space-y-4">
+              <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
                 <Button
                   asChild
                   size="lg"
-                  className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-6 text-lg rounded-lg transition-all duration-200 hover:-translate-y-1 hover:shadow-xl shadow-[0_0_25px_rgba(58,166,168,0.4)] ring-2 ring-c2c-teal/30 ring-offset-2 ring-offset-c2c-navy/80"
+                  className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 md:px-8 py-5 md:py-6 text-base md:text-lg rounded-lg transition-all duration-200 hover:-translate-y-1 hover:shadow-xl shadow-[0_0_25px_rgba(58,166,168,0.4)] ring-2 ring-c2c-teal/30 ring-offset-2 ring-offset-c2c-navy/80"
                 >
                   <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
                     Book Free Consultation
@@ -190,19 +192,19 @@ export function Hero() {
                   See services
                 </a>
               </div>
-              <p className="text-white/70 text-sm font-medium">
+              <p className="text-white/70 text-xs md:text-sm font-medium">
                 {TRUST_MICROCOPY}
               </p>
             </motion.div>
         </div>
       </motion.div>
 
-      {/* Scroll down indicator */}
+      {/* Scroll down indicator - hidden on mobile for cleaner look */}
       <motion.div
         initial={prefersReducedMotion ? {} : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 0.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
+        className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex-col items-center gap-2"
       >
         <span className="text-white/60 text-sm font-medium">Scroll down</span>
         <motion.svg

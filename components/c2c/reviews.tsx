@@ -101,7 +101,7 @@ const MobileReviewCard = memo(function MobileReviewCard({
   const shouldTruncate = testimonial.body.length > 120
 
   return (
-    <Card className="bg-white border-c2c-border rounded-xl p-4 h-full shadow-md mx-1">
+    <Card className="bg-white border-c2c-navy/10 rounded-xl p-4 h-full shadow-lg mx-1">
       {/* Header with avatar and stars */}
       <div className="flex items-center gap-3 mb-3">
         <div className="relative w-10 h-10 rounded-full overflow-hidden bg-c2c-offwhite ring-2 ring-c2c-teal/20 flex-shrink-0">
@@ -117,7 +117,7 @@ const MobileReviewCard = memo(function MobileReviewCard({
           <p className="font-semibold text-c2c-navy text-sm truncate">
             {testimonial.name}
           </p>
-          <p className="text-c2c-navy/80 text-xs truncate">
+          <p className="text-c2c-navy/70 text-xs truncate">
             {testimonial.title}
           </p>
         </div>
@@ -131,7 +131,7 @@ const MobileReviewCard = memo(function MobileReviewCard({
       
       {/* Body with read more */}
       <div className="mb-3">
-        <p className="text-c2c-navy/90 text-sm leading-relaxed">
+        <p className="text-c2c-navy text-sm leading-relaxed">
           {shouldTruncate && !isExpanded 
             ? `${testimonial.body.slice(0, 120)}...`
             : testimonial.body
@@ -140,7 +140,7 @@ const MobileReviewCard = memo(function MobileReviewCard({
         {shouldTruncate && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-c2c-teal text-xs font-medium mt-1 hover:underline"
+            className="text-c2c-teal text-xs font-semibold mt-1.5 hover:underline"
           >
             {isExpanded ? "Show less" : "Read more"}
           </button>
@@ -148,10 +148,10 @@ const MobileReviewCard = memo(function MobileReviewCard({
       </div>
       
       {/* Result */}
-      <div className="bg-c2c-teal/5 rounded-lg p-2.5 border-l-2 border-c2c-teal">
+      <div className="bg-c2c-teal/8 rounded-lg p-2.5 border-l-2 border-c2c-teal">
         <p className="text-sm">
           <span className="font-semibold text-c2c-teal">Result: </span>
-          <span className="text-c2c-navy">{testimonial.result}</span>
+          <span className="text-c2c-navy font-medium">{testimonial.result}</span>
         </p>
       </div>
     </Card>
@@ -162,8 +162,9 @@ export function Reviews() {
   const prefersReducedMotion = usePrefersReducedMotion()
   const { ref, isInView } = useSectionInView()
 
+  // Use mobile-optimized animations on smaller screens
   const { container: containerVariants, item: itemVariants } = useMemo(
-    () => createStaggerVariants(prefersReducedMotion),
+    () => createStaggerVariants(prefersReducedMotion, false), // Desktop uses full animations
     [prefersReducedMotion]
   )
 
@@ -178,9 +179,9 @@ export function Reviews() {
       {/* ==================== MOBILE VERSION ==================== */}
       <div className="md:hidden px-4">
         <motion.div
-          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-8"
         >
           <SectionHeading title="What Our Clients Say" isInView={isInView} className="text-2xl" />
@@ -199,12 +200,12 @@ export function Reviews() {
 
         {/* CTA - Mobile */}
         <motion.div
-          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="flex flex-col items-center mt-10 gap-3"
         >
-          <p className="text-c2c-navy/80 text-base text-center font-medium">Ready to start your journey?</p>
+          <p className="text-c2c-navy text-base text-center font-medium">Ready to start your journey?</p>
           <Button
             asChild
             className="w-full max-w-xs bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 py-5 rounded-lg shadow-[0_0_25px_rgba(58,166,168,0.25)]"
@@ -217,9 +218,9 @@ export function Reviews() {
         
         {/* Back to top - Mobile */}
         <motion.div
-          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          initial={prefersReducedMotion ? {} : { opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.35, delay: 0.3 }}
           className="flex justify-center mt-8"
         >
           <button

@@ -159,9 +159,9 @@ export function WhyC2C() {
       {/* ==================== MOBILE VERSION ==================== */}
       <div className="md:hidden px-4">
         <motion.div
-          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-10"
         >
           <SectionHeading title="This is how you get the interview." isInView={isInView} className="mb-3 text-2xl" />
@@ -174,6 +174,7 @@ export function WhyC2C() {
         <MobileAutoCarousel 
           intervalMs={5000} 
           showDots={true}
+          showArrows={true}
           slideSize="88%"
           startIndex={0}
           resetKey={carouselResetKey}
@@ -196,10 +197,6 @@ export function WhyC2C() {
                     loading="lazy"
                     className="object-cover"
                   />
-                  {/* Step indicator badge */}
-                  <div className="absolute top-3 left-3 bg-c2c-navy/90 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
-                    Step {index + 1} of 3
-                  </div>
                 </div>
                 <div className="p-5">
                   <h3 className="text-lg font-semibold text-c2c-navy mb-2">
@@ -230,9 +227,9 @@ export function WhyC2C() {
 
         {/* CTA Section - Mobile */}
         <motion.div
-          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.4, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mt-10"
         >
           <Button

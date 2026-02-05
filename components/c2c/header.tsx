@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useCallback, memo } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
@@ -13,6 +13,19 @@ const navLinks = [
   { label: "Home", href: "/" },
   { label: "About C2C", href: "/#our-story" },
   { label: "Services", href: "/#services" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Contact", href: "/contact" },
+]
+
+// Mobile nav includes Reviews (not in desktop nav)
+const mobileExploreLinks = [
+  { label: "Home", href: "/" },
+  { label: "About C2C", href: "/#our-story" },
+  { label: "Services", href: "/#services" },
+  { label: "Reviews", href: "/#reviews" },
+]
+
+const mobileSupportLinks = [
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ]
@@ -71,6 +84,29 @@ function HeaderComponent() {
     setIsMobileMenuOpen(false)
   }, [])
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [isMobileMenuOpen])
+
+  // ESC key closes menu
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isMobileMenuOpen) {
+        closeMobileMenu()
+      }
+    }
+    window.addEventListener("keydown", handleEsc)
+    return () => window.removeEventListener("keydown", handleEsc)
+  }, [isMobileMenuOpen, closeMobileMenu])
+
   const handleLogoClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     // If already on home page, scroll to top instead of refreshing
     if (pathname === "/") {
@@ -112,24 +148,35 @@ function HeaderComponent() {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-c2c-offwhite/95 backdrop-blur-md shadow-sm py-1"
-          : "bg-c2c-offwhite py-2"
+          ? "bg-c2c-offwhite/95 backdrop-blur-md shadow-sm py-1 md:py-1"
+          : "bg-c2c-offwhite py-1 md:py-2"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between h-14 md:h-auto">
         {/* Logo */}
         <a 
           href="/" 
           onClick={handleLogoClick}
-          className="flex items-center gap-2 cursor-pointer"
+          className="flex items-center cursor-pointer"
         >
+          {/* Mobile logo - smaller, no negative margins */}
+          <Image
+            src="/images/c2c-logo.png"
+            alt="C2C - From Campus 2 Corporate"
+            width={140}
+            height={56}
+            sizes="140px"
+            className="md:hidden w-auto h-11"
+            priority
+          />
+          {/* Desktop logo - unchanged */}
           <Image
             src="/images/c2c-logo.png"
             alt="C2C - From Campus 2 Corporate"
             width={260}
             height={105}
             sizes="260px"
-            className="w-auto h-24 md:h-24 -my-6 max-h-20 md:max-h-24"
+            className="hidden md:block w-auto h-24 -my-6 max-h-24"
             priority
           />
         </a>
@@ -202,111 +249,169 @@ function HeaderComponent() {
         </div>
 
         {/* Mobile: Book button + Menu Toggle */}
-        <div className="md:hidden flex items-center gap-2">
-          <Button
-            asChild
-            size="sm"
-            className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-4 py-2 text-sm rounded-lg shadow-[0_0_12px_rgba(58,166,168,0.25)]"
+        <div className="md:hidden flex items-center gap-1.5">
+          <motion.div
+            initial={prefersReducedMotion ? {} : { scale: 1 }}
+            animate={prefersReducedMotion ? {} : { 
+              scale: [1, 1.03, 1],
+            }}
+            transition={{ 
+              duration: 2,
+              delay: 1,
+              times: [0, 0.5, 1],
+              repeat: 0
+            }}
           >
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-              Book
-            </a>
-          </Button>
+            <Button
+              asChild
+              size="sm"
+              className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-3 py-2 text-xs rounded-lg shadow-[0_0_15px_rgba(58,166,168,0.3)] ring-1 ring-c2c-teal/30 ring-offset-1 ring-offset-c2c-offwhite"
+            >
+              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                Free Consult
+              </a>
+            </Button>
+          </motion.div>
           <button
             onClick={toggleMobileMenu}
-            className="text-c2c-navy p-2 rounded-lg hover:bg-c2c-navy/5 transition-colors"
+            className="text-c2c-navy p-1.5 rounded-lg hover:bg-c2c-navy/5 transition-colors"
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Full Menu (hamburger) - Improved presentation */}
-      {isMobileMenuOpen && (
-        <motion.div
-          initial={prefersReducedMotion ? {} : { opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="md:hidden bg-c2c-offwhite border-t border-c2c-navy/10 shadow-lg"
-        >
-          <nav className="flex flex-col px-6 py-5">
-            {/* Section: Explore */}
-            <p className="text-xs font-semibold text-c2c-navy/50 uppercase tracking-wider mb-3">
-              Explore
-            </p>
-            <div className="flex flex-col gap-1 mb-5">
-              {navLinks.slice(0, 3).map((link) => {
-                const isActive = 
-                  (link.href === "/" && activeSection === "" && pathname === "/") ||
-                  (link.href === "/#our-story" && activeSection === "our-story" && pathname === "/") ||
-                  (link.href === "/#services" && activeSection === "services" && pathname === "/")
-                
-                return (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    onClick={(e) => {
-                      handleNavClick(e, link.href)
-                      closeMobileMenu()
-                    }}
-                    className={`py-2.5 px-3 rounded-lg text-base font-medium transition-all duration-200 ${
-                      isActive 
-                        ? "text-c2c-teal bg-c2c-teal/10" 
-                        : "text-c2c-navy hover:bg-c2c-navy/5"
-                    }`}
-                  >
-                    {link.label}
-                  </a>
-                )
-              })}
-            </div>
-
-            {/* Section: Support */}
-            <p className="text-xs font-semibold text-c2c-navy/50 uppercase tracking-wider mb-3">
-              Support
-            </p>
-            <div className="flex flex-col gap-1 mb-6">
-              {navLinks.slice(3).map((link) => {
-                const isActive = 
-                  (link.href === "/contact" && pathname === "/contact") ||
-                  (link.href === "/faq" && pathname === "/faq")
-                
-                return (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    onClick={(e) => {
-                      handleNavClick(e, link.href)
-                      closeMobileMenu()
-                    }}
-                    className={`py-2.5 px-3 rounded-lg text-base font-medium transition-all duration-200 ${
-                      isActive 
-                        ? "text-c2c-teal bg-c2c-teal/10" 
-                        : "text-c2c-navy hover:bg-c2c-navy/5"
-                    }`}
-                  >
-                    {link.label}
-                  </a>
-                )
-              })}
-            </div>
-
-            {/* CTA */}
-            <Button
-              asChild
-              className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold py-4 text-base rounded-lg w-full shadow-[0_0_20px_rgba(58,166,168,0.25)]"
+      {/* Mobile Full Menu (hamburger) - Apple-like animation */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            {/* Backdrop overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden fixed inset-0 top-14 bg-black/30 backdrop-blur-[2px] z-40"
+              onClick={closeMobileMenu}
+              aria-hidden="true"
+            />
+            
+            {/* Menu panel - slide down from top */}
+            <motion.div
+              initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -20 }}
+              transition={prefersReducedMotion ? { duration: 0.15 } : { 
+                type: "spring", 
+                stiffness: 400, 
+                damping: 30,
+                mass: 0.8
+              }}
+              className="md:hidden absolute top-full left-0 right-0 bg-c2c-offwhite border-t border-c2c-navy/10 shadow-xl z-50 max-h-[calc(100vh-3.5rem)] overflow-y-auto"
             >
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                Book Free Consultation
-              </a>
-            </Button>
-            <p className="text-center text-c2c-navy/60 text-xs mt-2">
-              30 minutes • No commitment
-            </p>
-          </nav>
-        </motion.div>
-      )}
+              <nav className="flex flex-col px-6 py-5">
+                {/* Section: Explore */}
+                <motion.p 
+                  initial={prefersReducedMotion ? {} : { opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.05 }}
+                  className="text-xs font-semibold text-c2c-navy/50 uppercase tracking-wider mb-3"
+                >
+                  Explore
+                </motion.p>
+                <div className="flex flex-col gap-1 mb-5">
+                  {mobileExploreLinks.map((link, index) => {
+                    const isActive = 
+                      (link.href === "/" && activeSection === "" && pathname === "/") ||
+                      (link.href === "/#our-story" && activeSection === "our-story" && pathname === "/") ||
+                      (link.href === "/#services" && activeSection === "services" && pathname === "/") ||
+                      (link.href === "/#reviews" && activeSection === "reviews" && pathname === "/")
+                    
+                    return (
+                      <motion.a
+                        key={link.label}
+                        href={link.href}
+                        onClick={(e) => {
+                          handleNavClick(e, link.href)
+                          closeMobileMenu()
+                        }}
+                        initial={prefersReducedMotion ? {} : { opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.08 + index * 0.04 }}
+                        className={`py-2.5 px-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                          isActive 
+                            ? "text-c2c-teal bg-c2c-teal/10" 
+                            : "text-c2c-navy hover:bg-c2c-navy/5"
+                        }`}
+                      >
+                        {link.label}
+                      </motion.a>
+                    )
+                  })}
+                </div>
+
+                {/* Section: Support */}
+                <motion.p 
+                  initial={prefersReducedMotion ? {} : { opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.22 }}
+                  className="text-xs font-semibold text-c2c-navy/50 uppercase tracking-wider mb-3"
+                >
+                  Support
+                </motion.p>
+                <div className="flex flex-col gap-1 mb-6">
+                  {mobileSupportLinks.map((link, index) => {
+                    const isActive = 
+                      (link.href === "/contact" && pathname === "/contact") ||
+                      (link.href === "/faq" && pathname === "/faq")
+                    
+                    return (
+                      <motion.a
+                        key={link.label}
+                        href={link.href}
+                        onClick={(e) => {
+                          handleNavClick(e, link.href)
+                          closeMobileMenu()
+                        }}
+                        initial={prefersReducedMotion ? {} : { opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.26 + index * 0.04 }}
+                        className={`py-2.5 px-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                          isActive 
+                            ? "text-c2c-teal bg-c2c-teal/10" 
+                            : "text-c2c-navy hover:bg-c2c-navy/5"
+                        }`}
+                      >
+                        {link.label}
+                      </motion.a>
+                    )
+                  })}
+                </div>
+
+                {/* CTA */}
+                <motion.div
+                  initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.32 }}
+                >
+                  <Button
+                    asChild
+                    className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold py-4 text-base rounded-lg w-full shadow-[0_0_20px_rgba(58,166,168,0.25)]"
+                  >
+                    <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                      Book Free Consultation
+                    </a>
+                  </Button>
+                  <p className="text-center text-c2c-navy/60 text-xs mt-2">
+                    30 minutes • No commitment
+                  </p>
+                </motion.div>
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </motion.header>
   )
 }

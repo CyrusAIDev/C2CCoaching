@@ -363,9 +363,9 @@ export function ServicePerks() {
       {/* ==================== MOBILE VERSION ==================== */}
       <div className="md:hidden px-4 relative z-10">
         <motion.div
-          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-6"
         >
           <h2 className="text-3xl font-bold text-white mb-3 drop-shadow-lg">
@@ -379,18 +379,21 @@ export function ServicePerks() {
           </p>
         </motion.div>
 
-        {/* Sticky price headers */}
+        {/* Sticky price headers with value lines */}
         <motion.div
-          initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          transition={{ duration: 0.4, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
           className="grid grid-cols-2 gap-2 mb-3"
         >
           {/* Fast Track Header */}
           <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
             <p className="text-c2c-gold text-[10px] font-semibold tracking-wider mb-0.5">FAST TRACK</p>
-            <p className="text-white text-lg font-bold">$678</p>
-            <p className="text-white/50 text-[10px]">4 hours</p>
+            <p className="text-white text-xl font-bold">$678</p>
+            <p className="text-white/50 text-[10px] mb-2">4 hours</p>
+            <p className="text-white/80 text-[11px] leading-snug">
+              Everything you need to start landing interviews
+            </p>
           </div>
           
           {/* Insider Edge Header */}
@@ -402,8 +405,14 @@ export function ServicePerks() {
               </span>
             </div>
             <p className="text-c2c-gold text-[10px] font-semibold tracking-wider mb-0.5">INSIDER EDGE</p>
-            <p className="text-white text-lg font-bold">$1130</p>
-            <p className="text-white/50 text-[10px]">8 hours</p>
+            <p className="text-white text-xl font-bold">$1130</p>
+            <p className="text-white/50 text-[10px] mb-2">8 hours</p>
+            <p className="text-white/80 text-[11px] leading-snug">
+              Fast Track <span className="text-c2c-teal font-medium">+</span> execution <span className="text-c2c-teal font-medium">+</span> feedback
+            </p>
+            <p className="text-c2c-teal/80 text-[9px] mt-1.5 font-medium">
+              ✓ Everything in Fast Track
+            </p>
           </div>
         </motion.div>
 
@@ -411,7 +420,7 @@ export function ServicePerks() {
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4, delay: 0.15 }}
+          transition={{ duration: 0.35, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
           className="grid grid-cols-2 gap-2 mb-3"
         >
           <div className="bg-white/5 border border-white/10 rounded-lg p-2.5">
@@ -426,9 +435,9 @@ export function ServicePerks() {
 
         {/* Comparison matrix - always visible */}
         <motion.div
-          initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.4, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
           className="bg-white/5 border border-white/10 rounded-xl overflow-hidden mb-4"
         >
           {/* Matrix rows */}
@@ -437,14 +446,14 @@ export function ServicePerks() {
               key={feature.category}
               className={`grid grid-cols-[1fr,auto,auto] items-center gap-2 px-3 py-2.5 ${
                 idx !== comparisonFeatures.length - 1 ? 'border-b border-white/5' : ''
-              }`}
+              } ${feature.insiderEdgeExtra ? 'bg-c2c-teal/5' : ''}`}
             >
               {/* Feature name */}
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1.5 flex-wrap">
                 <span className="text-white/90 text-xs font-medium">{feature.category}</span>
                 {feature.insiderEdgeExtra && (
-                  <span className="bg-c2c-gold/20 text-c2c-gold text-[8px] font-bold px-1 py-0.5 rounded">
-                    +
+                  <span className="bg-c2c-gold/25 text-c2c-gold text-[8px] font-bold px-1.5 py-0.5 rounded-sm whitespace-nowrap">
+                    + Extra
                   </span>
                 )}
               </div>
@@ -454,14 +463,16 @@ export function ServicePerks() {
                 {feature.fastTrack ? (
                   <Check className="w-4 h-4 text-c2c-teal" />
                 ) : (
-                  <span className="text-white/20 text-xs">—</span>
+                  <span className="text-white/30 text-sm">—</span>
                 )}
               </div>
               
               {/* Insider Edge check */}
               <div className="w-10 flex justify-center">
                 {feature.insiderEdgeExtra ? (
-                  <Plus className="w-4 h-4 text-c2c-gold" />
+                  <div className="w-5 h-5 rounded-full bg-c2c-gold/20 flex items-center justify-center">
+                    <Plus className="w-3 h-3 text-c2c-gold" />
+                  </div>
                 ) : (
                   <Check className="w-4 h-4 text-c2c-teal" />
                 )}
@@ -470,24 +481,27 @@ export function ServicePerks() {
           ))}
         </motion.div>
 
-        {/* Shania's note - personal connection */}
+        {/* Coach connection - warm, personal */}
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.25 }}
+          transition={{ duration: 0.35, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="bg-c2c-gold/10 border border-c2c-gold/20 rounded-xl p-4 mb-6"
         >
-          <p className="text-c2c-gold text-xs font-semibold mb-1.5">From Shania:</p>
-          <p className="text-white/90 text-sm leading-relaxed">
-            If you want the fastest results, <span className="text-c2c-teal font-medium">Insider Edge</span> adds application support, positioning help, and ongoing feedback. <span className="text-white/70">Fast Track is perfect if you already have some momentum and just need sharper materials + a clear plan.</span>
+          <p className="text-c2c-gold text-xs font-semibold mb-2">A note from Shania:</p>
+          <p className="text-white text-sm leading-relaxed mb-2">
+            You'll work directly with me — we'll build your plan together and execute it, step by step.
+          </p>
+          <p className="text-white/70 text-xs leading-relaxed">
+            <span className="text-c2c-teal font-medium">Insider Edge</span> is best if you want full support through recruiting season. <span className="text-white/60">Fast Track is perfect if you just need sharper materials + a clear plan to start.</span>
           </p>
         </motion.div>
 
         {/* Dual CTAs */}
         <motion.div
-          initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+          initial={prefersReducedMotion ? {} : { opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.4, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
           className="space-y-3"
         >
           <div className="grid grid-cols-2 gap-2">
