@@ -169,10 +169,10 @@ function HeaderComponent() {
           <Image
             src="/images/c2c-logo.png"
             alt="C2C - From Campus 2 Corporate"
-            width={160}
-            height={64}
-            sizes="160px"
-            className="md:hidden w-auto h-14 -my-1"
+            width={180}
+            height={72}
+            sizes="180px"
+            className="md:hidden w-auto h-[4.5rem] -my-2.5"
             priority
           />
           {/* Desktop logo - unchanged */}

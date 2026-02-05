@@ -192,13 +192,13 @@ export function OurStory() {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-c2c-gold/60 via-c2c-gold to-c2c-gold/60 rounded-full shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
             
             <div className="bg-white/[0.05] backdrop-blur-sm rounded-2xl px-5 pt-6 pb-5 border border-white/[0.1] shadow-lg shadow-black/10">
-              {/* YC2C badge - brand gold, larger, premium feel */}
+              {/* Why C2C? badge - brand gold, larger, premium feel */}
               <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-c2c-gold/25 to-c2c-gold/10 border border-c2c-gold/40 flex items-center justify-center shadow-[0_0_12px_rgba(212,175,55,0.15)]">
-                  <Sparkles className="w-4 h-4 text-c2c-gold" />
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-c2c-gold/25 to-c2c-gold/10 border border-c2c-gold/40 flex items-center justify-center shadow-[0_0_12px_rgba(212,175,55,0.15)]">
+                  <Sparkles className="w-4.5 h-4.5 text-c2c-gold" />
                 </div>
-                <span className="bg-c2c-gold/15 border border-c2c-gold/30 text-c2c-gold text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded-md">
-                  YC2C
+                <span className="bg-c2c-gold/15 border border-c2c-gold/30 text-c2c-gold text-sm font-bold tracking-wide px-3 py-1.5 rounded-lg">
+                  Why C2C?
                 </span>
               </div>
               
