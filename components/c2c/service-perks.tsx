@@ -288,60 +288,55 @@ const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion, isMo
   )
 })
 
-// Mobile comparison data structure
-const comparisonFeatures = [
+// Mobile-only 3-tier plans (desktop uses `plans` array above)
+const mobilePlans = [
   {
-    category: "Materials",
-    fastTrack: "Resume + LinkedIn audit + rewrite",
-    insiderEdge: "Resume + LinkedIn audit + rewrite",
-    fastTrackDetail: "So you look hireable fast",
-    insiderEdgeDetail: "So you look hireable fast",
-    isExtra: false,
+    name: "FAST TRACK",
+    hours: "4 hours",
+    price: "$678",
+    priceNote: "CAD (tax incl.)",
+    tagline: "Get a fast reset + a clear plan",
+    bullets: [
+      "Resume + LinkedIn audit & rewrite",
+      "Target roles + company list",
+      "Networking scripts that work",
+      "Basic interview prep",
+      "Progress tracker",
+    ],
+    includesFrom: null,
+    featured: false,
   },
   {
-    category: "Strategy",
-    fastTrack: "Target roles + company list + next steps",
-    insiderEdge: "Target roles + company list + next steps",
-    isExtra: false,
+    name: "MOMENTUM",
+    hours: "6 hours",
+    price: "$904",
+    priceNote: "CAD (tax incl.)",
+    tagline: "Build real traction fast",
+    bullets: [
+      "Application tailoring support",
+      "Deeper interview coaching",
+      "Positioning & storytelling",
+      "Networking follow-up strategy",
+      "Ongoing check-ins",
+    ],
+    includesFrom: "Fast Track",
+    featured: true,
   },
   {
-    category: "Networking",
-    fastTrack: "Scripts that sound like you",
-    insiderEdge: "Scripts + who to reach out to + follow-up strategy",
-    fastTrackDetail: "No cringe outreach",
-    insiderEdgeExtra: true,
-  },
-  {
-    category: "Interview Prep",
-    fastTrack: "Basics + common questions",
-    insiderEdge: "Multiple rounds + case/behavioural confidence",
-    insiderEdgeExtra: true,
-  },
-  {
-    category: "Applications",
-    fastTrack: null,
-    insiderEdge: "Tailoring + submissions support",
-    insiderEdgeDetail: "So you don't miss deadlines",
-    insiderEdgeExtra: true,
-  },
-  {
-    category: "Positioning",
-    fastTrack: null,
-    insiderEdge: "Your story + memorable answers",
-    insiderEdgeExtra: true,
-  },
-  {
-    category: "Offers & Negotiation",
-    fastTrack: null,
-    insiderEdge: "Guidance + negotiation basics",
-    insiderEdgeDetail: "When it gets real",
-    insiderEdgeExtra: true,
-  },
-  {
-    category: "Ongoing Support",
-    fastTrack: "Simple tracker",
-    insiderEdge: "Ongoing feedback + accountability",
-    insiderEdgeExtra: true,
+    name: "INSIDER EDGE",
+    hours: "8 hours",
+    price: "$1130",
+    priceNote: "CAD (tax incl.)",
+    tagline: "End-to-end recruiting support",
+    bullets: [
+      "Multiple interview rounds prep",
+      "Case & behavioural confidence",
+      "Offer guidance + negotiation",
+      "Full accountability partner",
+      "Priority scheduling",
+    ],
+    includesFrom: "Momentum",
+    featured: false,
   },
 ]
 
@@ -360,8 +355,9 @@ export function ServicePerks() {
       {/* Subtle spotlight effect */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-c2c-teal/5 rounded-full blur-3xl" />
       
-      {/* ==================== MOBILE VERSION ==================== */}
+      {/* ==================== MOBILE VERSION - 3 Tier Pricing Cards ==================== */}
       <div className="md:hidden px-4 relative z-10">
+        {/* Header */}
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 15 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -379,104 +375,79 @@ export function ServicePerks() {
           </p>
         </motion.div>
 
-        {/* Sticky price headers with value lines */}
+        {/* 3-Tier Pricing Cards */}
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.4, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-2 gap-2 mb-3"
+          className="space-y-3 mb-5"
         >
-          {/* Fast Track Header */}
-          <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
-            <p className="text-c2c-gold text-[10px] font-semibold tracking-wider mb-0.5">FAST TRACK</p>
-            <p className="text-white text-xl font-bold">$678</p>
-            <p className="text-white/50 text-[10px] mb-2">4 hours</p>
-            <p className="text-white/80 text-[11px] leading-snug">
-              Everything you need to start landing interviews
-            </p>
-          </div>
-          
-          {/* Insider Edge Header */}
-          <div className="bg-c2c-teal/15 border border-c2c-teal/30 rounded-xl p-3 text-center relative">
-            <div className="absolute -top-2 left-1/2 -translate-x-1/2">
-              <span className="bg-c2c-teal text-white text-[9px] font-semibold px-2 py-0.5 rounded-full flex items-center gap-0.5">
-                <Sparkles className="w-2 h-2" />
-                Popular
-              </span>
-            </div>
-            <p className="text-c2c-gold text-[10px] font-semibold tracking-wider mb-0.5">INSIDER EDGE</p>
-            <p className="text-white text-xl font-bold">$1130</p>
-            <p className="text-white/50 text-[10px] mb-2">8 hours</p>
-            <p className="text-white/80 text-[11px] leading-snug">
-              Fast Track <span className="text-c2c-teal font-medium">+</span> execution <span className="text-c2c-teal font-medium">+</span> feedback
-            </p>
-            <p className="text-c2c-teal/80 text-[9px] mt-1.5 font-medium">
-              ✓ Everything in Fast Track
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Who it's for row */}
-        <motion.div
-          initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.35, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-2 gap-2 mb-3"
-        >
-          <div className="bg-white/5 border border-white/10 rounded-lg p-2.5">
-            <p className="text-white/50 text-[9px] font-semibold uppercase tracking-wider mb-1">Best if you</p>
-            <p className="text-white/90 text-[11px] leading-relaxed">Need clarity + sharp materials to start landing interviews</p>
-          </div>
-          <div className="bg-c2c-teal/10 border border-c2c-teal/20 rounded-lg p-2.5">
-            <p className="text-c2c-teal text-[9px] font-semibold uppercase tracking-wider mb-1">Best if you</p>
-            <p className="text-white/90 text-[11px] leading-relaxed">Want end-to-end support through recruiting season</p>
-          </div>
-        </motion.div>
-
-        {/* Comparison matrix - always visible */}
-        <motion.div
-          initial={prefersReducedMotion ? {} : { opacity: 0, y: 12 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-white/5 border border-white/10 rounded-xl overflow-hidden mb-4"
-        >
-          {/* Matrix rows */}
-          {comparisonFeatures.map((feature, idx) => (
+          {mobilePlans.map((plan, idx) => (
             <div 
-              key={feature.category}
-              className={`grid grid-cols-[1fr,auto,auto] items-center gap-2 px-3 py-2.5 ${
-                idx !== comparisonFeatures.length - 1 ? 'border-b border-white/5' : ''
-              } ${feature.insiderEdgeExtra ? 'bg-c2c-teal/5' : ''}`}
+              key={plan.name}
+              className={`relative rounded-2xl p-4 transition-all ${
+                plan.featured 
+                  ? "bg-c2c-teal/15 border-2 border-c2c-teal/40 shadow-[0_0_30px_-10px_rgba(58,166,168,0.4)]" 
+                  : "bg-white/[0.04] border border-white/10"
+              }`}
             >
-              {/* Feature name */}
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <span className="text-white/90 text-xs font-medium">{feature.category}</span>
-                {feature.insiderEdgeExtra && (
-                  <span className="bg-c2c-gold/25 text-c2c-gold text-[8px] font-bold px-1.5 py-0.5 rounded-sm whitespace-nowrap">
-                    + Extra
+              {/* Most Popular badge */}
+              {plan.featured && (
+                <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
+                  <span className="bg-c2c-teal text-white text-[10px] font-semibold px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
+                    <Sparkles className="w-3 h-3" />
+                    Most Popular
                   </span>
-                )}
+                </div>
+              )}
+
+              {/* Card Header */}
+              <div className={`flex items-start justify-between ${plan.featured ? 'pt-2' : ''}`}>
+                <div>
+                  <p className="text-c2c-gold text-[10px] font-semibold tracking-widest">{plan.name}</p>
+                  <p className="text-white text-2xl font-bold">{plan.price}</p>
+                  <p className="text-white/50 text-[10px]">{plan.priceNote}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-white/70 text-xs font-medium">{plan.hours}</p>
+                  <p className="text-white/90 text-[11px] mt-0.5 max-w-[120px] leading-snug">{plan.tagline}</p>
+                </div>
               </div>
-              
-              {/* Fast Track check */}
-              <div className="w-10 flex justify-center">
-                {feature.fastTrack ? (
-                  <Check className="w-4 h-4 text-c2c-teal" />
-                ) : (
-                  <span className="text-white/30 text-sm">—</span>
-                )}
-              </div>
-              
-              {/* Insider Edge check */}
-              <div className="w-10 flex justify-center">
-                {feature.insiderEdgeExtra ? (
-                  <div className="w-5 h-5 rounded-full bg-c2c-gold/20 flex items-center justify-center">
-                    <Plus className="w-3 h-3 text-c2c-gold" />
-                  </div>
-                ) : (
-                  <Check className="w-4 h-4 text-c2c-teal" />
-                )}
-              </div>
+
+              {/* Includes line (for tiers 2 and 3) */}
+              {plan.includesFrom && (
+                <div className="mt-3 mb-2 flex items-center gap-2">
+                  <div className="flex-1 h-px bg-c2c-teal/30" />
+                  <span className="text-c2c-teal text-[9px] font-semibold whitespace-nowrap">
+                    ✓ Everything in {plan.includesFrom} +
+                  </span>
+                  <div className="flex-1 h-px bg-c2c-teal/30" />
+                </div>
+              )}
+
+              {/* Bullet points */}
+              <ul className={`space-y-1.5 ${plan.includesFrom ? 'mt-2' : 'mt-3'}`}>
+                {plan.bullets.map((bullet, bulletIdx) => (
+                  <li key={bulletIdx} className="flex items-start gap-2">
+                    <Check className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${plan.featured ? 'text-c2c-teal' : 'text-c2c-teal/80'}`} />
+                    <span className="text-white/90 text-xs leading-snug">{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* CTA Button - meets 44px minimum tap target */}
+              <Button
+                asChild
+                className={`w-full mt-4 font-semibold text-sm rounded-lg h-11 ${
+                  plan.featured
+                    ? "bg-c2c-teal hover:bg-c2c-teal/90 text-white shadow-[0_0_15px_rgba(58,166,168,0.3)]"
+                    : "bg-white/10 hover:bg-white/15 text-white border border-white/20"
+                }`}
+              >
+                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                  Get Started
+                </a>
+              </Button>
             </div>
           ))}
         </motion.div>
@@ -485,46 +456,34 @@ export function ServicePerks() {
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.35, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-c2c-gold/10 border border-c2c-gold/20 rounded-xl p-4 mb-6"
+          transition={{ duration: 0.35, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
+          className="bg-c2c-gold/10 border border-c2c-gold/20 rounded-xl p-4 mb-5"
         >
-          <p className="text-c2c-gold text-xs font-semibold mb-2">A note from Shania:</p>
-          <p className="text-white text-sm leading-relaxed mb-2">
-            You'll work directly with me — we'll build your plan together and execute it, step by step.
-          </p>
-          <p className="text-white/70 text-xs leading-relaxed">
-            <span className="text-c2c-teal font-medium">Insider Edge</span> is best if you want full support through recruiting season. <span className="text-white/60">Fast Track is perfect if you just need sharper materials + a clear plan to start.</span>
+          <p className="text-white text-sm leading-relaxed text-center">
+            <span className="text-c2c-gold font-medium">You'll work directly with Shania</span> — calm, clear guidance the whole way.
           </p>
         </motion.div>
 
-        {/* Dual CTAs */}
+        {/* Bottom CTA */}
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
-          className="space-y-3"
+          transition={{ duration: 0.4, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center"
         >
-          <div className="grid grid-cols-2 gap-2">
-            <Button
-              asChild
-              variant="outline"
-              className="bg-white/10 hover:bg-white/15 text-white border-white/20 font-semibold py-4 text-sm rounded-lg"
-            >
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                Fast Track
-              </a>
-            </Button>
-            <Button
-              asChild
-              className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold py-4 text-sm rounded-lg shadow-[0_0_20px_rgba(58,166,168,0.25)]"
-            >
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
-                Insider Edge
-              </a>
-            </Button>
-          </div>
-          <p className="text-white/60 text-xs text-center">
-            Both start with a free 30-min consultation
+          <p className="text-white/70 text-xs mb-3">
+            Not sure which one fits? We'll figure it out together.
+          </p>
+          <Button
+            asChild
+            className="w-full bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold h-12 text-sm rounded-lg shadow-[0_0_20px_rgba(58,166,168,0.25)]"
+          >
+            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+              Book Free Consultation
+            </a>
+          </Button>
+          <p className="text-white/50 text-[10px] mt-2">
+            30 minutes • No commitment • All plans start here
           </p>
         </motion.div>
       </div>

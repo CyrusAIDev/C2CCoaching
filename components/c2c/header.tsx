@@ -157,16 +157,16 @@ function HeaderComponent() {
         <a 
           href="/" 
           onClick={handleLogoClick}
-          className="flex items-center cursor-pointer"
+          className="flex items-center cursor-pointer flex-shrink-0"
         >
-          {/* Mobile logo - smaller, no negative margins */}
+          {/* Mobile logo - larger, uses negative margin to exceed container without increasing header height */}
           <Image
             src="/images/c2c-logo.png"
             alt="C2C - From Campus 2 Corporate"
-            width={140}
-            height={56}
-            sizes="140px"
-            className="md:hidden w-auto h-11"
+            width={160}
+            height={64}
+            sizes="160px"
+            className="md:hidden w-auto h-14 -my-1"
             priority
           />
           {/* Desktop logo - unchanged */}
@@ -248,8 +248,8 @@ function HeaderComponent() {
           </Button>
         </div>
 
-        {/* Mobile: Book button + Menu Toggle */}
-        <div className="md:hidden flex items-center gap-1.5">
+        {/* Mobile: Book button + Menu Toggle - vertically centered */}
+        <div className="md:hidden flex items-center gap-2 flex-shrink-0">
           <motion.div
             initial={prefersReducedMotion ? {} : { scale: 1 }}
             animate={prefersReducedMotion ? {} : { 
@@ -261,11 +261,12 @@ function HeaderComponent() {
               times: [0, 0.5, 1],
               repeat: 0
             }}
+            className="flex items-center"
           >
             <Button
               asChild
               size="sm"
-              className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-3 py-2 text-xs rounded-lg shadow-[0_0_15px_rgba(58,166,168,0.3)] ring-1 ring-c2c-teal/30 ring-offset-1 ring-offset-c2c-offwhite"
+              className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-3.5 py-2 text-xs rounded-lg shadow-[0_0_15px_rgba(58,166,168,0.3)] ring-1 ring-c2c-teal/30 ring-offset-1 ring-offset-c2c-offwhite h-8"
             >
               <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
                 Free Consult
@@ -274,10 +275,10 @@ function HeaderComponent() {
           </motion.div>
           <button
             onClick={toggleMobileMenu}
-            className="text-c2c-navy p-1.5 rounded-lg hover:bg-c2c-navy/5 transition-colors"
+            className="text-c2c-navy p-2.5 -mr-1 rounded-lg hover:bg-c2c-navy/5 transition-colors flex items-center justify-center min-w-[44px] min-h-[44px]"
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>

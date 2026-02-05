@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback, useMemo, useEffect } from "react"
 import { motion, useInView, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Briefcase, Target, Users, Play } from "lucide-react"
+import { Briefcase, Target, Users, Play, Sparkles } from "lucide-react"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 import { useIsMobile } from "@/hooks/use-is-mobile"
 import { useSectionInView } from "@/hooks/use-section-in-view"
@@ -183,37 +183,49 @@ export function OurStory() {
             </p>
           </motion.div>
 
-          {/* 3. Text content - tinted glass panel */}
+          {/* 3. Text content - hero quote style */}
           <motion.div
             variants={itemVariants}
-            className="relative max-w-sm mb-6"
+            className="relative max-w-sm mb-6 w-full"
           >
-            <div className="bg-white/[0.06] backdrop-blur-sm rounded-2xl px-5 py-5 border border-white/[0.12] shadow-lg shadow-black/10">
-              {/* Decorative quote icon */}
-              <div className="absolute -top-3 left-5 w-7 h-7 rounded-lg bg-c2c-gold/20 border border-c2c-gold/30 flex items-center justify-center">
-                <span className="text-c2c-gold text-lg font-serif leading-none">"</span>
+            {/* Top accent line - teal to gold gradient */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-c2c-teal via-c2c-teal to-c2c-gold/70 rounded-full" />
+            
+            <div className="bg-white/[0.05] backdrop-blur-sm rounded-2xl px-5 pt-6 pb-5 border border-white/[0.1] shadow-lg shadow-black/10">
+              {/* Icon chip - aligned left above quote */}
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-6 h-6 rounded-md bg-gradient-to-br from-c2c-teal/40 to-c2c-teal/20 border border-c2c-teal/30 flex items-center justify-center">
+                  <Sparkles className="w-3.5 h-3.5 text-c2c-teal" />
+                </div>
+                <span className="text-c2c-teal text-[10px] font-semibold uppercase tracking-wider">Why C2C</span>
               </div>
-              <div className="space-y-3 text-center pt-2">
-                <p className="text-lg italic text-white font-medium leading-relaxed">
+              
+              <div className="space-y-3">
+                <p className="text-lg text-white font-semibold leading-snug">
                   Your materials should open doors, not get ignored.
                 </p>
-                <p className="text-white/90 text-[15px] leading-relaxed">
+                <p className="text-white/85 text-[15px] leading-relaxed">
                   We sharpen your applications and get you where you want to be with less pressure and more support.
                 </p>
               </div>
             </div>
           </motion.div>
 
-          {/* Bullet highlights - premium tinted glass items */}
-          <motion.div variants={itemVariants} className="grid grid-cols-1 gap-2 mb-8 w-full max-w-sm">
+          {/* Bullet highlights - premium list items with left accent */}
+          <motion.div variants={itemVariants} className="flex flex-col gap-2.5 mb-8 w-full max-w-sm">
             {highlights.map((item, idx) => (
               <div 
                 key={idx} 
-                className="flex items-center gap-3 bg-white/[0.06] backdrop-blur-sm rounded-xl px-4 py-3 border border-white/[0.1] shadow-sm shadow-black/5"
+                className="relative flex items-center gap-3 bg-white/[0.04] backdrop-blur-sm rounded-xl pl-4 pr-4 py-3.5 border border-white/[0.08] overflow-hidden group"
               >
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-c2c-teal/30 to-c2c-teal/10 border border-c2c-teal/20 flex items-center justify-center flex-shrink-0">
+                {/* Left accent bar */}
+                <div className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-gradient-to-b from-c2c-teal to-c2c-teal/50" />
+                
+                {/* Icon chip */}
+                <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-c2c-teal/25 to-c2c-teal/10 border border-c2c-teal/20 flex items-center justify-center flex-shrink-0 ml-2">
                   <item.icon className="w-4 h-4 text-c2c-teal" />
                 </div>
+                
                 <span className="text-white text-sm font-medium leading-snug">{item.text}</span>
               </div>
             ))}
