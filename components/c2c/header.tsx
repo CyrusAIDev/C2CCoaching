@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useCallback, memo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import Image from "next/image"
@@ -35,6 +36,7 @@ function HeaderComponent() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("")
   const pathname = usePathname()
+  const router = useRouter()
   const prefersReducedMotion = usePrefersReducedMotion()
 
   useEffect(() => {
@@ -46,6 +48,7 @@ function HeaderComponent() {
         { id: "", element: document.querySelector("section:first-of-type") }, // Hero/Home
         { id: "our-story", element: document.getElementById("our-story") },
         { id: "services", element: document.getElementById("services") },
+        { id: "reviews", element: document.getElementById("reviews") },
       ]
       
       const scrollPosition = window.scrollY + 200 // Offset for header height
@@ -84,17 +87,20 @@ function HeaderComponent() {
     setIsMobileMenuOpen(false)
   }, [])
 
-  // Lock body scroll when mobile menu is open
+  // Lock body scroll when mobile menu is open + prefetch pages
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = "hidden"
+      // Prefetch FAQ and Contact pages for faster navigation (mobile only)
+      router.prefetch("/faq")
+      router.prefetch("/contact")
     } else {
       document.body.style.overflow = ""
     }
     return () => {
       document.body.style.overflow = ""
     }
-  }, [isMobileMenuOpen])
+  }, [isMobileMenuOpen, router])
 
   // ESC key closes menu
   useEffect(() => {
@@ -368,24 +374,25 @@ function HeaderComponent() {
                       (link.href === "/faq" && pathname === "/faq")
                     
                     return (
-                      <motion.a
+                      <motion.div
                         key={link.label}
-                        href={link.href}
-                        onClick={(e) => {
-                          handleNavClick(e, link.href)
-                          closeMobileMenu()
-                        }}
                         initial={prefersReducedMotion ? {} : { opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.26 + index * 0.04 }}
-                        className={`py-2.5 px-3 rounded-lg text-base font-medium transition-all duration-200 ${
-                          isActive 
-                            ? "text-c2c-teal bg-c2c-teal/10" 
-                            : "text-c2c-navy hover:bg-c2c-navy/5"
-                        }`}
                       >
-                        {link.label}
-                      </motion.a>
+                        <Link
+                          href={link.href}
+                          prefetch
+                          onClick={closeMobileMenu}
+                          className={`block py-2.5 px-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                            isActive 
+                              ? "text-c2c-teal bg-c2c-teal/10" 
+                              : "text-c2c-navy hover:bg-c2c-navy/5"
+                          }`}
+                        >
+                          {link.label}
+                        </Link>
+                      </motion.div>
                     )
                   })}
                 </div>

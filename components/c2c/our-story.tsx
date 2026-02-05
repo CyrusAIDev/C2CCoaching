@@ -188,23 +188,25 @@ export function OurStory() {
             variants={itemVariants}
             className="relative max-w-sm mb-6 w-full"
           >
-            {/* Top accent line - teal to gold gradient */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-c2c-teal via-c2c-teal to-c2c-gold/70 rounded-full" />
+            {/* Top accent line - gold dominant gradient */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-c2c-gold/60 via-c2c-gold to-c2c-gold/60 rounded-full shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
             
             <div className="bg-white/[0.05] backdrop-blur-sm rounded-2xl px-5 pt-6 pb-5 border border-white/[0.1] shadow-lg shadow-black/10">
-              {/* Icon chip - aligned left above quote */}
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-6 h-6 rounded-md bg-gradient-to-br from-c2c-teal/40 to-c2c-teal/20 border border-c2c-teal/30 flex items-center justify-center">
-                  <Sparkles className="w-3.5 h-3.5 text-c2c-teal" />
+              {/* YC2C badge - brand gold, larger, premium feel */}
+              <div className="flex items-center gap-2.5 mb-4">
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-c2c-gold/25 to-c2c-gold/10 border border-c2c-gold/40 flex items-center justify-center shadow-[0_0_12px_rgba(212,175,55,0.15)]">
+                  <Sparkles className="w-4 h-4 text-c2c-gold" />
                 </div>
-                <span className="text-c2c-teal text-[10px] font-semibold uppercase tracking-wider">Why C2C</span>
+                <span className="bg-c2c-gold/15 border border-c2c-gold/30 text-c2c-gold text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded-md">
+                  YC2C
+                </span>
               </div>
               
-              <div className="space-y-3">
-                <p className="text-lg text-white font-semibold leading-snug">
+              <div className="space-y-2.5">
+                <p className="text-[19px] text-white font-semibold leading-snug">
                   Your materials should open doors, not get ignored.
                 </p>
-                <p className="text-white/85 text-[15px] leading-relaxed">
+                <p className="text-white/80 text-[15px] leading-relaxed">
                   We sharpen your applications and get you where you want to be with less pressure and more support.
                 </p>
               </div>
@@ -218,8 +220,8 @@ export function OurStory() {
                 key={idx} 
                 className="relative flex items-center gap-3 bg-white/[0.04] backdrop-blur-sm rounded-xl pl-4 pr-4 py-3.5 border border-white/[0.08] overflow-hidden group"
               >
-                {/* Left accent bar */}
-                <div className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-gradient-to-b from-c2c-teal to-c2c-teal/50" />
+                {/* Left accent bar - teal fading to gold at bottom */}
+                <div className="absolute left-0 top-2 bottom-2 w-[3px] rounded-full bg-gradient-to-b from-c2c-teal via-c2c-teal/70 to-c2c-gold/60" />
                 
                 {/* Icon chip */}
                 <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-c2c-teal/25 to-c2c-teal/10 border border-c2c-teal/20 flex items-center justify-center flex-shrink-0 ml-2">

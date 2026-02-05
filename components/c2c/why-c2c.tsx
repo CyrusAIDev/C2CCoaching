@@ -168,6 +168,20 @@ export function WhyC2C() {
           <p className="text-c2c-navy/90 text-base max-w-xs mx-auto mt-4 font-medium">
             No guesswork. No spray-and-pray.
           </p>
+          {/* Scroll-in accent line */}
+          <motion.div 
+            className="flex justify-center mt-5"
+            initial={prefersReducedMotion ? {} : { opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          >
+            <motion.div 
+              className="h-[2px] bg-gradient-to-r from-transparent via-c2c-teal to-transparent rounded-full"
+              initial={prefersReducedMotion ? { width: 80 } : { width: 0 }}
+              animate={isInView ? { width: 80 } : {}}
+              transition={{ duration: 0.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            />
+          </motion.div>
         </motion.div>
 
         {/* Mobile Carousel */}

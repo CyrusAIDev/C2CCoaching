@@ -173,7 +173,7 @@ export function Reviews() {
   }, [])
 
   return (
-    <section ref={ref} className="py-20 md:py-32 bg-c2c-offwhite relative overflow-hidden">
+    <section id="reviews" ref={ref} className="py-20 md:py-32 bg-c2c-offwhite relative overflow-hidden">
       <SectionBackground />
       
       {/* ==================== MOBILE VERSION ==================== */}

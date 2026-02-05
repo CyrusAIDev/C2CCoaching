@@ -289,54 +289,58 @@ const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion, isMo
 })
 
 // Mobile-only 3-tier plans (desktop uses `plans` array above)
+// Bullets use {bold: "...", rest: "..."} for bolder key phrases
 const mobilePlans = [
   {
     name: "FAST TRACK",
     hours: "4 hours",
-    price: "$678",
+    price: "$597",
     priceNote: "CAD (tax incl.)",
     tagline: "Get a fast reset + a clear plan",
     bullets: [
-      "Resume + LinkedIn audit & rewrite",
-      "Target roles + company list",
-      "Networking scripts that work",
-      "Basic interview prep",
-      "Progress tracker",
+      { bold: "Resume + LinkedIn", rest: " audit & rewrite" },
+      { bold: "Target roles", rest: " + company list" },
+      { bold: "Networking scripts", rest: " that actually work" },
+      { bold: "Interview prep", rest: " fundamentals" },
+      { bold: "Progress tracker", rest: " to stay on track" },
     ],
     includesFrom: null,
     featured: false,
+    discount: null,
   },
   {
     name: "MOMENTUM",
     hours: "6 hours",
-    price: "$904",
+    price: "$797",
     priceNote: "CAD (tax incl.)",
     tagline: "Build real traction fast",
     bullets: [
-      "Application tailoring support",
-      "Deeper interview coaching",
-      "Positioning & storytelling",
-      "Networking follow-up strategy",
-      "Ongoing check-ins",
+      { bold: "Application tailoring", rest: " for each role" },
+      { bold: "Deep interview coaching", rest: " + mock rounds" },
+      { bold: "Positioning & story", rest: " that sticks" },
+      { bold: "Networking follow-ups", rest: " that convert" },
+      { bold: "Ongoing check-ins", rest: " to keep momentum" },
     ],
     includesFrom: "Fast Track",
     featured: true,
+    discount: "Save $100",
   },
   {
     name: "INSIDER EDGE",
     hours: "8 hours",
-    price: "$1130",
+    price: "$997",
     priceNote: "CAD (tax incl.)",
     tagline: "End-to-end recruiting support",
     bullets: [
-      "Multiple interview rounds prep",
-      "Case & behavioural confidence",
-      "Offer guidance + negotiation",
-      "Full accountability partner",
-      "Priority scheduling",
+      { bold: "Multi-round prep", rest: " for tough interviews" },
+      { bold: "Case + behavioural", rest: " confidence builder" },
+      { bold: "Offer negotiation", rest: " guidance" },
+      { bold: "Full accountability", rest: " partner" },
+      { bold: "Priority scheduling", rest: " with Shania" },
     ],
     includesFrom: "Momentum",
     featured: false,
+    discount: null,
   },
 ]
 
@@ -405,7 +409,14 @@ export function ServicePerks() {
               <div className={`flex items-start justify-between ${plan.featured ? 'pt-2' : ''}`}>
                 <div>
                   <p className="text-c2c-gold text-[10px] font-semibold tracking-widest">{plan.name}</p>
-                  <p className="text-white text-2xl font-bold">{plan.price}</p>
+                  <div className="flex items-baseline gap-2">
+                    <p className="text-white text-2xl font-bold">{plan.price}</p>
+                    {plan.discount && (
+                      <span className="bg-c2c-gold/20 text-c2c-gold text-[9px] font-semibold px-1.5 py-0.5 rounded">
+                        {plan.discount}
+                      </span>
+                    )}
+                  </div>
                   <p className="text-white/50 text-[10px]">{plan.priceNote}</p>
                 </div>
                 <div className="text-right">
@@ -425,12 +436,15 @@ export function ServicePerks() {
                 </div>
               )}
 
-              {/* Bullet points */}
+              {/* Bullet points - with bold key phrases */}
               <ul className={`space-y-1.5 ${plan.includesFrom ? 'mt-2' : 'mt-3'}`}>
                 {plan.bullets.map((bullet, bulletIdx) => (
                   <li key={bulletIdx} className="flex items-start gap-2">
                     <Check className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${plan.featured ? 'text-c2c-teal' : 'text-c2c-teal/80'}`} />
-                    <span className="text-white/90 text-xs leading-snug">{bullet}</span>
+                    <span className="text-white/90 text-xs leading-snug">
+                      <span className="text-white font-semibold">{bullet.bold}</span>
+                      {bullet.rest}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -460,7 +474,7 @@ export function ServicePerks() {
           className="bg-c2c-gold/10 border border-c2c-gold/20 rounded-xl p-4 mb-5"
         >
           <p className="text-white text-sm leading-relaxed text-center">
-            <span className="text-c2c-gold font-medium">You'll work directly with Shania</span> — calm, clear guidance the whole way.
+            <span className="text-c2c-gold font-semibold">Every session is with Shania</span> — no hand-offs, no junior coaches. Just real, focused support from someone who's been exactly where you are.
           </p>
         </motion.div>
 
