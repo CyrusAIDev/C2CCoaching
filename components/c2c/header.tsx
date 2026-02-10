@@ -173,7 +173,8 @@ function HeaderComponent() {
             width={180}
             height={72}
             sizes="180px"
-            className="md:hidden w-auto h-[4.5rem] -my-2.5"
+            className="md:hidden h-[4.5rem] -my-2.5"
+            style={{ width: "auto" }}
             priority
           />
           {/* Desktop logo - unchanged */}
@@ -183,7 +184,8 @@ function HeaderComponent() {
             width={260}
             height={105}
             sizes="260px"
-            className="hidden md:block w-auto h-24 -my-6 max-h-24"
+            className="hidden md:block h-24 -my-6 max-h-24"
+            style={{ width: "auto" }}
             priority
           />
         </a>

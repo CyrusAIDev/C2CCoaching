@@ -71,7 +71,8 @@ function FooterComponent() {
                 width={190}
                 height={75}
                 sizes="190px"
-                className="h-[4.5rem] w-auto"
+                className="h-[4.5rem]"
+                style={{ width: "auto" }}
               />
             </button>
             <p className="text-c2c-text-navy/80 text-lg font-medium">

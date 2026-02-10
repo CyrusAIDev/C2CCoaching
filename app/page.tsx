@@ -13,7 +13,7 @@ const Footer = dynamic(() => import("@/components/c2c/footer").then((mod) => ({ 
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-c2c-offwhite">
+    <main className="relative min-h-screen bg-c2c-offwhite">
       <Header />
       <Hero />
       <LogoStrip />
