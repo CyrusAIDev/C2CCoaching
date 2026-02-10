@@ -18,7 +18,35 @@ const BASE_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?${BASE_PARAMS}`
 const AUTOPLAY_MUTED_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?${BASE_PARAMS}&autoplay=1&mute=1`
 const AUTOPLAY_SOUND_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?${BASE_PARAMS}&autoplay=1&mute=0`
 
-function AutoPlayYouTubeEmbed({ className = "" }: { className?: string }) {
+interface AutoPlayYouTubeEmbedProps {
+  className?: string
+  aspect?: "16:9" | "9:16"
+  frameless?: boolean // When true, removes border/shadow/rounding (for use inside device frames)
+}
+
+// ==================== IPhoneFrame Component (Desktop only) ====================
+function IPhoneFrame({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative mx-auto w-[420px] rounded-[2.75rem] bg-black p-[14px] shadow-2xl ring-1 ring-white/20 border border-white/10">
+      {/* Dynamic Island / Notch */}
+      <div className="absolute left-1/2 top-[18px] z-20 h-7 w-32 -translate-x-1/2 rounded-full bg-black ring-1 ring-black/50" />
+      
+      {/* Screen area - enforces 9:16 aspect ratio with padding trick */}
+      <div className="relative z-10 overflow-hidden rounded-[2.2rem] bg-black ring-1 ring-white/10">
+        <div className="relative w-full" style={{ paddingTop: "177.777%" }}>
+          <div className="absolute inset-0">
+            {children}
+          </div>
+        </div>
+      </div>
+      
+      {/* Home Indicator */}
+      <div className="absolute bottom-[10px] left-1/2 -translate-x-1/2 w-32 h-1.5 bg-white/30 rounded-full" />
+    </div>
+  )
+}
+
+function AutoPlayYouTubeEmbed({ className = "", aspect = "16:9", frameless = false }: AutoPlayYouTubeEmbedProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const hasStartedRef = useRef(false)
   const [inView, setInView] = useState(false)
@@ -68,13 +96,47 @@ function AutoPlayYouTubeEmbed({ className = "" }: { className?: string }) {
   // Show overlay only when: autoplaying (inView), not yet unmuted, not reduced motion
   const showSoundOverlay = inView && !soundOn && !prefersReducedMotion
 
+  // Aspect ratio padding: 16:9 = 56.25%, 9:16 = 177.777%
+  const aspectPadding = aspect === "9:16" ? "177.777%" : "56.25%"
+
+  // Frameless mode: fills parent (aspect ratio controlled by parent)
+  // Normal mode: creates own aspect ratio container with decorative styling
+  if (frameless) {
+    return (
+      <div 
+        ref={wrapperRef}
+        className={`relative z-10 h-full w-full bg-black ${className}`}
+      >
+        <iframe
+          key={soundOn ? "sound" : inView ? "autoplay" : "base"}
+          src={iframeSrc}
+          title="C2C Video"
+          className="absolute inset-0 z-10 h-full w-full bg-black"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+        {/* "Tap for sound" overlay */}
+        {showSoundOverlay && (
+          <button
+            onClick={handleTapForSound}
+            className="absolute bottom-3 right-3 flex items-center gap-2 bg-black/80 hover:bg-black/90 backdrop-blur-sm text-white text-xs font-semibold px-3 py-2 rounded-full border border-white/20 transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg z-10"
+            aria-label="Tap to enable sound"
+          >
+            <Volume2 className="w-4 h-4" />
+            <span>Tap for sound</span>
+          </button>
+        )}
+      </div>
+    )
+  }
+
   return (
     <div 
       ref={wrapperRef}
       className={`relative w-full overflow-hidden rounded-2xl border border-white/10 bg-black shadow-xl shadow-black/30 ${className}`}
     >
-      {/* 16:9 Aspect Ratio Container - guaranteed non-zero size */}
-      <div className="relative w-full aspect-video">
+      {/* Aspect Ratio Container - guaranteed non-zero size */}
+      <div className="relative w-full" style={{ paddingTop: aspectPadding }}>
         <iframe
           key={soundOn ? "sound" : inView ? "autoplay" : "base"}
           src={iframeSrc}
@@ -209,13 +271,13 @@ export function OurStory() {
             Less chaos.
           </motion.h2>
 
-          {/* 2. YouTube Video Embed in the middle */}
-          <motion.div variants={itemVariants} className="w-full max-w-sm mb-8">
+          {/* 2. YouTube Video Embed in the middle - vertical 9:16 for mobile */}
+          <motion.div variants={itemVariants} className="w-full max-w-[260px] mx-auto mb-8">
             <div className="relative">
               {/* Decorative glow behind video */}
               <div className="absolute -inset-4 bg-c2c-teal/10 rounded-3xl blur-2xl -z-10" />
               
-              <AutoPlayYouTubeEmbed />
+              <AutoPlayYouTubeEmbed aspect="9:16" />
             </div>
             
             {/* Caption */}
@@ -402,62 +464,18 @@ export function OurStory() {
             </motion.p>
           </div>
 
-          {/* Right - iPhone Video Mock with cinematic zoom */}
+          {/* Right - iPhone Frame with YouTube Embed */}
           <motion.div variants={itemVariants} className="flex flex-col items-center">
             <motion.div 
               ref={phoneRef}
-              className="relative"
+              className="relative isolate w-[420px]"
               style={{ 
                 scale: shouldAnimate ? scale : 1
               }}
             >
-              {/* iPhone Frame */}
-              <div className="relative w-[320px] md:w-[360px] bg-black rounded-[55px] p-3.5 shadow-2xl shadow-black/50">
-                {/* Dynamic Island */}
-                <div className="absolute top-5 left-1/2 -translate-x-1/2 w-32 h-8 bg-black rounded-full z-20" />
-                
-                {/* Screen */}
-                <div className="relative bg-c2c-navy rounded-[45px] overflow-hidden aspect-[9/19.5]">
-                  {/* Video Player */}
-                  <video
-                    ref={videoRef}
-                    className="w-full h-full object-cover"
-                    muted
-                    loop
-                    playsInline
-                    onPlay={() => setIsPlaying(true)}
-                    onPause={() => setIsPlaying(false)}
-                  >
-                    <source src="/videos/c2c-intro.mp4" type="video/mp4" />
-                  </video>
-                  
-                  {/* Play button overlay */}
-                  {!isPlaying && (
-                    <button
-                      onClick={handlePlayVideo}
-                      className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-c2c-navy/60 to-c2c-navy/80 transition-opacity duration-300 hover:bg-c2c-navy/70"
-                      aria-label="Play video"
-                    >
-                      <div className="w-20 h-20 rounded-full bg-c2c-teal/90 flex items-center justify-center mb-4 shadow-lg shadow-c2c-teal/30 transition-transform duration-200 hover:scale-110">
-                        <Play className="w-8 h-8 text-white ml-1" fill="white" />
-                      </div>
-                      <span className="text-white/90 text-base font-medium">Watch intro</span>
-                    </button>
-                  )}
-
-                  {/* Pause overlay when playing */}
-                  {isPlaying && (
-                    <button
-                      onClick={handlePlayVideo}
-                      className="absolute inset-0 opacity-0 hover:opacity-100 flex items-center justify-center bg-black/20 transition-opacity duration-300"
-                      aria-label="Pause video"
-                    />
-                  )}
-                </div>
-                
-                {/* Home Indicator */}
-                <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 w-36 h-1.5 bg-white/30 rounded-full" />
-              </div>
+              <IPhoneFrame>
+                <AutoPlayYouTubeEmbed aspect="9:16" frameless />
+              </IPhoneFrame>
               
               {/* Decorative glow with dynamic intensity */}
               <motion.div 
@@ -470,7 +488,7 @@ export function OurStory() {
             
             {/* Caption centered under phone */}
             <p className="text-c2c-text-navy/70 text-sm mt-6 text-center drop-shadow-md">
-              Watch: how C2C works (60s)
+              Watch: how C2C works
             </p>
           </motion.div>
         </motion.div>
