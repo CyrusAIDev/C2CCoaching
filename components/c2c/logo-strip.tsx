@@ -148,17 +148,17 @@ function LogoStripComponent() {
           Companies Our Clients Have Landed
         </motion.p>
 
-        {/* No stagger/pop animation - simple fade-in for the whole grid */}
+        {/* No stagger/pop animation - simple fade-in for the whole grid; single row on desktop */}
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.15 }}
-          className="flex flex-wrap items-center justify-center gap-6"
+          className="grid grid-cols-6 items-center gap-4 lg:gap-6"
         >
           {companies.map((company) => (
             <div
               key={company.name}
-              className="bg-white border border-c2c-border rounded-xl w-[160px] h-[85px] shadow-sm flex items-center justify-center transition-all duration-300 hover:border-c2c-teal/30 hover:shadow-[0_0_12px_rgba(58,166,168,0.15)]"
+              className="bg-white border border-c2c-border rounded-xl w-full max-w-[140px] h-16 lg:h-20 mx-auto shadow-sm flex items-center justify-center transition-all duration-300 hover:border-c2c-teal/30 hover:shadow-[0_0_12px_rgba(58,166,168,0.15)]"
             >
               <Image
                 src={company.logo || "/placeholder.svg"}
@@ -166,7 +166,7 @@ function LogoStripComponent() {
                 width={company.width}
                 height={company.height}
                 sizes="110px"
-                className="opacity-80 hover:opacity-100 transition-opacity duration-200 object-contain max-w-[110px] max-h-[55px]"
+                className="opacity-80 hover:opacity-100 transition-opacity duration-200 object-contain w-auto h-8 lg:h-10 max-h-[52px] lg:max-h-[56px]"
               />
             </div>
           ))}

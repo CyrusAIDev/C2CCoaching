@@ -78,7 +78,7 @@ const desktopPlans = [
   {
     name: "FAST TRACK",
     hours: "4 hours",
-    price: "$597",
+    price: "$697",
     priceNote: "CAD (tax incl.)",
     tagline: "Get a fast reset + a clear plan",
     bullets: [
@@ -95,7 +95,7 @@ const desktopPlans = [
   {
     name: "MOMENTUM",
     hours: "6 hours",
-    price: "$797",
+    price: "$897",
     priceNote: "CAD (tax incl.)",
     tagline: "Build real traction fast",
     bullets: [
@@ -112,7 +112,7 @@ const desktopPlans = [
   {
     name: "INSIDER EDGE",
     hours: "8 hours",
-    price: "$997",
+    price: "$1097",
     priceNote: "CAD (tax incl.)",
     tagline: "End-to-end recruiting support",
     bullets: [
@@ -325,7 +325,7 @@ const mobilePlans = [
   {
     name: "FAST TRACK",
     hours: "4 hours",
-    price: "$597",
+    price: "$697",
     priceNote: "CAD (tax incl.)",
     tagline: "Get a fast reset + a clear plan",
     bullets: [
@@ -342,7 +342,7 @@ const mobilePlans = [
   {
     name: "MOMENTUM",
     hours: "6 hours",
-    price: "$797",
+    price: "$897",
     priceNote: "CAD (tax incl.)",
     tagline: "Build real traction fast",
     bullets: [
@@ -359,7 +359,7 @@ const mobilePlans = [
   {
     name: "INSIDER EDGE",
     hours: "8 hours",
-    price: "$997",
+    price: "$1097",
     priceNote: "CAD (tax incl.)",
     tagline: "End-to-end recruiting support",
     bullets: [
