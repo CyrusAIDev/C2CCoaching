@@ -14,6 +14,7 @@ const navLinks = [
   { label: "Home", href: "/" },
   { label: "About C2C", href: "/#our-story" },
   { label: "Services", href: "/#services" },
+  { label: "Reviews", href: "/#reviews" },
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ]
@@ -190,11 +191,12 @@ function HeaderComponent() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center">
           <div className="flex items-center gap-8">
-            {navLinks.slice(0, 3).map((link) => {
+            {navLinks.slice(0, 4).map((link) => {
               const isActive = 
                 (link.href === "/" && activeSection === "" && pathname === "/") ||
                 (link.href === "/#our-story" && activeSection === "our-story" && pathname === "/") ||
-                (link.href === "/#services" && activeSection === "services" && pathname === "/")
+                (link.href === "/#services" && activeSection === "services" && pathname === "/") ||
+                (link.href === "/#reviews" && activeSection === "reviews" && pathname === "/")
               
               return (
                 <a
@@ -218,7 +220,7 @@ function HeaderComponent() {
           <div className="h-6 w-px bg-c2c-navy/20 mx-6" />
           
           <div className="flex items-center gap-8">
-            {navLinks.slice(3).map((link) => {
+            {navLinks.slice(4).map((link) => {
               const isActive = 
                 (link.href === "/contact" && pathname === "/contact") ||
                 (link.href === "/faq" && pathname === "/faq")

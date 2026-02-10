@@ -3,12 +3,102 @@
 import { useState, useRef, useCallback, useMemo, useEffect } from "react"
 import { motion, useInView, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Briefcase, Target, Users, Play, Sparkles } from "lucide-react"
+import { Briefcase, Target, Users, Play, Sparkles, Volume2 } from "lucide-react"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 import { useIsMobile } from "@/hooks/use-is-mobile"
 import { useSectionInView } from "@/hooks/use-section-in-view"
 import { createStaggerVariants } from "@/lib/animations"
 import { BOOKING_URL, TRUST_MICROCOPY } from "@/lib/constants"
+
+// ==================== AutoPlayYouTubeEmbed Component ====================
+// Robust implementation: always renders visible iframe, never blanks out
+const VIDEO_ID = "ahPtdmaFG7k"
+const BASE_PARAMS = "playsinline=1&rel=0&modestbranding=1&controls=1"
+const BASE_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?${BASE_PARAMS}`
+const AUTOPLAY_MUTED_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?${BASE_PARAMS}&autoplay=1&mute=1`
+const AUTOPLAY_SOUND_SRC = `https://www.youtube.com/embed/${VIDEO_ID}?${BASE_PARAMS}&autoplay=1&mute=0`
+
+function AutoPlayYouTubeEmbed({ className = "" }: { className?: string }) {
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const hasStartedRef = useRef(false)
+  const [inView, setInView] = useState(false)
+  const [soundOn, setSoundOn] = useState(false)
+  const prefersReducedMotion = usePrefersReducedMotion()
+
+  // IntersectionObserver - only sets inView=true ONCE
+  useEffect(() => {
+    if (prefersReducedMotion || hasStartedRef.current) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasStartedRef.current) {
+            hasStartedRef.current = true
+            setInView(true)
+          }
+        })
+      },
+      { threshold: 0.35, rootMargin: "0px 0px -20% 0px" }
+    )
+
+    if (wrapperRef.current) {
+      observer.observe(wrapperRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [prefersReducedMotion])
+
+  // Determine iframe src - ALWAYS has a valid URL, never empty
+  const iframeSrc = useMemo(() => {
+    // If reduced motion, always use base (no autoplay)
+    if (prefersReducedMotion) return BASE_SRC
+    // If user tapped for sound, use sound version
+    if (soundOn) return AUTOPLAY_SOUND_SRC
+    // If in view, use muted autoplay
+    if (inView) return AUTOPLAY_MUTED_SRC
+    // Default: base src (visible but not autoplaying)
+    return BASE_SRC
+  }, [prefersReducedMotion, soundOn, inView])
+
+  // Handle "Tap for sound"
+  const handleTapForSound = useCallback(() => {
+    setSoundOn(true)
+  }, [])
+
+  // Show overlay only when: autoplaying (inView), not yet unmuted, not reduced motion
+  const showSoundOverlay = inView && !soundOn && !prefersReducedMotion
+
+  return (
+    <div 
+      ref={wrapperRef}
+      className={`relative w-full overflow-hidden rounded-2xl border border-white/10 bg-black shadow-xl shadow-black/30 ${className}`}
+    >
+      {/* 16:9 Aspect Ratio Container - guaranteed non-zero size */}
+      <div className="relative w-full aspect-video">
+        <iframe
+          key={soundOn ? "sound" : inView ? "autoplay" : "base"}
+          src={iframeSrc}
+          title="C2C Video"
+          className="absolute inset-0 h-full w-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+
+      {/* "Tap for sound" overlay */}
+      {showSoundOverlay && (
+        <button
+          onClick={handleTapForSound}
+          className="absolute bottom-3 right-3 flex items-center gap-2 bg-black/80 hover:bg-black/90 backdrop-blur-sm text-white text-xs font-semibold px-3 py-2 rounded-full border border-white/20 transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg z-10"
+          aria-label="Tap to enable sound"
+        >
+          <Volume2 className="w-4 h-4" />
+          <span>Tap for sound</span>
+        </button>
+      )}
+    </div>
+  )
+}
 
 export function OurStory() {
   const prefersReducedMotion = usePrefersReducedMotion()
@@ -119,67 +209,18 @@ export function OurStory() {
             Less chaos.
           </motion.h2>
 
-          {/* 2. Phone/Video Mock in the middle */}
-          <motion.div variants={itemVariants} className="flex flex-col items-center mb-8">
-            <div 
-              ref={phoneRef}
-              className="relative"
-            >
-              {/* iPhone Frame - mobile optimized size */}
-              <div className="relative w-[260px] bg-black rounded-[45px] p-3 shadow-2xl shadow-black/50 border border-white/10">
-                {/* Dynamic Island */}
-                <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full z-20" />
-                
-                {/* Screen */}
-                <div className="relative bg-c2c-navy rounded-[38px] overflow-hidden aspect-[9/19.5]">
-                  {/* Video Player */}
-                  <video
-                    ref={videoRef}
-                    className="w-full h-full object-cover"
-                    muted
-                    loop
-                    playsInline
-                    onPlay={() => setIsPlaying(true)}
-                    onPause={() => setIsPlaying(false)}
-                  >
-                    <source src="/videos/c2c-intro.mp4" type="video/mp4" />
-                  </video>
-                  
-                  {/* Play button overlay */}
-                  {!isPlaying && (
-                    <button
-                      onClick={handlePlayVideo}
-                      className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-c2c-navy/60 to-c2c-navy/80 transition-opacity duration-300"
-                      aria-label="Play video"
-                    >
-                      <div className="w-16 h-16 rounded-full bg-c2c-teal/90 flex items-center justify-center mb-3 shadow-lg shadow-c2c-teal/30">
-                        <Play className="w-6 h-6 text-white ml-0.5" fill="white" />
-                      </div>
-                      <span className="text-white/90 text-sm font-medium">Watch intro</span>
-                    </button>
-                  )}
-
-                  {/* Pause overlay when playing */}
-                  {isPlaying && (
-                    <button
-                      onClick={handlePlayVideo}
-                      className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 active:opacity-100 transition-opacity duration-300"
-                      aria-label="Pause video"
-                    />
-                  )}
-                </div>
-                
-                {/* Home Indicator */}
-                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-1 bg-white/30 rounded-full" />
-              </div>
+          {/* 2. YouTube Video Embed in the middle */}
+          <motion.div variants={itemVariants} className="w-full max-w-sm mb-8">
+            <div className="relative">
+              {/* Decorative glow behind video */}
+              <div className="absolute -inset-4 bg-c2c-teal/10 rounded-3xl blur-2xl -z-10" />
               
-              {/* Decorative glow */}
-              <div className="absolute -inset-8 bg-c2c-teal/10 rounded-[60px] blur-2xl -z-10" />
+              <AutoPlayYouTubeEmbed />
             </div>
             
             {/* Caption */}
-            <p className="text-white/60 text-xs mt-4 text-center">
-              Watch: how C2C works (60s)
+            <p className="text-white/60 text-xs mt-3 text-center">
+              Watch: how C2C works
             </p>
           </motion.div>
 

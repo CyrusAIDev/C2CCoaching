@@ -137,38 +137,38 @@ function LogoStripComponent() {
         </motion.div>
       </div>
 
-      {/* ==================== DESKTOP VERSION (unchanged) ==================== */}
+      {/* ==================== DESKTOP VERSION ==================== */}
       <div className="hidden md:block max-w-5xl mx-auto px-6">
         <motion.p
-          initial={prefersReducedMotion ? {} : { opacity: 0, y: 10 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={prefersReducedMotion ? {} : { opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5 }}
           className="text-center text-c2c-navy text-base font-semibold tracking-wide uppercase mb-10"
         >
           Companies Our Clients Have Landed
         </motion.p>
 
+        {/* No stagger/pop animation - simple fade-in for the whole grid */}
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          className="flex flex-wrap items-center justify-center gap-5"
+          initial={prefersReducedMotion ? {} : { opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="flex flex-wrap items-center justify-center gap-6"
         >
           {companies.map((company) => (
-            <motion.div
+            <div
               key={company.name}
-              variants={itemVariants}
-              className="bg-white border border-c2c-border rounded-xl w-[140px] h-[75px] shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center"
+              className="bg-white border border-c2c-border rounded-xl w-[160px] h-[85px] shadow-sm flex items-center justify-center transition-all duration-300 hover:border-c2c-teal/30 hover:shadow-[0_0_12px_rgba(58,166,168,0.15)]"
             >
               <Image
                 src={company.logo || "/placeholder.svg"}
                 alt={`${company.name} logo`}
                 width={company.width}
                 height={company.height}
-                sizes="95px"
-                className="opacity-90 hover:opacity-100 transition-opacity duration-200 object-contain max-w-[95px] max-h-[48px]"
+                sizes="110px"
+                className="opacity-80 hover:opacity-100 transition-opacity duration-200 object-contain max-w-[110px] max-h-[55px]"
               />
-            </motion.div>
+            </div>
           ))}
         </motion.div>
         
@@ -176,7 +176,7 @@ function LogoStripComponent() {
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
           className="text-center mt-10"
         >
           <p className="text-c2c-navy font-medium text-lg">

@@ -73,27 +73,58 @@ const insiderEdgeExtras = [
   },
 ]
 
-const plans = [
+// Desktop 3-tier plans - same prices as mobile
+const desktopPlans = [
   {
     name: "FAST TRACK",
     hours: "4 hours",
-    price: "$678 CAD",
-    priceNote: "(tax incl.)",
-    outcome: "Get a fast reset + a clear plan — without dragging this out.",
-    groups: fastTrackGroups,
-    perfectIf: "You mostly need clarity + sharp materials to start landing interviews.",
+    price: "$597",
+    priceNote: "CAD (tax incl.)",
+    tagline: "Get a fast reset + a clear plan",
+    bullets: [
+      "Resume + LinkedIn audit & rewrite",
+      "Target roles + company list",
+      "Networking scripts that work",
+      "Interview prep fundamentals",
+      "Progress tracker",
+    ],
+    includesFrom: null,
     featured: false,
+    discount: null,
+  },
+  {
+    name: "MOMENTUM",
+    hours: "6 hours",
+    price: "$797",
+    priceNote: "CAD (tax incl.)",
+    tagline: "Build real traction fast",
+    bullets: [
+      "Application tailoring for each role",
+      "Deep interview coaching + mocks",
+      "Positioning & story that sticks",
+      "Networking follow-ups that convert",
+      "Ongoing check-ins",
+    ],
+    includesFrom: "Fast Track",
+    featured: true,
+    discount: "Save $100",
   },
   {
     name: "INSIDER EDGE",
-    hours: "8 hours", 
-    price: "$1130 CAD",
-    priceNote: "(tax incl.)",
-    outcome: "End-to-end support through recruiting season (strategy + execution).",
-    includesFastTrack: true,
-    groups: insiderEdgeExtras,
-    perfectIf: "You want the fastest path from \"I'm applying everywhere\" to interviews + callbacks, with someone in your corner the whole way.",
-    featured: true,
+    hours: "8 hours",
+    price: "$997",
+    priceNote: "CAD (tax incl.)",
+    tagline: "End-to-end recruiting support",
+    bullets: [
+      "Multi-round prep for tough interviews",
+      "Case + behavioural confidence",
+      "Offer negotiation guidance",
+      "Full accountability partner",
+      "Priority scheduling with Shania",
+    ],
+    includesFrom: "Momentum",
+    featured: false,
+    discount: null,
   },
 ]
 
@@ -502,54 +533,124 @@ export function ServicePerks() {
         </motion.div>
       </div>
 
-      {/* ==================== DESKTOP VERSION (unchanged) ==================== */}
-      <div className="hidden md:block max-w-5xl mx-auto px-6 relative z-10">
+      {/* ==================== DESKTOP VERSION - 3 Tier Pricing ==================== */}
+      <div className="hidden md:block max-w-6xl mx-auto px-6 relative z-10">
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-14"
         >
-          <div className="text-white">
-            <h2 className="text-5xl md:text-6xl font-bold text-white mb-8 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
-              Service Perks
-            </h2>
-          </div>
+          <h2 className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-[0_4px_12px_rgba(0,0,0,0.5)]">
+            Service Perks
+          </h2>
           <p className="text-c2c-gold text-xl font-semibold mb-3 drop-shadow-md">
             1:1 Coaching Sessions
           </p>
           <p className="text-white/90 text-lg max-w-lg mx-auto leading-relaxed drop-shadow-md">
-            Whether you need a fast reset or full recruiting support, pick the level that matches where you{"'"}re at.
+            Pick the level that matches where you{"'"}re at.
           </p>
         </motion.div>
 
+        {/* 3-Column Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid md:grid-cols-2 gap-6 md:gap-8 mb-14"
+          className="grid md:grid-cols-3 gap-6 mb-12"
         >
-          {plans.map((plan) => (
+          {desktopPlans.map((plan) => (
             <motion.div
               key={plan.name}
               variants={itemVariants}
               whileHover={prefersReducedMotion ? {} : { y: -6 }}
               transition={{ duration: 0.25 }}
+              className={`relative bg-c2c-navy-light/30 backdrop-blur-sm rounded-2xl p-6 border transition-all duration-300 ${
+                plan.featured
+                  ? "border-c2c-teal/40 shadow-[0_0_40px_-10px_rgba(58,166,168,0.4)]"
+                  : "border-white/10 hover:border-white/20"
+              }`}
             >
-              <PricingCard plan={plan} prefersReducedMotion={prefersReducedMotion} isMobile={isMobile} />
+              {/* Most Popular badge */}
+              {plan.featured && (
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <span className="bg-c2c-teal text-white text-xs font-semibold px-4 py-1.5 rounded-full shadow-lg flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    Most Popular
+                  </span>
+                </div>
+              )}
+
+              {/* Header */}
+              <div className={`text-center mb-5 ${plan.featured ? 'pt-2' : ''}`}>
+                <p className="text-c2c-gold text-xs font-semibold tracking-widest mb-1">{plan.name}</p>
+                <div className="flex items-baseline justify-center gap-2">
+                  <span className="text-4xl font-bold text-white">{plan.price}</span>
+                  {plan.discount && (
+                    <span className="bg-c2c-gold/20 text-c2c-gold text-xs font-semibold px-2 py-0.5 rounded">
+                      {plan.discount}
+                    </span>
+                  )}
+                </div>
+                <p className="text-white/50 text-sm">{plan.priceNote}</p>
+                <p className="text-white/70 text-sm mt-1">{plan.hours}</p>
+              </div>
+
+              {/* Tagline */}
+              <div className="bg-c2c-teal/10 border border-c2c-teal/20 rounded-lg px-4 py-2.5 mb-5">
+                <p className="text-white/90 text-sm text-center font-medium">{plan.tagline}</p>
+              </div>
+
+              {/* Includes line */}
+              {plan.includesFrom && (
+                <div className="mb-4 flex items-center gap-2">
+                  <div className="flex-1 h-px bg-c2c-teal/30" />
+                  <span className="text-c2c-teal text-xs font-semibold whitespace-nowrap">
+                    ✓ Everything in {plan.includesFrom} +
+                  </span>
+                  <div className="flex-1 h-px bg-c2c-teal/30" />
+                </div>
+              )}
+
+              {/* Bullets */}
+              <ul className="space-y-2 mb-6">
+                {plan.bullets.map((bullet, idx) => (
+                  <li key={idx} className="flex items-start gap-2.5">
+                    <Check className={`w-4 h-4 mt-0.5 flex-shrink-0 ${plan.featured ? 'text-c2c-teal' : 'text-c2c-teal/80'}`} />
+                    <span className="text-white/90 text-sm leading-snug">{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* CTA */}
+              <Button
+                asChild
+                className={`w-full font-semibold py-5 text-sm rounded-lg transition-all duration-200 hover:-translate-y-0.5 ${
+                  plan.featured
+                    ? "bg-c2c-teal hover:bg-c2c-teal/90 text-white shadow-[0_0_20px_rgba(58,166,168,0.3)]"
+                    : "bg-white/10 hover:bg-white/20 text-white border border-white/20"
+                }`}
+              >
+                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                  Get Started
+                </a>
+              </Button>
             </motion.div>
           ))}
         </motion.div>
 
+        {/* Coach connection + CTA */}
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
           className="text-center"
         >
-          <p className="text-white/95 text-xl mb-1 drop-shadow-md">Not sure which one fits?</p>
-          <p className="text-white/80 text-base mb-6 drop-shadow-md">
-            Book a FREE consultation, and we{"'"}ll choose the right plan in 30 minutes.
+          <p className="text-white/90 text-lg mb-2 drop-shadow-md">
+            <span className="text-c2c-gold font-semibold">Every session is with Shania</span> — real support from someone who{"'"}s been there.
+          </p>
+          <p className="text-white/70 text-base mb-6 drop-shadow-md">
+            Not sure which one fits? Book a FREE consultation.
           </p>
           <Button
             asChild

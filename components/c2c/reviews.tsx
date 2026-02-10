@@ -240,8 +240,8 @@ export function Reviews() {
         </motion.div>
       </div>
 
-      {/* ==================== DESKTOP VERSION (unchanged) ==================== */}
-      <div className="hidden md:block max-w-6xl mx-auto px-6">
+      {/* ==================== DESKTOP VERSION - 4 in a row ==================== */}
+      <div className="hidden md:block max-w-7xl mx-auto px-6">
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -255,7 +255,7 @@ export function Reviews() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-5"
         >
           {testimonials.map((testimonial, idx) => (
             <motion.div
