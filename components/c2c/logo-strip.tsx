@@ -98,7 +98,8 @@ function LogoStripComponent() {
                   width={company.width}
                   height={company.height}
                   sizes="80px"
-                  className="opacity-90 object-contain max-w-[80px] max-h-[44px] w-auto h-auto"
+                  className="opacity-90 object-contain max-w-[80px] max-h-[44px]"
+                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
             ))}
@@ -114,7 +115,8 @@ function LogoStripComponent() {
                   width={company.width}
                   height={company.height}
                   sizes="80px"
-                  className="opacity-90 object-contain max-w-[80px] max-h-[44px] w-auto h-auto"
+                  className="opacity-90 object-contain max-w-[80px] max-h-[44px]"
+                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
             ))}
@@ -166,7 +168,8 @@ function LogoStripComponent() {
                 width={company.width}
                 height={company.height}
                 sizes="110px"
-                className="opacity-80 hover:opacity-100 transition-opacity duration-200 object-contain w-auto h-8 lg:h-10 max-w-full max-h-[52px] lg:max-h-[56px]"
+                className="opacity-80 hover:opacity-100 transition-opacity duration-200 object-contain h-8 lg:h-10 max-w-full max-h-[52px] lg:max-h-[56px]"
+                style={{ width: "auto" }}
               />
             </div>
           ))}
