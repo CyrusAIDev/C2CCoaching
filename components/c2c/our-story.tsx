@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useRef, useCallback, useMemo, useEffect } from "react"
-import Image from "next/image"
 import { motion, useInView, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Briefcase, Target, Users, Play, Sparkles, Volume2 } from "lucide-react"
@@ -72,41 +71,6 @@ function IPhoneFrame({ children }: { children: React.ReactNode }) {
   )
 }
 
-// ==================== DesktopIphoneVideoMock (Desktop only) ====================
-// Uses the iphone-frame.png as an overlay on top of the video.
-// The frame PNG has transparent screen area so the video shows through.
-// The screen window is positioned to align precisely with the PNG's screen cutout.
-function DesktopIphoneVideoMock({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="relative mx-auto w-[340px] max-w-full" style={{ aspectRatio: "9 / 19.5" }}>
-      {/* Screen window - clips video to match the frame's screen area */}
-      <div
-        className="absolute z-10 overflow-hidden bg-black"
-        style={{
-          top: "3.2%",
-          left: "5.2%",
-          right: "5.2%",
-          bottom: "3.2%",
-          borderRadius: "2.4rem",
-        }}
-      >
-        <div className="h-full w-full">
-          {children}
-        </div>
-      </div>
-
-      {/* Frame overlay - sits on top, pointer-events-none so video controls work */}
-      <Image
-        src="/images/iphone-frame.png"
-        alt=""
-        aria-hidden={true}
-        fill
-        sizes="340px"
-        className="pointer-events-none select-none object-contain z-20"
-      />
-    </div>
-  )
-}
 
 function AutoPlayYouTubeEmbed({ className = "", aspect = "16:9", frameless = false }: AutoPlayYouTubeEmbedProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
