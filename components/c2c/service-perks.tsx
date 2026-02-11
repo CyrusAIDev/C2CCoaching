@@ -10,7 +10,7 @@ import { useIsMobile } from "@/hooks/use-is-mobile"
 import { useSectionInView } from "@/hooks/use-section-in-view"
 import { createStaggerVariants } from "@/lib/animations"
 import { SectionHeading } from "@/components/c2c/section-heading"
-import { BOOKING_URL, STRIPE_CHECKOUT_URL } from "@/lib/constants"
+import { BOOKING_URL, STRIPE_FAST_TRACK_URL, STRIPE_MOMENTUM_URL, STRIPE_INSIDER_EDGE_URL } from "@/lib/constants"
 import {
   Accordion,
   AccordionContent,
@@ -81,6 +81,7 @@ const desktopPlans = [
     price: "$697",
     priceNote: "CAD (tax incl.)",
     tagline: "Get a fast reset + a clear plan",
+    stripeUrl: STRIPE_FAST_TRACK_URL,
     bullets: [
       "Resume + LinkedIn audit & rewrite",
       "Target roles + company list",
@@ -98,6 +99,7 @@ const desktopPlans = [
     price: "$897",
     priceNote: "CAD (tax incl.)",
     tagline: "Build real traction fast",
+    stripeUrl: STRIPE_MOMENTUM_URL,
     bullets: [
       "Application tailoring for each role",
       "Deep interview coaching + mocks",
@@ -115,6 +117,7 @@ const desktopPlans = [
     price: "$1097",
     priceNote: "CAD (tax incl.)",
     tagline: "End-to-end recruiting support",
+    stripeUrl: STRIPE_INSIDER_EDGE_URL,
     bullets: [
       "Multi-round prep for tough interviews",
       "Case + behavioural confidence",
@@ -306,7 +309,7 @@ const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion, isMo
               : "bg-white/10 hover:bg-white/20 text-white border border-white/20"
           }`}
         >
-          <a href={STRIPE_CHECKOUT_URL} target="_blank" rel="noopener noreferrer">
+          <a href={plan.stripeUrl} target="_blank" rel="noopener noreferrer">
             Get Started
           </a>
         </Button>
@@ -328,6 +331,7 @@ const mobilePlans = [
     price: "$697",
     priceNote: "CAD (tax incl.)",
     tagline: "Get a fast reset + a clear plan",
+    stripeUrl: STRIPE_FAST_TRACK_URL,
     bullets: [
       { bold: "Resume + LinkedIn", rest: " audit & rewrite" },
       { bold: "Target roles", rest: " + company list" },
@@ -345,6 +349,7 @@ const mobilePlans = [
     price: "$897",
     priceNote: "CAD (tax incl.)",
     tagline: "Build real traction fast",
+    stripeUrl: STRIPE_MOMENTUM_URL,
     bullets: [
       { bold: "Application tailoring", rest: " for each role" },
       { bold: "Deep interview coaching", rest: " + mock rounds" },
@@ -362,6 +367,7 @@ const mobilePlans = [
     price: "$1097",
     priceNote: "CAD (tax incl.)",
     tagline: "End-to-end recruiting support",
+    stripeUrl: STRIPE_INSIDER_EDGE_URL,
     bullets: [
       { bold: "Multi-round prep", rest: " for tough interviews" },
       { bold: "Case + behavioural", rest: " confidence builder" },
@@ -489,7 +495,7 @@ export function ServicePerks() {
                     : "bg-white/10 hover:bg-white/15 text-white border border-white/20"
                 }`}
               >
-                <a href={STRIPE_CHECKOUT_URL} target="_blank" rel="noopener noreferrer">
+                <a href={plan.stripeUrl} target="_blank" rel="noopener noreferrer">
                   Get Started
                 </a>
               </Button>
@@ -631,7 +637,7 @@ export function ServicePerks() {
                     : "bg-white/10 hover:bg-white/20 text-white border border-white/20"
                 }`}
               >
-                <a href={STRIPE_CHECKOUT_URL} target="_blank" rel="noopener noreferrer">
+                <a href={plan.stripeUrl} target="_blank" rel="noopener noreferrer">
                   Get Started
                 </a>
               </Button>
