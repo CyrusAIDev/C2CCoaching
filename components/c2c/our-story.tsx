@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useRef, useCallback, useMemo, useEffect } from "react"
-import Image from "next/image"
 import { motion, useInView, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Briefcase, Target, Users, Play, Sparkles, Volume2 } from "lucide-react"
@@ -26,78 +25,53 @@ interface AutoPlayYouTubeEmbedProps {
 }
 
 // ==================== IPhoneFrame Component (Desktop only) ====================
+// iPhone 15 Pro: 71.6mm x 146.6mm = ~1:2.048 device ratio
+// Screen: 1179x2556px = ~1:2.17
 function IPhoneFrame({ children }: { children: React.ReactNode }) {
   return (
     <div
       className="
-        relative mx-auto w-[390px]
-        rounded-[3.4rem]
+        relative mx-auto w-[280px]
+        rounded-[2.8rem]
         bg-gradient-to-b from-zinc-950 via-black to-zinc-950
-        p-[18px]
+        p-[10px]
         shadow-[0_40px_120px_rgba(0,0,0,0.55)]
         ring-1 ring-white/15
       "
+      style={{ aspectRatio: "71.6 / 146.6" }}
     >
       {/* Glass highlight (top-left sheen) */}
-      <div className="pointer-events-none absolute inset-0 rounded-[3.4rem] bg-gradient-to-br from-white/10 via-transparent to-transparent" />
+      <div className="pointer-events-none absolute inset-0 rounded-[2.8rem] bg-gradient-to-br from-white/10 via-transparent to-transparent" />
       {/* Edge vignette (subtle side shading) */}
-      <div className="pointer-events-none absolute inset-0 rounded-[3.4rem] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06),inset_0_-18px_40px_rgba(0,0,0,0.35),inset_18px_0_40px_rgba(0,0,0,0.25),inset_-18px_0_40px_rgba(0,0,0,0.25)]" />
+      <div className="pointer-events-none absolute inset-0 rounded-[2.8rem] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06),inset_0_-14px_30px_rgba(0,0,0,0.35),inset_14px_0_30px_rgba(0,0,0,0.25),inset_-14px_0_30px_rgba(0,0,0,0.25)]" />
 
-      {/* Screen area - enforces 9:16 aspect ratio with padding trick */}
+      {/* Screen area */}
       <div
         className="
-          relative z-10 overflow-hidden
-          rounded-[2.9rem]
+          relative z-10 h-full w-full overflow-hidden
+          rounded-[2.2rem]
           bg-black
           ring-1 ring-white/10
           shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]
         "
       >
-        {/* Notch - cutout inside screen (pill + speaker slit + camera dot) */}
-        <div className="pointer-events-none absolute left-1/2 top-3 z-30 -translate-x-1/2">
-          <div className="h-[26px] w-[172px] rounded-full bg-black shadow-[0_6px_16px_rgba(0,0,0,0.5)] ring-1 ring-white/10" />
-          <div className="absolute left-1/2 top-1/2 h-[4px] w-[54px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10" />
-          <div className="absolute right-[22px] top-1/2 h-[8px] w-[8px] -translate-y-1/2 rounded-full bg-white/12" />
+        {/* Dynamic Island */}
+        <div className="pointer-events-none absolute left-1/2 top-2.5 z-30 -translate-x-1/2">
+          <div className="h-[22px] w-[120px] rounded-full bg-black shadow-[0_4px_12px_rgba(0,0,0,0.5)] ring-1 ring-white/10" />
+          <div className="absolute left-1/2 top-1/2 h-[3px] w-[40px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10" />
+          <div className="absolute right-[16px] top-1/2 h-[6px] w-[6px] -translate-y-1/2 rounded-full bg-white/12" />
         </div>
-        <div className="relative w-full" style={{ paddingTop: "177.777%" }}>
-          <div className="absolute inset-0">
-            {children}
-          </div>
-        </div>
-      </div>
-
-      {/* Home Indicator */}
-      <div className="absolute bottom-[14px] left-1/2 h-1 w-40 -translate-x-1/2 rounded-full bg-white/20 blur-[0.2px]" />
-    </div>
-  )
-}
-
-// ==================== DesktopIphoneVideoMock (Desktop only) ====================
-// OUTER: no overflow-hidden, no rounded-* — so the frame overlay is NEVER clipped.
-// Only the screen window clips the video.
-function DesktopIphoneVideoMock({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="relative mx-auto w-[420px] max-w-full aspect-[9/19.5]">
-      {/* B) Screen window – ONLY layer that clips; contains video */}
-      <div
-        className="absolute z-10 top-[9%] right-[7.5%] bottom-[10%] left-[7.5%] overflow-hidden rounded-[2.2rem] bg-black"
-      >
-        <div className="h-full w-full">
+        <div className="absolute inset-0">
           {children}
         </div>
       </div>
 
-      {/* C) Frame overlay – SIBLING of screen; on top; never clipped by wrapper */}
-      <Image
-        src="/images/iphone-frame.png"
-        alt=""
-        aria-hidden={true}
-        fill
-        className="pointer-events-none select-none object-contain z-20"
-      />
+      {/* Home Indicator */}
+      <div className="absolute bottom-[10px] left-1/2 h-1 w-28 -translate-x-1/2 rounded-full bg-white/20 blur-[0.2px]" />
     </div>
   )
 }
+
 
 function AutoPlayYouTubeEmbed({ className = "", aspect = "16:9", frameless = false }: AutoPlayYouTubeEmbedProps) {
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -521,14 +495,14 @@ export function OurStory() {
           <motion.div variants={itemVariants} className="flex flex-col items-center">
             <motion.div 
               ref={phoneRef}
-              className="relative isolate w-[420px]"
+              className="relative isolate"
               style={{ 
                 scale: shouldAnimate ? scale : 1
               }}
             >
-              <DesktopIphoneVideoMock>
+              <IPhoneFrame>
                 <AutoPlayYouTubeEmbed aspect="9:16" frameless />
-              </DesktopIphoneVideoMock>
+              </IPhoneFrame>
               
               {/* Decorative glow with dynamic intensity */}
               <motion.div 
