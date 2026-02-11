@@ -10,7 +10,7 @@ import { useIsMobile } from "@/hooks/use-is-mobile"
 import { useSectionInView } from "@/hooks/use-section-in-view"
 import { createStaggerVariants } from "@/lib/animations"
 import { SectionHeading } from "@/components/c2c/section-heading"
-import { BOOKING_URL } from "@/lib/constants"
+import { BOOKING_URL, STRIPE_CHECKOUT_URL } from "@/lib/constants"
 import {
   Accordion,
   AccordionContent,
@@ -306,7 +306,7 @@ const PricingCard = memo(function PricingCard({ plan, prefersReducedMotion, isMo
               : "bg-white/10 hover:bg-white/20 text-white border border-white/20"
           }`}
         >
-          <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+          <a href={STRIPE_CHECKOUT_URL} target="_blank" rel="noopener noreferrer">
             Get Started
           </a>
         </Button>
@@ -489,7 +489,7 @@ export function ServicePerks() {
                     : "bg-white/10 hover:bg-white/15 text-white border border-white/20"
                 }`}
               >
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                <a href={STRIPE_CHECKOUT_URL} target="_blank" rel="noopener noreferrer">
                   Get Started
                 </a>
               </Button>
@@ -631,7 +631,7 @@ export function ServicePerks() {
                     : "bg-white/10 hover:bg-white/20 text-white border border-white/20"
                 }`}
               >
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                <a href={STRIPE_CHECKOUT_URL} target="_blank" rel="noopener noreferrer">
                   Get Started
                 </a>
               </Button>
