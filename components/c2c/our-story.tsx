@@ -73,26 +73,35 @@ function IPhoneFrame({ children }: { children: React.ReactNode }) {
 }
 
 // ==================== DesktopIphoneVideoMock (Desktop only) ====================
-// OUTER: no overflow-hidden, no rounded-* — so the frame overlay is NEVER clipped.
-// Only the screen window clips the video.
+// Uses the iphone-frame.png as an overlay on top of the video.
+// The frame PNG has transparent screen area so the video shows through.
+// The screen window is positioned to align precisely with the PNG's screen cutout.
 function DesktopIphoneVideoMock({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative mx-auto w-[420px] max-w-full aspect-[9/19.5]">
-      {/* B) Screen window – ONLY layer that clips; contains video */}
+    <div className="relative mx-auto w-[340px] max-w-full" style={{ aspectRatio: "9 / 19.5" }}>
+      {/* Screen window - clips video to match the frame's screen area */}
       <div
-        className="absolute z-10 top-[9%] right-[7.5%] bottom-[10%] left-[7.5%] overflow-hidden rounded-[2.2rem] bg-black"
+        className="absolute z-10 overflow-hidden bg-black"
+        style={{
+          top: "3.2%",
+          left: "5.2%",
+          right: "5.2%",
+          bottom: "3.2%",
+          borderRadius: "2.4rem",
+        }}
       >
         <div className="h-full w-full">
           {children}
         </div>
       </div>
 
-      {/* C) Frame overlay – SIBLING of screen; on top; never clipped by wrapper */}
+      {/* Frame overlay - sits on top, pointer-events-none so video controls work */}
       <Image
         src="/images/iphone-frame.png"
         alt=""
         aria-hidden={true}
         fill
+        sizes="340px"
         className="pointer-events-none select-none object-contain z-20"
       />
     </div>
@@ -521,7 +530,7 @@ export function OurStory() {
           <motion.div variants={itemVariants} className="flex flex-col items-center">
             <motion.div 
               ref={phoneRef}
-              className="relative isolate w-[420px]"
+              className="relative isolate w-[340px]"
               style={{ 
                 scale: shouldAnimate ? scale : 1
               }}
