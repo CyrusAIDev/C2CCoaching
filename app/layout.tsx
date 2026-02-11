@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import Script from 'next/script'
+import { MetaPixel } from '@/components/consult/meta-pixel'
 import './globals.css'
 
 const inter = Inter({ 
@@ -49,6 +50,7 @@ export default function RootLayout({
       <body className={`${inter.variable} font-sans antialiased`} suppressHydrationWarning>
         {children}
         <Analytics />
+        <MetaPixel />
         {/* MailerLite Universal */}
         <Script id="mailerlite-universal" strategy="afterInteractive">
           {`
