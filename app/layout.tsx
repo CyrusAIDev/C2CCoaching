@@ -23,10 +23,6 @@ export const metadata: Metadata = {
         sizes: '32x32',
       },
       {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-      {
         url: '/icon-light-32x32.png',
         media: '(prefers-color-scheme: light)',
       },
