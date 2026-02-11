@@ -27,7 +27,7 @@ async function generateFavicons() {
     .toFile("public/apple-icon.png");
   console.log("Created apple-icon.png");
 
-  // Generate favicon.ico (32x32 PNG renamed as .ico — browsers accept PNG-based ICOs)
+  // Generate favicon.ico (32x32 PNG — browsers accept PNG-based ICOs)
   const ico32 = await sharp(SOURCE)
     .resize(32, 32, { fit: "cover" })
     .png()
