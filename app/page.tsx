@@ -1,8 +1,6 @@
 import dynamic from "next/dynamic"
 import { Header } from "@/components/c2c/header"
 import { Hero } from "@/components/c2c/hero"
-import { ConversionPopup } from "@/components/c2c/conversion-popup"
-
 // Lazy load below-the-fold components for better initial page load performance
 const LogoStrip = dynamic(() => import("@/components/c2c/logo-strip").then((mod) => ({ default: mod.LogoStrip })))
 const OurStory = dynamic(() => import("@/components/c2c/our-story").then((mod) => ({ default: mod.OurStory })))
@@ -22,7 +20,6 @@ export default function Home() {
       <ServicePerks />
       <Reviews />
       <Footer />
-      <ConversionPopup />
     </main>
   )
 }
