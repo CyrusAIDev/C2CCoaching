@@ -530,14 +530,14 @@ export function OurStory() {
           <motion.div variants={itemVariants} className="flex flex-col items-center">
             <motion.div 
               ref={phoneRef}
-              className="relative isolate w-[340px]"
+              className="relative isolate"
               style={{ 
                 scale: shouldAnimate ? scale : 1
               }}
             >
-              <DesktopIphoneVideoMock>
+              <IPhoneFrame>
                 <AutoPlayYouTubeEmbed aspect="9:16" frameless />
-              </DesktopIphoneVideoMock>
+              </IPhoneFrame>
               
               {/* Decorative glow with dynamic intensity */}
               <motion.div 
