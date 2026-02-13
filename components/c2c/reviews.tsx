@@ -23,7 +23,7 @@ const testimonials = [
     name: "Varun D.",
     title: "Second Year, York University",
     stars: 5,
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+    avatar: "/images/reviews/varun.jpg",
   },
   {
     headline: "My materials + outreach strategy finally clicked.",
@@ -32,7 +32,7 @@ const testimonials = [
     name: "Naina S.",
     title: "Final Year, London School of Economics",
     stars: 5,
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face",
+    avatar: "/images/reviews/naina.jpg",
   },
   {
     headline: "From no traction to multiple callbacks.",
@@ -41,7 +41,7 @@ const testimonials = [
     name: "Jasmine C.",
     title: "Third Year, Ivey Western University",
     stars: 5,
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=face",
+    avatar: "/images/reviews/jasmine.jpg",
   },
   {
     headline: "C2C grew my passions and helped me see my vision more clearly.",
@@ -50,7 +50,7 @@ const testimonials = [
     name: "Adeena S.",
     title: "Second Year, UBC",
     stars: 5,
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+    avatar: "/images/reviews/adeena.jpg",
   },
 ]
 
@@ -104,13 +104,13 @@ const MobileReviewCard = memo(function MobileReviewCard({
     <Card className="bg-white border-c2c-navy/10 rounded-xl p-4 h-full shadow-lg mx-1">
       {/* Header with avatar and stars */}
       <div className="flex items-center gap-3 mb-3">
-        <div className="relative w-10 h-10 rounded-full overflow-hidden bg-c2c-offwhite ring-2 ring-c2c-teal/20 flex-shrink-0">
+        <div className="relative w-11 h-11 rounded-full overflow-hidden bg-c2c-offwhite ring-2 ring-c2c-teal/20 flex-shrink-0">
           <Image
             src={testimonial.avatar || "/placeholder.svg"}
             alt={testimonial.name}
             fill
-            sizes="40px"
-            className="object-cover"
+            sizes="44px"
+            className="object-cover object-top"
           />
         </div>
         <div className="flex-1 min-w-0">
@@ -268,13 +268,13 @@ export function Reviews() {
                 {/* Header with avatar and stars */}
                 <div className="flex items-start justify-between mb-5">
                   <div className="flex items-center gap-3">
-                    <div className="relative w-12 h-12 rounded-full overflow-hidden bg-c2c-offwhite ring-2 ring-c2c-teal/20 group-hover:ring-c2c-teal/40 transition-all duration-300">
+                    <div className="relative w-12 h-12 rounded-full overflow-hidden bg-c2c-offwhite ring-2 ring-c2c-teal/20 group-hover:ring-c2c-teal/40 transition-all duration-300 flex-shrink-0">
                       <Image
                         src={testimonial.avatar || "/placeholder.svg"}
                         alt={testimonial.name}
                         fill
                         sizes="48px"
-                        className="object-cover"
+                        className="object-cover object-top"
                       />
                     </div>
                     <div>
