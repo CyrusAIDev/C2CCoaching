@@ -199,15 +199,10 @@ export function OurStory() {
   const isPhoneInView = useInView(phoneRef, { once: true, margin: "-50px" })
   
   // Cinematic zoom effect for iPhone mockup - reduced on mobile
-  // layoutScroll container ref avoids "non-static position" warning
-  const scrollContainerRef = useRef<HTMLElement | null>(null)
-  useEffect(() => {
-    scrollContainerRef.current = document.documentElement
-  }, [])
   const { scrollYProgress } = useScroll({
     target: phoneRef,
-    container: scrollContainerRef,
-    offset: ["start end", "center center"]
+    offset: ["start end", "center center"],
+    layoutEffect: false,
   })
   
   const scale = useTransform(scrollYProgress, [0, 1], isMobile ? [0.95, 1] : [0.8, 1])

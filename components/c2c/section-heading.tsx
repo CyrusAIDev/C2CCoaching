@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useScroll, useTransform } from "framer-motion"
-import { useRef, useEffect } from "react"
+import { useRef } from "react"
 
 interface SectionHeadingProps {
   title: string
@@ -11,16 +11,12 @@ interface SectionHeadingProps {
 
 export function SectionHeading({ title, isInView, className = "" }: SectionHeadingProps) {
   const ref = useRef<HTMLHeadingElement>(null)
-  const scrollContainerRef = useRef<HTMLElement | null>(null)
-  useEffect(() => {
-    scrollContainerRef.current = document.documentElement
-  }, [])
   
   // Track scroll progress relative to this element
   const { scrollYProgress } = useScroll({
     target: ref,
-    container: scrollContainerRef,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
+    layoutEffect: false,
   })
   
   // Transform scroll progress to scale values
