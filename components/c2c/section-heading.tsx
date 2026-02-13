@@ -15,7 +15,8 @@ export function SectionHeading({ title, isInView, className = "" }: SectionHeadi
   // Track scroll progress relative to this element
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
+    layoutEffect: false,
   })
   
   // Transform scroll progress to scale values
@@ -23,18 +24,20 @@ export function SectionHeading({ title, isInView, className = "" }: SectionHeadi
   const dotScale = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0.9])
   
   return (
-    <h2 ref={ref} className={`text-4xl md:text-5xl font-semibold text-c2c-navy relative inline-block ${className}`}>
-      {title}
-      <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1">
-        <motion.span
-          style={{ scaleX: isInView ? lineScaleX : 0 }}
-          className="w-16 h-1 bg-c2c-teal rounded-full origin-center"
-        />
-        <motion.span
-          style={{ scale: isInView ? dotScale : 0 }}
-          className="w-2.5 h-2.5 rounded-full bg-c2c-gold"
-        />
-      </span>
-    </h2>
+    <div ref={ref} className="relative inline-block">
+      <h2 className={`text-4xl md:text-5xl font-semibold text-c2c-navy relative inline-block ${className}`}>
+        {title}
+        <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1">
+          <motion.span
+            style={{ scaleX: isInView ? lineScaleX : 0 }}
+            className="w-16 h-1 bg-c2c-teal rounded-full origin-center"
+          />
+          <motion.span
+            style={{ scale: isInView ? dotScale : 0 }}
+            className="w-2.5 h-2.5 rounded-full bg-c2c-gold"
+          />
+        </span>
+      </h2>
+    </div>
   )
 }

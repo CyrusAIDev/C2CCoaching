@@ -1,5 +1,5 @@
 "use client"
-
+// iPhone frame v2 – 320px wide
 import { useState, useRef, useCallback, useMemo, useEffect } from "react"
 import { motion, useInView, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
@@ -31,35 +31,35 @@ function IPhoneFrame({ children }: { children: React.ReactNode }) {
   return (
     <div
       className="
-        relative mx-auto w-[280px]
-        rounded-[2.8rem]
+        relative mx-auto w-[320px]
+        rounded-[3.2rem]
         bg-gradient-to-b from-zinc-950 via-black to-zinc-950
-        p-[10px]
+        p-[11px]
         shadow-[0_40px_120px_rgba(0,0,0,0.55)]
         ring-1 ring-white/15
       "
       style={{ aspectRatio: "71.6 / 146.6" }}
     >
       {/* Glass highlight (top-left sheen) */}
-      <div className="pointer-events-none absolute inset-0 rounded-[2.8rem] bg-gradient-to-br from-white/10 via-transparent to-transparent" />
+      <div className="pointer-events-none absolute inset-0 rounded-[3.2rem] bg-gradient-to-br from-white/10 via-transparent to-transparent" />
       {/* Edge vignette (subtle side shading) */}
-      <div className="pointer-events-none absolute inset-0 rounded-[2.8rem] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06),inset_0_-14px_30px_rgba(0,0,0,0.35),inset_14px_0_30px_rgba(0,0,0,0.25),inset_-14px_0_30px_rgba(0,0,0,0.25)]" />
+      <div className="pointer-events-none absolute inset-0 rounded-[3.2rem] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06),inset_0_-16px_34px_rgba(0,0,0,0.35),inset_16px_0_34px_rgba(0,0,0,0.25),inset_-16px_0_34px_rgba(0,0,0,0.25)]" />
 
       {/* Screen area */}
       <div
         className="
           relative z-10 h-full w-full overflow-hidden
-          rounded-[2.2rem]
+          rounded-[2.5rem]
           bg-black
           ring-1 ring-white/10
           shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]
         "
       >
         {/* Dynamic Island */}
-        <div className="pointer-events-none absolute left-1/2 top-2.5 z-30 -translate-x-1/2">
-          <div className="h-[22px] w-[120px] rounded-full bg-black shadow-[0_4px_12px_rgba(0,0,0,0.5)] ring-1 ring-white/10" />
-          <div className="absolute left-1/2 top-1/2 h-[3px] w-[40px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10" />
-          <div className="absolute right-[16px] top-1/2 h-[6px] w-[6px] -translate-y-1/2 rounded-full bg-white/12" />
+        <div className="pointer-events-none absolute left-1/2 top-3 z-30 -translate-x-1/2">
+          <div className="h-[24px] w-[136px] rounded-full bg-black shadow-[0_4px_12px_rgba(0,0,0,0.5)] ring-1 ring-white/10" />
+          <div className="absolute left-1/2 top-1/2 h-[3px] w-[46px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/10" />
+          <div className="absolute right-[18px] top-1/2 h-[7px] w-[7px] -translate-y-1/2 rounded-full bg-white/12" />
         </div>
         <div className="absolute inset-0">
           {children}
@@ -67,7 +67,7 @@ function IPhoneFrame({ children }: { children: React.ReactNode }) {
       </div>
 
       {/* Home Indicator */}
-      <div className="absolute bottom-[10px] left-1/2 h-1 w-28 -translate-x-1/2 rounded-full bg-white/20 blur-[0.2px]" />
+      <div className="absolute bottom-[11px] left-1/2 h-1 w-32 -translate-x-1/2 rounded-full bg-white/20 blur-[0.2px]" />
     </div>
   )
 }
@@ -201,7 +201,8 @@ export function OurStory() {
   // Cinematic zoom effect for iPhone mockup - reduced on mobile
   const { scrollYProgress } = useScroll({
     target: phoneRef,
-    offset: ["start end", "center center"]
+    offset: ["start end", "center center"],
+    layoutEffect: false,
   })
   
   const scale = useTransform(scrollYProgress, [0, 1], isMobile ? [0.95, 1] : [0.8, 1])
@@ -491,8 +492,8 @@ export function OurStory() {
             </motion.p>
           </div>
 
-          {/* Right - iPhone Frame with YouTube Embed */}
-          <motion.div variants={itemVariants} className="flex flex-col items-center">
+          {/* Right - iPhone Frame with YouTube Embed (no stagger variant — renders immediately) */}
+          <div className="relative flex flex-col items-center">
             <motion.div 
               ref={phoneRef}
               className="relative isolate"
@@ -517,7 +518,7 @@ export function OurStory() {
             <p className="text-c2c-text-navy/70 text-sm mt-6 text-center drop-shadow-md">
               Watch: how C2C works
             </p>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
