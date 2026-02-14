@@ -571,6 +571,7 @@ export default function ConsultPage() {
                         alt={`${c.name} logo`}
                         width={c.w}
                         height={c.h}
+                        priority
                         className="opacity-80 object-contain max-h-[28px]"
                         style={{ width: "auto", height: "auto" }}
                       />
