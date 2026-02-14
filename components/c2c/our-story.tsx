@@ -1,7 +1,7 @@
 "use client"
 // iPhone frame v2 – 320px wide
 import { useState, useRef, useCallback, useMemo, useEffect } from "react"
-import { motion, useInView, useScroll, useTransform } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Briefcase, Target, Users, Play, Sparkles, Volume2 } from "lucide-react"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
@@ -198,15 +198,8 @@ export function OurStory() {
   const phoneRef = useRef(null)
   const isPhoneInView = useInView(phoneRef, { once: true, margin: "-50px" })
   
-  // Cinematic zoom effect for iPhone mockup - reduced on mobile
-  const { scrollYProgress } = useScroll({
-    target: phoneRef,
-    offset: ["start end", "center center"],
-    layoutEffect: false,
-  })
-  
-  const scale = useTransform(scrollYProgress, [0, 1], isMobile ? [0.95, 1] : [0.8, 1])
-  const glowIntensity = useTransform(scrollYProgress, [0, 1], [0.05, 0.15])
+  // Scale up phone when it enters the viewport
+  const phoneScale = isPhoneInView ? 1 : (isMobile ? 0.95 : 0.85)
   
   const shouldAnimate = !prefersReducedMotion && !isMobile
 
@@ -497,9 +490,8 @@ export function OurStory() {
             <motion.div 
               ref={phoneRef}
               className="relative isolate"
-              style={{ 
-                scale: shouldAnimate ? scale : 1
-              }}
+              animate={{ scale: shouldAnimate ? phoneScale : 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <IPhoneFrame>
                 <AutoPlayYouTubeEmbed aspect="9:16" frameless />
