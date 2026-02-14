@@ -497,12 +497,11 @@ export function OurStory() {
                 <AutoPlayYouTubeEmbed aspect="9:16" frameless />
               </IPhoneFrame>
               
-              {/* Decorative glow with dynamic intensity */}
+              {/* Decorative glow */}
               <motion.div 
                 className="absolute -inset-10 bg-c2c-teal rounded-[80px] blur-3xl -z-10"
-                style={{
-                  opacity: shouldAnimate ? glowIntensity : 0.1
-                }}
+                animate={{ opacity: shouldAnimate && isPhoneInView ? 0.15 : 0.05 }}
+                transition={{ duration: 1, ease: "easeOut" }}
               />
             </motion.div>
             
