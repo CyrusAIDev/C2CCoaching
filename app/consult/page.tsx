@@ -218,8 +218,8 @@ function LeadForm({ id, variant = "dark" }: { id?: string; variant?: "dark" | "l
   const isDark = variant === "dark"
 
   const cardCls = isDark
-    ? "bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-2xl p-6 lg:p-8 shadow-2xl"
-    : "bg-white border border-c2c-border rounded-2xl p-6 lg:p-8 shadow-xl"
+    ? "bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-2xl p-5 lg:p-8 shadow-2xl"
+    : "bg-white border border-c2c-border rounded-2xl p-5 lg:p-8 shadow-xl"
 
   const inputCls = isDark
     ? "bg-white/10 border-white/20 text-white placeholder:text-white/40 rounded-lg focus:border-c2c-teal focus:ring-c2c-teal text-base h-12"
@@ -242,23 +242,23 @@ function LeadForm({ id, variant = "dark" }: { id?: string; variant?: "dark" | "l
   return (
     <div id={id} className={cardCls}>
       {/* Progress */}
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex items-center gap-3 mb-5 lg:mb-6">
         <div className="flex items-center gap-2 flex-1">
-          <span className={`w-8 h-8 rounded-full text-sm font-semibold flex items-center justify-center ${step >= 1 ? stepActiveCls : stepInactiveCls}`}>
+          <span className={`w-7 h-7 lg:w-8 lg:h-8 rounded-full text-sm font-semibold flex items-center justify-center ${step >= 1 ? stepActiveCls : stepInactiveCls}`}>
             {step > 1 ? <CheckCircle2 className="w-4 h-4" /> : "1"}
           </span>
           <div className={`flex-1 h-0.5 rounded-full ${barBg}`}>
             <div className="h-full rounded-full bg-c2c-teal transition-all duration-300" style={{ width: step >= 2 ? "100%" : "0%" }} />
           </div>
-          <span className={`w-8 h-8 rounded-full text-sm font-semibold flex items-center justify-center ${step >= 2 ? stepActiveCls : stepInactiveCls}`}>
+          <span className={`w-7 h-7 lg:w-8 lg:h-8 rounded-full text-sm font-semibold flex items-center justify-center ${step >= 2 ? stepActiveCls : stepInactiveCls}`}>
             2
           </span>
         </div>
-        <span className={`text-sm font-medium ${stepLabel}`}>Step {step} of 2</span>
+        <span className={`text-xs lg:text-sm font-medium ${stepLabel}`}>Step {step}/2</span>
       </div>
 
       {step === 1 && (
-        <form onSubmit={goStep2} className="flex flex-col gap-4">
+        <form onSubmit={goStep2} className="flex flex-col gap-3.5 lg:gap-4">
           <div>
             <label htmlFor={`${id}-firstName`} className={labelCls}>
               First name <span className="text-c2c-gold">*</span>
@@ -280,7 +280,7 @@ function LeadForm({ id, variant = "dark" }: { id?: string; variant?: "dark" | "l
       )}
 
       {step === 2 && (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3.5 lg:gap-4">
           <div>
             <label htmlFor={`${id}-phone`} className={labelCls}>
               Phone <span className={isDark ? "text-white/40 font-normal" : "text-c2c-navy/40 font-normal"}>(optional)</span>
@@ -364,355 +364,339 @@ export default function ConsultPage() {
   }, [])
 
   return (
-    <main id="top" className="relative min-h-screen bg-c2c-offwhite">
-      {/* ─── A) Sticky Top Bar ─── */}
-      <header className="sticky top-0 z-50 bg-c2c-navy/95 backdrop-blur-md border-b border-white/5">
-        <div className="max-w-6xl mx-auto px-5 md:px-6 flex items-center justify-between h-14 md:h-16">
-          <Link href="/" className="flex items-center">
-            {/* White badge behind logo on lg+ */}
-            <span className="hidden lg:flex items-center justify-center bg-white rounded-full p-1.5 shadow-sm mr-2">
-              <Image
-                src="/images/c2c-logo.png"
-                alt="C2C"
-                width={36}
-                height={36}
-                sizes="36px"
-                className="h-7 w-7 object-contain"
-                priority
-              />
-            </span>
-            <Image
-              src="/images/c2c-logo.png"
-              alt="C2C - From Campus 2 Corporate"
-              width={190}
-              height={75}
-              sizes="120px"
-              className="h-12 md:h-14 -my-2 lg:hidden"
-              style={{ width: "auto" }}
-              priority
-            />
-            <span className="hidden lg:inline text-white font-semibold text-sm">C2C Coaching</span>
-          </Link>
-          <div className="flex items-center gap-4">
-            <a href="#faq" className="text-white/70 hover:text-white text-sm font-medium transition-colors">
-              FAQ
-            </a>
-            <Button onClick={scrollToForm} size="sm" className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold rounded-lg text-sm px-4">
-              Get Started
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      {/* ─── B) Cinematic Dark Hero ─── */}
-      <section className="relative overflow-hidden">
-        {/* Background image (same as homepage hero) */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/hero-bg.jpg"
-            alt=""
-            fill
-            sizes="100vw"
-            className="hidden md:block object-cover object-top"
-            priority
-          />
-          <Image
-            src="/images/hero-mobile.jpg"
-            alt=""
-            fill
-            sizes="100vw"
-            className="md:hidden object-cover object-[50%_30%]"
-            priority
-          />
-          {/* Navy scrim */}
-          <div className="hidden md:block absolute inset-0 bg-gradient-to-b from-c2c-navy/80 via-c2c-navy/90 to-c2c-navy/98" />
-          <div className="md:hidden absolute inset-0 bg-gradient-to-b from-c2c-navy/70 via-c2c-navy/85 to-c2c-navy" />
-        </div>
-
-        <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6 py-16 md:py-24 lg:py-20">
-          <div className="grid md:grid-cols-2 gap-10 md:gap-14 lg:gap-16 items-start">
-            {/* Left - copy */}
-            <motion.div
-              initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <h1 className="text-3xl md:text-4xl lg:text-[2.75rem] font-semibold text-white leading-tight mb-5 text-balance">
-                Walk away with a 2-week action plan&nbsp;&mdash; and fix what{"'"}s blocking your callbacks.
-              </h1>
-              <p className="text-lg md:text-xl text-white/80 mb-6 leading-relaxed font-medium">
-                Get my 14-day checklist + a LinkedIn/Resume scorecard + a free 30-minute consult.
-              </p>
-
-              <ul className="flex flex-col gap-3 mb-8">
-                {[
-                  "Spot what's killing callbacks (resume + LinkedIn red flags)",
-                  "Get a week-by-week 2-week plan you can actually follow",
-                  "Show up to the consult with clarity + next steps",
-                ].map((text) => (
-                  <li key={text} className="flex items-start gap-2.5">
-                    <CheckCircle2 className="w-5 h-5 text-c2c-teal mt-0.5 flex-shrink-0" />
-                    <span className="text-white text-base">{text}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <p className="text-white/50 text-sm mb-4">{TRUST_MICROCOPY}</p>
-
-              {/* Logo proof -- white pill on desktop */}
-              <div className="flex items-center gap-3 flex-wrap lg:bg-white/90 lg:backdrop-blur lg:rounded-xl lg:px-4 lg:py-3 lg:shadow-sm lg:inline-flex">
-                {companies.map((c) => (
-                  <div key={c.name} className="bg-white/10 lg:bg-transparent rounded-lg p-1.5 lg:p-0 flex items-center justify-center">
-                    <Image
-                      src={c.logo}
-                      alt={`${c.name} logo`}
-                      width={c.w}
-                      height={c.h}
-                      priority
-                      className="opacity-70 lg:opacity-80 object-contain max-h-[24px] lg:max-h-[26px]"
-                      style={{ width: "auto", height: "auto" }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Right - form */}
-            <motion.div
-              initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <LeadForm id="hero-form" variant="dark" />
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── C) What Happens on the Call ─── */}
-      <section ref={callView.ref} className="py-16 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
-        <SectionBackground />
-        <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
-          <motion.div variants={fadeUp} initial="hidden" animate={callView.isInView ? "visible" : "hidden"} className="text-center mb-10 lg:mb-12">
-            <h2 className="text-3xl md:text-4xl font-semibold text-c2c-navy mb-3">What happens on the call</h2>
-            <p className="text-c2c-navy/70 text-lg max-w-xl mx-auto">30 minutes. Zero fluff. Here{"'"}s the playbook.</p>
-          </motion.div>
-
-          <motion.div variants={staggerContainer} initial="hidden" animate={callView.isInView ? "visible" : "hidden"} className="grid md:grid-cols-3 gap-6">
-            {callSteps.map((s) => (
-              <motion.div key={s.title} variants={staggerItem}>
-                <Card className="bg-white border-c2c-border rounded-2xl p-6 h-full shadow-md hover:shadow-xl transition-shadow duration-300 group">
-                  <div className="w-12 h-12 rounded-xl bg-c2c-teal/10 flex items-center justify-center mb-4 group-hover:bg-c2c-teal/20 transition-colors">
-                    <s.icon className="w-6 h-6 text-c2c-teal" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-c2c-navy mb-2">{s.title}</h3>
-                  <p className="text-c2c-navy/70 text-sm leading-relaxed">{s.desc}</p>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ─── D) What You Get (2x2 grid) ─── */}
-      <section ref={benefitsView.ref} className="py-16 md:py-24 lg:py-16 bg-white relative overflow-hidden">
-        <SectionBackground />
-        <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
-          <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="text-center mb-10 lg:mb-12">
-            <h2 className="text-3xl md:text-4xl font-semibold text-c2c-navy mb-3">What you get</h2>
-            <p className="text-c2c-navy/70 text-lg max-w-xl mx-auto">Everything you need to go from stalled to strategic.</p>
-          </motion.div>
-
-          <motion.div variants={staggerContainer} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="grid sm:grid-cols-2 gap-5">
-            {benefits.map((b) => (
-              <motion.div key={b.title} variants={staggerItem}>
-                <Card className="bg-c2c-offwhite border-c2c-border rounded-2xl p-6 h-full shadow-sm hover:shadow-lg transition-shadow duration-300 group">
-                  <div className="w-12 h-12 rounded-xl bg-c2c-teal/10 flex items-center justify-center mb-4 group-hover:bg-c2c-teal/20 transition-colors">
-                    <b.icon className="w-6 h-6 text-c2c-teal" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-c2c-navy mb-2">{b.title}</h3>
-                  <p className="text-c2c-navy/70 text-sm leading-relaxed">{b.desc}</p>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="flex justify-center mt-10">
-            <Button onClick={scrollToForm} className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-6 text-base rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl shadow-[0_0_25px_rgba(58,166,168,0.3)]">
-              Get My Free Resources <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ─── E) How It Works Stepper (light) ─── */}
-      <section ref={stepsView.ref} className="py-16 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
-        <div className="relative z-10 max-w-4xl mx-auto px-5 md:px-6">
-          <motion.div variants={fadeUp} initial="hidden" animate={stepsView.isInView ? "visible" : "hidden"} className="text-center mb-10 lg:mb-12">
-            <h2 className="text-3xl md:text-4xl font-semibold text-c2c-navy mb-3">How it works</h2>
-            <p className="text-c2c-navy/70 text-lg">Three steps. No guesswork.</p>
-          </motion.div>
-
-          <motion.div variants={staggerContainer} initial="hidden" animate={stepsView.isInView ? "visible" : "hidden"} className="grid md:grid-cols-3 gap-6">
-            {howItWorks.map((s, i) => (
-              <motion.div key={s.num} variants={staggerItem}>
-                <div className="relative bg-white border border-c2c-border rounded-2xl p-6 text-center h-full shadow-sm">
-                  {/* Connector line */}
-                  {i < howItWorks.length - 1 && (
-                    <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-c2c-teal/30" />
-                  )}
-                  <div className="w-14 h-14 rounded-full bg-c2c-teal/10 flex items-center justify-center mx-auto mb-4">
-                    <span className="text-c2c-teal text-lg font-bold">{s.num}</span>
-                  </div>
-                  <h3 className="text-xl font-semibold text-c2c-navy mb-2">{s.title}</h3>
-                  <p className="text-c2c-navy/70 text-sm leading-relaxed">{s.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ─── F) For You / Not for You Split ─── */}
-      <section ref={fitView.ref} className="py-14 md:py-20 lg:py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-5 md:px-6">
-          <motion.div variants={fadeUp} initial="hidden" animate={fitView.isInView ? "visible" : "hidden"}>
-            <div className="grid md:grid-cols-2 gap-5">
-              {/* For you */}
-              <div className="bg-c2c-teal/5 border border-c2c-teal/15 rounded-2xl p-6">
-                <div className="flex items-center gap-2.5 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-c2c-teal/15 flex items-center justify-center flex-shrink-0">
-                    <Check className="w-4 h-4 text-c2c-teal" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-c2c-navy">This is for you if...</h3>
-                </div>
-                <ul className="flex flex-col gap-2.5">
-                  {[
-                    "You're a student or recent grad looking for internships, co-ops, or entry-level roles",
-                    "You want a structured plan instead of guessing what to do next",
-                    "You're ready to put in the work -- you just need the right direction",
-                  ].map((t) => (
-                    <li key={t} className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-c2c-teal mt-0.5 flex-shrink-0" />
-                      <span className="text-c2c-navy/70 text-sm leading-relaxed">{t}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {/* Not for you */}
-              <div className="bg-c2c-navy/[0.03] border border-c2c-navy/10 rounded-2xl p-6">
-                <div className="flex items-center gap-2.5 mb-4">
-                  <div className="w-8 h-8 rounded-full bg-c2c-navy/10 flex items-center justify-center flex-shrink-0">
-                    <XCircle className="w-4 h-4 text-c2c-navy/50" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-c2c-navy">This might not be for you if...</h3>
-                </div>
-                <ul className="flex flex-col gap-2.5">
-                  {[
-                    "You're looking for guaranteed job placement -- we help you become a stronger candidate, but there are no guarantees",
-                    "You're not willing to follow through -- this is a partnership, not a shortcut",
-                  ].map((t) => (
-                    <li key={t} className="flex items-start gap-2">
-                      <XCircle className="w-4 h-4 text-c2c-navy/40 mt-0.5 flex-shrink-0" />
-                      <span className="text-c2c-navy/70 text-sm leading-relaxed">{t}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+    <>
+      <main id="top" className="relative min-h-screen bg-c2c-offwhite pb-16 lg:pb-0">
+        {/* ─── A) Sticky Top Bar ─── */}
+        <header className="sticky top-0 z-50 bg-c2c-navy/95 backdrop-blur-md border-b border-white/5">
+          <div className="max-w-6xl mx-auto px-5 md:px-6 flex items-center justify-between h-14 md:h-16">
+            <Link href="/" className="flex items-center">
+              <span className="hidden lg:flex items-center justify-center bg-white rounded-full p-1.5 shadow-sm mr-2">
+                <Image src="/images/c2c-logo.png" alt="C2C" width={36} height={36} sizes="36px" className="h-7 w-7 object-contain" priority />
+              </span>
+              <Image src="/images/c2c-logo.png" alt="C2C - From Campus 2 Corporate" width={190} height={75} sizes="120px" className="h-12 md:h-14 -my-2 lg:hidden" style={{ width: "auto" }} priority />
+              <span className="hidden lg:inline text-white font-semibold text-sm">C2C Coaching</span>
+            </Link>
+            <div className="flex items-center gap-4">
+              <a href="#faq" className="text-white/70 hover:text-white text-sm font-medium transition-colors">FAQ</a>
+              <Button onClick={scrollToForm} size="sm" className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold rounded-lg text-sm px-4">
+                Get Started
+              </Button>
             </div>
-          </motion.div>
-        </div>
-      </section>
+          </div>
+        </header>
 
-      {/* ─── G) Testimonials ─── */}
-      <section ref={testimonialsView.ref} className="py-16 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
-        <SectionBackground />
-        <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6">
-          <motion.div variants={fadeUp} initial="hidden" animate={testimonialsView.isInView ? "visible" : "hidden"} className="text-center mb-10 lg:mb-12">
-            <h2 className="text-3xl md:text-4xl font-semibold text-c2c-navy mb-3">What our clients say</h2>
-          </motion.div>
+        {/* ─── B) Cinematic Dark Hero ─── */}
+        <section className="relative overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <Image src="/images/hero-bg.jpg" alt="" fill sizes="100vw" className="hidden md:block object-cover object-top" priority />
+            <Image src="/images/hero-mobile.jpg" alt="" fill sizes="100vw" className="md:hidden object-cover object-[50%_30%]" priority />
+            <div className="hidden md:block absolute inset-0 bg-gradient-to-b from-c2c-navy/80 via-c2c-navy/90 to-c2c-navy/98" />
+            <div className="md:hidden absolute inset-0 bg-gradient-to-b from-c2c-navy/70 via-c2c-navy/85 to-c2c-navy" />
+          </div>
 
-          <motion.div variants={staggerContainer} initial="hidden" animate={testimonialsView.isInView ? "visible" : "hidden"} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {testimonials.map((t) => (
-              <motion.div key={t.name} variants={staggerItem}>
-                <Card className="bg-white border-c2c-border rounded-2xl p-5 h-full shadow-md hover:shadow-xl transition-shadow duration-300">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="relative w-11 h-11 rounded-full overflow-hidden bg-c2c-offwhite ring-2 ring-c2c-teal/20 flex-shrink-0">
-                      <Image src={t.avatar} alt={t.name} fill sizes="44px" className="object-cover object-top" />
+          {/* Mobile: tighter py-10; Desktop unchanged */}
+          <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6 py-10 md:py-24 lg:py-20">
+            <div className="grid md:grid-cols-2 gap-8 md:gap-14 lg:gap-16 items-start">
+              {/* Left - copy */}
+              <motion.div
+                initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <h1 className="text-2xl md:text-4xl lg:text-[2.75rem] font-semibold text-white leading-tight mb-4 md:mb-5 text-balance">
+                  Walk away with a 2-week action plan&nbsp;&mdash; and fix what{"'"}s blocking your callbacks.
+                </h1>
+                <p className="text-base md:text-xl text-white/80 mb-5 md:mb-6 leading-relaxed font-medium">
+                  Get my 14-day checklist + a LinkedIn/Resume scorecard + a free 30-minute consult.
+                </p>
+
+                <ul className="flex flex-col gap-2.5 md:gap-3 mb-6 md:mb-8">
+                  {[
+                    "Spot what's killing callbacks (resume + LinkedIn red flags)",
+                    "Get a week-by-week 2-week plan you can actually follow",
+                    "Show up to the consult with clarity + next steps",
+                  ].map((text) => (
+                    <li key={text} className="flex items-start gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 text-c2c-teal mt-0.5 flex-shrink-0" />
+                      <span className="text-white text-sm md:text-base">{text}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <p className="text-white/50 text-xs md:text-sm mb-4">{TRUST_MICROCOPY}</p>
+
+                {/* Logo proof -- horizontally scrollable on mobile, white pill on desktop */}
+                <div className="flex items-center gap-3 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-hide lg:overflow-visible lg:pb-0 lg:bg-white/90 lg:backdrop-blur lg:rounded-xl lg:px-4 lg:py-3 lg:shadow-sm lg:inline-flex">
+                  {companies.map((c) => (
+                    <div key={c.name} className="bg-white/10 lg:bg-transparent rounded-lg p-1.5 lg:p-0 flex items-center justify-center flex-shrink-0 snap-start">
+                      <Image
+                        src={c.logo}
+                        alt={`${c.name} logo`}
+                        width={c.w}
+                        height={c.h}
+                        priority
+                        className="opacity-70 lg:opacity-80 object-contain max-h-[24px] lg:max-h-[26px]"
+                        style={{ width: "auto", height: "auto" }}
+                      />
                     </div>
-                    <div className="min-w-0">
-                      <p className="font-semibold text-c2c-navy text-sm truncate">{t.name}</p>
-                      <p className="text-c2c-navy/60 text-xs truncate">{t.title}</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-0.5 mb-3">
-                    {Array.from({ length: t.stars }).map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-c2c-gold text-c2c-gold" />
-                    ))}
-                  </div>
-                  <h4 className="text-base font-semibold text-c2c-navy mb-2 leading-snug">&ldquo;{t.headline}&rdquo;</h4>
-                  <p className="text-c2c-navy/70 text-sm leading-relaxed mb-3">{t.body}</p>
-                  <div className="bg-c2c-teal/[0.08] rounded-lg p-3 border-l-[3px] border-c2c-teal">
-                    <p className="text-sm">
-                      <span className="font-bold text-c2c-teal">Result: </span>
-                      <span className="text-c2c-navy/80 font-medium">{t.result}</span>
-                    </p>
-                  </div>
-                </Card>
+                  ))}
+                </div>
               </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
 
-      {/* ─── H) FAQ ─── */}
-      <section id="faq" ref={faqView.ref} className="py-16 md:py-24 lg:py-16 bg-white relative overflow-hidden">
-        <div className="relative z-10 max-w-3xl mx-auto px-5 md:px-6">
-          <motion.div variants={fadeUp} initial="hidden" animate={faqView.isInView ? "visible" : "hidden"} className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-semibold text-c2c-navy mb-3">Frequently asked questions</h2>
-          </motion.div>
+              {/* Right - form (full-width on mobile) */}
+              <motion.div
+                initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full max-w-none lg:max-w-md"
+              >
+                <LeadForm id="hero-form" variant="dark" />
+              </motion.div>
+            </div>
+          </div>
+        </section>
 
-          <motion.div variants={fadeUp} initial="hidden" animate={faqView.isInView ? "visible" : "hidden"}>
-            <Accordion type="single" collapsible className="w-full">
-              {faqs.map((faq, i) => (
-                <AccordionItem key={i} value={`faq-${i}`} className="border-c2c-navy/10">
-                  <AccordionTrigger className="text-c2c-navy font-semibold text-base text-left py-5 hover:no-underline">
-                    {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-c2c-navy/70 text-base leading-relaxed">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
+        {/* ─── C) What Happens on the Call ─── */}
+        <section ref={callView.ref} className="py-10 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
+          <SectionBackground />
+          <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
+            <motion.div variants={fadeUp} initial="hidden" animate={callView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
+              <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">What happens on the call</h2>
+              <p className="text-c2c-navy/70 text-sm md:text-lg max-w-xl mx-auto">30 minutes. Zero fluff. Here{"'"}s the playbook.</p>
+            </motion.div>
+
+            {/* Mobile: horizontal swipe row; Desktop: 3-col grid */}
+            <motion.div variants={staggerContainer} initial="hidden" animate={callView.isInView ? "visible" : "hidden"}
+              className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide md:grid md:grid-cols-3 md:overflow-visible md:pb-0"
+            >
+              {callSteps.map((s) => (
+                <motion.div key={s.title} variants={staggerItem} className="min-w-[75vw] snap-start md:min-w-0">
+                  <Card className="bg-white border-c2c-border rounded-2xl p-5 md:p-6 h-full shadow-md hover:shadow-xl transition-shadow duration-300 group">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-c2c-teal/10 flex items-center justify-center mb-3 md:mb-4 group-hover:bg-c2c-teal/20 transition-colors">
+                      <s.icon className="w-5 h-5 md:w-6 md:h-6 text-c2c-teal" />
+                    </div>
+                    <h3 className="text-base md:text-lg font-semibold text-c2c-navy mb-1.5 md:mb-2">{s.title}</h3>
+                    <p className="text-c2c-navy/70 text-sm leading-relaxed">{s.desc}</p>
+                  </Card>
+                </motion.div>
               ))}
-            </Accordion>
-
-            {/* Back to top */}
-            <div className="mt-8 text-center">
-              <a href="#top" className="inline-flex items-center gap-1.5 text-c2c-navy/50 hover:text-c2c-teal text-sm font-medium transition-colors">
-                <ArrowUp className="w-3.5 h-3.5" />
-                Back to top
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ─── I) Final CTA with form (light variant) ─── */}
-      <section id="lead" className="py-16 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
-        <SectionBackground />
-        <div className="relative z-10 max-w-2xl mx-auto px-5 md:px-6">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-semibold text-c2c-navy mb-3 text-balance">
-              Ready to stop guessing and start landing callbacks?
-            </h2>
-            <p className="text-c2c-navy/70 text-lg">Get your free resources and book a call. No pressure.</p>
+            </motion.div>
           </div>
-          <LeadForm id="bottom-form" variant="light" />
-        </div>
-      </section>
+        </section>
 
-      {/* ─── Footer ─── */}
-      <Footer />
-    </main>
+        {/* ─── D) What You Get ─── */}
+        <section ref={benefitsView.ref} className="py-10 md:py-24 lg:py-16 bg-white relative overflow-hidden">
+          <SectionBackground />
+          <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
+            <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
+              <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">What you get</h2>
+              <p className="text-c2c-navy/70 text-sm md:text-lg max-w-xl mx-auto">Everything you need to go from stalled to strategic.</p>
+            </motion.div>
+
+            {/* Mobile: horizontal swipe; Desktop: 2x2 grid */}
+            <motion.div variants={staggerContainer} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"}
+              className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0"
+            >
+              {benefits.map((b) => (
+                <motion.div key={b.title} variants={staggerItem} className="min-w-[75vw] snap-start sm:min-w-0">
+                  <Card className="bg-c2c-offwhite border-c2c-border rounded-2xl p-5 md:p-6 h-full shadow-sm hover:shadow-lg transition-shadow duration-300 group">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-c2c-teal/10 flex items-center justify-center mb-3 md:mb-4 group-hover:bg-c2c-teal/20 transition-colors">
+                      <b.icon className="w-5 h-5 md:w-6 md:h-6 text-c2c-teal" />
+                    </div>
+                    <h3 className="text-base md:text-lg font-semibold text-c2c-navy mb-1.5 md:mb-2">{b.title}</h3>
+                    <p className="text-c2c-navy/70 text-sm leading-relaxed">{b.desc}</p>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="flex justify-center mt-8 md:mt-10">
+              <Button onClick={scrollToForm} className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-6 text-base rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl shadow-[0_0_25px_rgba(58,166,168,0.3)]">
+                Get My Free Resources <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ─── E) How It Works Stepper ─── */}
+        <section ref={stepsView.ref} className="py-10 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
+          <div className="relative z-10 max-w-4xl mx-auto px-5 md:px-6">
+            <motion.div variants={fadeUp} initial="hidden" animate={stepsView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
+              <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">How it works</h2>
+              <p className="text-c2c-navy/70 text-sm md:text-lg">Three steps. No guesswork.</p>
+            </motion.div>
+
+            <motion.div variants={staggerContainer} initial="hidden" animate={stepsView.isInView ? "visible" : "hidden"} className="grid md:grid-cols-3 gap-4 md:gap-6">
+              {howItWorks.map((s, i) => (
+                <motion.div key={s.num} variants={staggerItem}>
+                  <div className="relative bg-white border border-c2c-border rounded-2xl p-5 md:p-6 text-center h-full shadow-sm">
+                    {i < howItWorks.length - 1 && (
+                      <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-c2c-teal/30" />
+                    )}
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-c2c-teal/10 flex items-center justify-center mx-auto mb-3 md:mb-4">
+                      <span className="text-c2c-teal text-base md:text-lg font-bold">{s.num}</span>
+                    </div>
+                    <h3 className="text-lg md:text-xl font-semibold text-c2c-navy mb-1.5 md:mb-2">{s.title}</h3>
+                    <p className="text-c2c-navy/70 text-sm leading-relaxed">{s.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ─── F) For You / Not for You Split ─── */}
+        <section ref={fitView.ref} className="py-10 md:py-20 lg:py-16 bg-white">
+          <div className="max-w-4xl mx-auto px-5 md:px-6">
+            <motion.div variants={fadeUp} initial="hidden" animate={fitView.isInView ? "visible" : "hidden"}>
+              <div className="grid md:grid-cols-2 gap-4 md:gap-5">
+                {/* For you */}
+                <div className="bg-c2c-teal/5 border border-c2c-teal/15 rounded-2xl p-5 md:p-6">
+                  <div className="flex items-center gap-2.5 mb-3 md:mb-4">
+                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-c2c-teal/15 flex items-center justify-center flex-shrink-0">
+                      <Check className="w-3.5 h-3.5 md:w-4 md:h-4 text-c2c-teal" />
+                    </div>
+                    <h3 className="text-base md:text-lg font-semibold text-c2c-navy">This is for you if...</h3>
+                  </div>
+                  <ul className="flex flex-col gap-2 md:gap-2.5">
+                    {[
+                      "You're a student or recent grad looking for internships, co-ops, or entry-level roles",
+                      "You want a structured plan instead of guessing what to do next",
+                      "You're ready to put in the work -- you just need the right direction",
+                    ].map((t) => (
+                      <li key={t} className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-c2c-teal mt-0.5 flex-shrink-0" />
+                        <span className="text-c2c-navy/70 text-sm leading-relaxed">{t}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                {/* Not for you */}
+                <div className="bg-c2c-navy/[0.03] border border-c2c-navy/10 rounded-2xl p-5 md:p-6">
+                  <div className="flex items-center gap-2.5 mb-3 md:mb-4">
+                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-c2c-navy/10 flex items-center justify-center flex-shrink-0">
+                      <XCircle className="w-3.5 h-3.5 md:w-4 md:h-4 text-c2c-navy/50" />
+                    </div>
+                    <h3 className="text-base md:text-lg font-semibold text-c2c-navy">This might not be for you if...</h3>
+                  </div>
+                  <ul className="flex flex-col gap-2 md:gap-2.5">
+                    {[
+                      "You're looking for guaranteed job placement -- we help you become a stronger candidate, but there are no guarantees",
+                      "You're not willing to follow through -- this is a partnership, not a shortcut",
+                    ].map((t) => (
+                      <li key={t} className="flex items-start gap-2">
+                        <XCircle className="w-4 h-4 text-c2c-navy/40 mt-0.5 flex-shrink-0" />
+                        <span className="text-c2c-navy/70 text-sm leading-relaxed">{t}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ─── G) Testimonials ─── */}
+        <section ref={testimonialsView.ref} className="py-10 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
+          <SectionBackground />
+          <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6">
+            <motion.div variants={fadeUp} initial="hidden" animate={testimonialsView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
+              <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">What our clients say</h2>
+            </motion.div>
+
+            {/* Mobile: horizontal swipe; Desktop: 4-col grid */}
+            <motion.div variants={staggerContainer} initial="hidden" animate={testimonialsView.isInView ? "visible" : "hidden"}
+              className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible sm:pb-0"
+            >
+              {testimonials.map((t) => (
+                <motion.div key={t.name} variants={staggerItem} className="min-w-[80vw] snap-start sm:min-w-0">
+                  <Card className="bg-white border-c2c-border rounded-2xl p-5 h-full shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <div className="flex items-center gap-3 mb-3 md:mb-4">
+                      <div className="relative w-11 h-11 rounded-full overflow-hidden bg-c2c-offwhite ring-2 ring-c2c-teal/20 flex-shrink-0">
+                        <Image src={t.avatar} alt={t.name} fill sizes="44px" className="object-cover object-top" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-semibold text-c2c-navy text-sm truncate">{t.name}</p>
+                        <p className="text-c2c-navy/60 text-xs truncate">{t.title}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-0.5 mb-2 md:mb-3">
+                      {Array.from({ length: t.stars }).map((_, i) => (
+                        <Star key={i} className="w-3.5 h-3.5 fill-c2c-gold text-c2c-gold" />
+                      ))}
+                    </div>
+                    <h4 className="text-base font-semibold text-c2c-navy mb-1.5 md:mb-2 leading-snug">&ldquo;{t.headline}&rdquo;</h4>
+                    <p className="text-c2c-navy/70 text-sm leading-relaxed mb-3">{t.body}</p>
+                    <div className="bg-c2c-teal/[0.08] rounded-lg p-3 border-l-[3px] border-c2c-teal">
+                      <p className="text-sm">
+                        <span className="font-bold text-c2c-teal">Result: </span>
+                        <span className="text-c2c-navy/80 font-medium">{t.result}</span>
+                      </p>
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ─── H) FAQ ─── */}
+        <section id="faq" ref={faqView.ref} className="py-10 md:py-24 lg:py-16 bg-white relative overflow-hidden">
+          <div className="relative z-10 max-w-3xl mx-auto px-5 md:px-6">
+            <motion.div variants={fadeUp} initial="hidden" animate={faqView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10">
+              <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">Frequently asked questions</h2>
+            </motion.div>
+
+            <motion.div variants={fadeUp} initial="hidden" animate={faqView.isInView ? "visible" : "hidden"}>
+              <Accordion type="single" collapsible className="w-full">
+                {faqs.map((faq, i) => (
+                  <AccordionItem key={i} value={`faq-${i}`} className="border-c2c-navy/10">
+                    <AccordionTrigger className="text-c2c-navy font-semibold text-sm md:text-base text-left py-4 md:py-5 hover:no-underline">
+                      {faq.q}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-c2c-navy/70 text-sm md:text-base leading-relaxed">
+                      {faq.a}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+
+              <div className="mt-6 md:mt-8 text-center">
+                <a href="#top" className="inline-flex items-center gap-1.5 text-c2c-navy/50 hover:text-c2c-teal text-sm font-medium transition-colors">
+                  <ArrowUp className="w-3.5 h-3.5" />
+                  Back to top
+                </a>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ─── I) Final CTA with form (light variant) ─── */}
+        <section id="lead" className="py-10 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
+          <SectionBackground />
+          <div className="relative z-10 max-w-2xl mx-auto px-5 md:px-6">
+            <div className="text-center mb-6 md:mb-10">
+              <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3 text-balance">
+                Ready to stop guessing and start landing callbacks?
+              </h2>
+              <p className="text-c2c-navy/70 text-sm md:text-lg">Get your free resources and book a call. No pressure.</p>
+            </div>
+            <LeadForm id="bottom-form" variant="light" />
+          </div>
+        </section>
+
+        <Footer />
+      </main>
+
+      {/* ─── Sticky Mobile CTA Bar ─── */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-c2c-border shadow-[0_-4px_20px_rgba(0,0,0,0.08)] px-4 py-3 lg:hidden">
+        <Button
+          onClick={scrollToForm}
+          className="w-full bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold py-5 text-sm rounded-lg shadow-[0_0_20px_rgba(58,166,168,0.25)]"
+        >
+          Get Free Resources <ArrowRight className="w-4 h-4 ml-1.5" />
+        </Button>
+      </div>
+    </>
   )
 }
