@@ -26,6 +26,7 @@ import {
   Wrench,
   CalendarCheck,
   ArrowRight,
+  ArrowUp,
   ChevronDown,
   CheckCircle2,
   Star,
@@ -217,8 +218,8 @@ function LeadForm({ id, variant = "dark" }: { id?: string; variant?: "dark" | "l
   const isDark = variant === "dark"
 
   const cardCls = isDark
-    ? "bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-2xl p-6 md:p-8 shadow-2xl"
-    : "bg-white border border-c2c-border rounded-2xl p-6 md:p-8 shadow-xl"
+    ? "bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-2xl p-6 lg:p-8 shadow-2xl"
+    : "bg-white border border-c2c-border rounded-2xl p-6 lg:p-8 shadow-xl"
 
   const inputCls = isDark
     ? "bg-white/10 border-white/20 text-white placeholder:text-white/40 rounded-lg focus:border-c2c-teal focus:ring-c2c-teal text-base h-12"
@@ -229,14 +230,14 @@ function LeadForm({ id, variant = "dark" }: { id?: string; variant?: "dark" | "l
     : "flex h-12 w-full rounded-lg border bg-c2c-offwhite border-c2c-border px-3 py-2 text-base text-c2c-navy ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-c2c-teal focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
 
   const labelCls = isDark ? "block text-white/80 text-sm font-medium mb-1.5" : "block text-c2c-navy/80 text-sm font-medium mb-1.5"
-  const stepActiveCls = isDark ? "bg-c2c-teal text-white" : "bg-c2c-teal text-white"
+  const stepActiveCls = "bg-c2c-teal text-white"
   const stepInactiveCls = isDark ? "bg-white/10 text-white/40" : "bg-c2c-navy/10 text-c2c-navy/40"
   const barBg = isDark ? "bg-white/10" : "bg-c2c-navy/10"
   const stepLabel = isDark ? "text-white/60" : "text-c2c-navy/60"
   const errorCls = "text-red-400 text-sm flex items-center gap-1.5"
   const microCls = isDark ? "text-white/50 text-xs text-center" : "text-c2c-navy/50 text-xs text-center"
   const privacyCls = isDark ? "text-white/40 text-[11px] text-center leading-relaxed" : "text-c2c-navy/40 text-[11px] text-center leading-relaxed"
-  const optionCls = isDark ? "text-c2c-navy" : "text-c2c-navy"
+  const optionCls = "text-c2c-navy"
 
   return (
     <div id={id} className={cardCls}>
@@ -363,21 +364,34 @@ export default function ConsultPage() {
   }, [])
 
   return (
-    <main className="relative min-h-screen bg-c2c-offwhite">
+    <main id="top" className="relative min-h-screen bg-c2c-offwhite">
       {/* ─── A) Sticky Top Bar ─── */}
       <header className="sticky top-0 z-50 bg-c2c-navy/95 backdrop-blur-md border-b border-white/5">
         <div className="max-w-6xl mx-auto px-5 md:px-6 flex items-center justify-between h-14 md:h-16">
           <Link href="/" className="flex items-center">
+            {/* White badge behind logo on lg+ */}
+            <span className="hidden lg:flex items-center justify-center bg-white rounded-full p-1.5 shadow-sm mr-2">
+              <Image
+                src="/images/c2c-logo.png"
+                alt="C2C"
+                width={36}
+                height={36}
+                sizes="36px"
+                className="h-7 w-7 object-contain"
+                priority
+              />
+            </span>
             <Image
               src="/images/c2c-logo.png"
               alt="C2C - From Campus 2 Corporate"
               width={190}
               height={75}
               sizes="120px"
-              className="h-12 md:h-14 -my-2"
+              className="h-12 md:h-14 -my-2 lg:hidden"
               style={{ width: "auto" }}
               priority
             />
+            <span className="hidden lg:inline text-white font-semibold text-sm">C2C Coaching</span>
           </Link>
           <div className="flex items-center gap-4">
             <a href="#faq" className="text-white/70 hover:text-white text-sm font-medium transition-colors">
@@ -415,8 +429,8 @@ export default function ConsultPage() {
           <div className="md:hidden absolute inset-0 bg-gradient-to-b from-c2c-navy/70 via-c2c-navy/85 to-c2c-navy" />
         </div>
 
-        <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6 py-16 md:py-24">
-          <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-start">
+        <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6 py-16 md:py-24 lg:py-20">
+          <div className="grid md:grid-cols-2 gap-10 md:gap-14 lg:gap-16 items-start">
             {/* Left - copy */}
             <motion.div
               initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
@@ -432,30 +446,30 @@ export default function ConsultPage() {
 
               <ul className="flex flex-col gap-3 mb-8">
                 {[
-                  "Identify what's costing you callbacks",
-                  "Get a clear, week-by-week action plan",
-                  "Prep before your free 30-min strategy call",
+                  "Spot what's killing callbacks (resume + LinkedIn red flags)",
+                  "Get a week-by-week 2-week plan you can actually follow",
+                  "Show up to the consult with clarity + next steps",
                 ].map((text) => (
                   <li key={text} className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-5 h-5 text-c2c-teal mt-0.5 flex-shrink-0" />
-                    <span className="text-white/80 text-base">{text}</span>
+                    <span className="text-white text-base">{text}</span>
                   </li>
                 ))}
               </ul>
 
               <p className="text-white/50 text-sm mb-4">{TRUST_MICROCOPY}</p>
 
-              {/* Compact logo proof */}
-              <div className="flex items-center gap-3 flex-wrap">
+              {/* Logo proof -- white pill on desktop */}
+              <div className="flex items-center gap-3 flex-wrap lg:bg-white/90 lg:backdrop-blur lg:rounded-xl lg:px-4 lg:py-3 lg:shadow-sm lg:inline-flex">
                 {companies.map((c) => (
-                  <div key={c.name} className="bg-white/10 rounded-lg p-1.5 flex items-center justify-center">
+                  <div key={c.name} className="bg-white/10 lg:bg-transparent rounded-lg p-1.5 lg:p-0 flex items-center justify-center">
                     <Image
                       src={c.logo}
                       alt={`${c.name} logo`}
                       width={c.w}
                       height={c.h}
                       priority
-                      className="opacity-70 object-contain max-h-[24px]"
+                      className="opacity-70 lg:opacity-80 object-contain max-h-[24px] lg:max-h-[26px]"
                       style={{ width: "auto", height: "auto" }}
                     />
                   </div>
@@ -476,10 +490,10 @@ export default function ConsultPage() {
       </section>
 
       {/* ─── C) What Happens on the Call ─── */}
-      <section ref={callView.ref} className="py-20 md:py-28 bg-c2c-offwhite relative overflow-hidden">
+      <section ref={callView.ref} className="py-16 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
         <SectionBackground />
         <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
-          <motion.div variants={fadeUp} initial="hidden" animate={callView.isInView ? "visible" : "hidden"} className="text-center mb-14">
+          <motion.div variants={fadeUp} initial="hidden" animate={callView.isInView ? "visible" : "hidden"} className="text-center mb-10 lg:mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-c2c-navy mb-3">What happens on the call</h2>
             <p className="text-c2c-navy/70 text-lg max-w-xl mx-auto">30 minutes. Zero fluff. Here{"'"}s the playbook.</p>
           </motion.div>
@@ -501,10 +515,10 @@ export default function ConsultPage() {
       </section>
 
       {/* ─── D) What You Get (2x2 grid) ─── */}
-      <section ref={benefitsView.ref} className="py-20 md:py-28 bg-white relative overflow-hidden">
+      <section ref={benefitsView.ref} className="py-16 md:py-24 lg:py-16 bg-white relative overflow-hidden">
         <SectionBackground />
         <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
-          <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="text-center mb-14">
+          <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="text-center mb-10 lg:mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-c2c-navy mb-3">What you get</h2>
             <p className="text-c2c-navy/70 text-lg max-w-xl mx-auto">Everything you need to go from stalled to strategic.</p>
           </motion.div>
@@ -523,7 +537,7 @@ export default function ConsultPage() {
             ))}
           </motion.div>
 
-          <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="flex justify-center mt-12">
+          <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="flex justify-center mt-10">
             <Button onClick={scrollToForm} className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-6 text-base rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl shadow-[0_0_25px_rgba(58,166,168,0.3)]">
               Get My Free Resources <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
@@ -532,9 +546,9 @@ export default function ConsultPage() {
       </section>
 
       {/* ─── E) How It Works Stepper (light) ─── */}
-      <section ref={stepsView.ref} className="py-20 md:py-28 bg-c2c-offwhite relative overflow-hidden">
+      <section ref={stepsView.ref} className="py-16 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
         <div className="relative z-10 max-w-4xl mx-auto px-5 md:px-6">
-          <motion.div variants={fadeUp} initial="hidden" animate={stepsView.isInView ? "visible" : "hidden"} className="text-center mb-14">
+          <motion.div variants={fadeUp} initial="hidden" animate={stepsView.isInView ? "visible" : "hidden"} className="text-center mb-10 lg:mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-c2c-navy mb-3">How it works</h2>
             <p className="text-c2c-navy/70 text-lg">Three steps. No guesswork.</p>
           </motion.div>
@@ -560,7 +574,7 @@ export default function ConsultPage() {
       </section>
 
       {/* ─── F) For You / Not for You Split ─── */}
-      <section ref={fitView.ref} className="py-16 md:py-20 bg-white">
+      <section ref={fitView.ref} className="py-14 md:py-20 lg:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-5 md:px-6">
           <motion.div variants={fadeUp} initial="hidden" animate={fitView.isInView ? "visible" : "hidden"}>
             <div className="grid md:grid-cols-2 gap-5">
@@ -611,10 +625,10 @@ export default function ConsultPage() {
       </section>
 
       {/* ─── G) Testimonials ─── */}
-      <section ref={testimonialsView.ref} className="py-20 md:py-28 bg-c2c-offwhite relative overflow-hidden">
+      <section ref={testimonialsView.ref} className="py-16 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
         <SectionBackground />
         <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6">
-          <motion.div variants={fadeUp} initial="hidden" animate={testimonialsView.isInView ? "visible" : "hidden"} className="text-center mb-14">
+          <motion.div variants={fadeUp} initial="hidden" animate={testimonialsView.isInView ? "visible" : "hidden"} className="text-center mb-10 lg:mb-12">
             <h2 className="text-3xl md:text-4xl font-semibold text-c2c-navy mb-3">What our clients say</h2>
           </motion.div>
 
@@ -652,9 +666,9 @@ export default function ConsultPage() {
       </section>
 
       {/* ─── H) FAQ ─── */}
-      <section id="faq" ref={faqView.ref} className="py-20 md:py-28 bg-white relative overflow-hidden">
+      <section id="faq" ref={faqView.ref} className="py-16 md:py-24 lg:py-16 bg-white relative overflow-hidden">
         <div className="relative z-10 max-w-3xl mx-auto px-5 md:px-6">
-          <motion.div variants={fadeUp} initial="hidden" animate={faqView.isInView ? "visible" : "hidden"} className="text-center mb-12">
+          <motion.div variants={fadeUp} initial="hidden" animate={faqView.isInView ? "visible" : "hidden"} className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-semibold text-c2c-navy mb-3">Frequently asked questions</h2>
           </motion.div>
 
@@ -671,12 +685,20 @@ export default function ConsultPage() {
                 </AccordionItem>
               ))}
             </Accordion>
+
+            {/* Back to top */}
+            <div className="mt-8 text-center">
+              <a href="#top" className="inline-flex items-center gap-1.5 text-c2c-navy/50 hover:text-c2c-teal text-sm font-medium transition-colors">
+                <ArrowUp className="w-3.5 h-3.5" />
+                Back to top
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>
 
       {/* ─── I) Final CTA with form (light variant) ─── */}
-      <section className="py-20 md:py-28 bg-c2c-offwhite relative overflow-hidden">
+      <section id="lead" className="py-16 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
         <SectionBackground />
         <div className="relative z-10 max-w-2xl mx-auto px-5 md:px-6">
           <div className="text-center mb-10">

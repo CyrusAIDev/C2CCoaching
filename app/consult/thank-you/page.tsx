@@ -74,16 +74,29 @@ function ThankYouContent() {
       <header className="absolute top-0 left-0 right-0 z-20 bg-transparent">
         <div className="max-w-6xl mx-auto px-5 md:px-6 flex items-center justify-between h-14 md:h-16">
           <Link href="/" className="flex items-center">
+            {/* White badge behind logo on lg+ */}
+            <span className="hidden lg:flex items-center justify-center bg-white rounded-full p-1.5 shadow-sm mr-2">
+              <Image
+                src="/images/c2c-logo.png"
+                alt="C2C"
+                width={36}
+                height={36}
+                sizes="36px"
+                className="h-7 w-7 object-contain"
+                priority
+              />
+            </span>
             <Image
               src="/images/c2c-logo.png"
               alt="C2C - From Campus 2 Corporate"
               width={190}
               height={75}
               sizes="120px"
-              className="h-12 md:h-14 -my-2"
+              className="h-12 md:h-14 -my-2 lg:hidden"
               style={{ width: "auto" }}
               priority
             />
+            <span className="hidden lg:inline text-white font-semibold text-sm">C2C Coaching</span>
           </Link>
           <Link
             href="/consult"
@@ -95,7 +108,7 @@ function ThankYouContent() {
       </header>
 
       {/* ─── 1) Short Dark Hero Header ─── */}
-      <section className="relative overflow-hidden pt-20 pb-14 md:pt-24 md:pb-16">
+      <section className="relative overflow-hidden pt-20 pb-12 md:pt-24 md:pb-14 lg:pt-20 lg:pb-10">
         {/* Background image (same as homepage hero) */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -164,43 +177,76 @@ function ThankYouContent() {
         </div>
       </section>
 
-      {/* ─── 2) Calendar Embed Section ─── */}
-      <section className="relative -mt-2 pb-16 md:pb-20 bg-c2c-offwhite">
+      {/* ─── 2) Calendar + Prep -- 2-col on lg ─── */}
+      <section className="relative -mt-2 pb-16 md:pb-20 lg:pb-16 bg-c2c-offwhite">
         <SectionBackground />
-        <div className="relative z-10 max-w-3xl mx-auto px-5 md:px-6">
+        <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            <Card className="bg-white border-c2c-border rounded-2xl overflow-hidden shadow-2xl shadow-c2c-navy/8">
-              {/* Cal.com embed */}
-              <iframe
-                src={BOOKING_URL}
-                title="Book your 30-minute consult with C2C"
-                className="w-full border-0"
-                style={{ height: "700px", minHeight: "600px" }}
-                loading="eager"
-              />
-            </Card>
+            {/* Desktop: 2-col grid; Mobile: stacked */}
+            <div className="grid lg:grid-cols-[1fr_340px] gap-6 lg:gap-8 items-start">
+              {/* Left -- calendar embed */}
+              <div>
+                <Card className="bg-white border-c2c-border rounded-2xl overflow-hidden shadow-2xl shadow-c2c-navy/8">
+                  {/* Cal.com embed */}
+                  <iframe
+                    src={BOOKING_URL}
+                    title="Book your 30-minute consult with C2C"
+                    className="w-full border-0"
+                    style={{ height: "660px", minHeight: "560px" }}
+                    loading="eager"
+                  />
+                </Card>
 
-            {/* Fallback link */}
-            <div className="mt-5 text-center">
-              <CTAButton href={BOOKING_URL} size="default">
-                <span className="flex items-center gap-2">
-                  <CalendarCheck className="w-4 h-4" />
-                  Open calendar in a new tab
-                  <ExternalLink className="w-3.5 h-3.5 opacity-60" />
-                </span>
-              </CTAButton>
-              {/* TODO: Add booking confirmation tracking (e.g., Cal.com webhook or postMessage listener) */}
+                {/* Fallback link */}
+                <div className="mt-5 text-center">
+                  <CTAButton href={BOOKING_URL} size="default">
+                    <span className="flex items-center gap-2">
+                      <CalendarCheck className="w-4 h-4" />
+                      Open calendar in a new tab
+                      <ExternalLink className="w-3.5 h-3.5 opacity-60" />
+                    </span>
+                  </CTAButton>
+                  {/* TODO: Add booking confirmation tracking (e.g., Cal.com webhook or postMessage listener) */}
+                </div>
+              </div>
+
+              {/* Right -- prep checklist (visible alongside calendar on lg) */}
+              <div className="hidden lg:block">
+                <Card className="bg-white border-c2c-border rounded-2xl p-6 shadow-lg sticky top-20">
+                  <div className="flex items-center gap-2 mb-5">
+                    <Sparkles className="w-4 h-4 text-c2c-gold" />
+                    <span className="text-c2c-teal text-sm font-semibold uppercase tracking-wider">
+                      2 minutes of prep
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-c2c-navy mb-4">
+                    What to bring to the call
+                  </h3>
+                  <div className="flex flex-col gap-3">
+                    {prepItems.map((item, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-c2c-teal/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <item.icon className="w-4 h-4 text-c2c-teal" />
+                        </div>
+                        <p className="text-c2c-navy/80 text-sm leading-relaxed pt-1">
+                          {item.text}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ─── 3) What to Prep ─── */}
-      <section className="py-14 md:py-18 bg-white relative overflow-hidden">
+      {/* ─── 3) What to Prep (mobile / tablet only -- hidden on lg since it's in the sidebar) ─── */}
+      <section className="py-14 md:py-18 bg-white relative overflow-hidden lg:hidden">
         <SectionBackground />
         <div className="relative z-10 max-w-2xl mx-auto px-5 md:px-6">
           <motion.div
@@ -249,7 +295,7 @@ function ThankYouContent() {
       </section>
 
       {/* ─── 4) Optional: LinkedIn + Resume ─── */}
-      <section className="py-14 md:py-18 bg-c2c-offwhite relative overflow-hidden">
+      <section className="py-14 md:py-18 lg:py-14 bg-c2c-offwhite lg:bg-white relative overflow-hidden">
         <SectionBackground />
         <div className="relative z-10 max-w-xl mx-auto px-5 md:px-6">
           <motion.div
