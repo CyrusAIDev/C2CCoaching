@@ -68,18 +68,18 @@ const companies = [
 const callSteps = [
   {
     icon: Search,
-    title: "Find the leaks",
-    desc: "If your apps aren\u2019t converting, something\u2019s off. We identify the exact \u201Cleak\u201D in your resume/LinkedIn/strategy that\u2019s costing you callbacks.",
+    title: "Diagnose blockers",
+    desc: "We review what's holding you back -- your resume, LinkedIn, outreach, or positioning.",
   },
   {
     icon: Target,
-    title: "Create your next 14 days",
-    desc: "You\u2019ll walk away with a tailored checklist that tells you what to do each day to increase visibility and land interviews faster.",
+    title: "Build a 2-week plan",
+    desc: "Walk away with a clear, day-by-day checklist you can act on immediately.",
   },
   {
     icon: Zap,
-    title: "Lock your next step",
-    desc: "You\u2019ll leave knowing the best move: self-serve resources, a focused coaching package, or a specific action plan you can run immediately.",
+    title: "Choose the fastest path",
+    desc: "Whether you need coaching or just resources, we'll map the best route for your situation.",
   },
 ]
 
@@ -87,28 +87,28 @@ const benefits = [
   {
     icon: FileText,
     title: "LinkedIn & Resume Scorecard",
-    desc: "We score your resume + LinkedIn the way recruiters do, then show you what\u2019s blocking callbacks (positioning, keywords, readability, impact).",
+    desc: "A detailed audit of what recruiters actually see -- and where you're losing them.",
   },
   {
     icon: ListChecks,
     title: "14-Day Action Checklist",
-    desc: "A day-by-day plan tailored to your target roles, so you know exactly what to fix, what to apply to, and who to reach out to each day.",
+    desc: "A day-by-day plan designed to sharpen your materials and build momentum fast.",
   },
   {
     icon: Wrench,
     title: "3 Quick Fixes",
-    desc: "Three high-impact edits you can make today to instantly improve how your profile reads and how you show up in searches.",
+    desc: "High-impact changes you can make today to improve how your profile reads.",
   },
   {
     icon: CalendarCheck,
     title: "Free 30-Min Consult",
-    desc: "We walk through your scorecard, map your fastest path, and leave you with a clear next move (DIY resources or coaching).",
+    desc: "Walk through your plan live with a coach who knows recruiting inside-out.",
   },
 ]
 
 const howItWorks = [
   { num: "01", title: "Opt in", desc: "Drop your name and email. Takes 30 seconds." },
-  { num: "02", title: "Get your resources", desc: "Your scorecard + checklist will be discussed in the consultation to ensure accuracy and takeaways for your goals." },
+  { num: "02", title: "Get your resources", desc: "Your scorecard + checklist hit your inbox right away." },
   { num: "03", title: "Book your consult", desc: "Pick a time and walk away with a real game plan." },
 ]
 
@@ -124,7 +124,7 @@ const testimonials = [
   },
   {
     headline: "My materials + outreach strategy finally clicked.",
-    body: "I was based in England trying to break into fintech in London, and I wasn\u2019t getting momentum. After working with C2C, everything finally came together.",
+    body: "I was based in England trying to break into fintech in London, and I wasn't getting momentum. After working with C2C, everything finally came together.",
     result: "Started landing interviews at Lazard, Goldman Sachs, and Morgan Stanley.",
     name: "Naina S.",
     title: "Final Year, LSE",
@@ -143,7 +143,7 @@ const testimonials = [
   {
     headline: "C2C grew my passions and helped me see my vision.",
     body: "I went from no resume, no direction and no application, to having insider knowledge, confidence and experiences under my belt.",
-    result: "Now I\u2019m interviewing with fast-paced startups.",
+    result: "Now I'm interviewing with fast-paced startups.",
     name: "Adeena S.",
     title: "Second Year, UBC",
     stars: 5,
@@ -152,12 +152,12 @@ const testimonials = [
 ]
 
 const faqs = [
-  { q: "How quickly will I get the scorecard and checklist?", a: "To ensure accuracy and discuss the results, you will receive them during our 30-minute consultation. This will ensure your goals are aligned with our scorecard and 14-day checklist. We don\u2019t want you to get generic advice, but advice specific to your situation." },
-  { q: "I don\u2019t have much experience. Is this still for me?", a: "Absolutely. Most of our clients start with little or no experience. The whole point is to help you position what you have and build from there." },
-  { q: "I\u2019m an international student. Can I still use this?", a: "Yes \u2014 as long as you have a valid work permit, study permit, or visa that allows you to work. We\u2019ve helped international students across Canada, the US, and the UK." },
-  { q: "What types of roles does C2C focus on?", a: "Internships, co-ops, and new grad roles across industries \u2014 finance, consulting, tech, marketing, and more. We tailor our approach to your target." },
-  { q: "Do I need to upload anything before the consult?", a: "Nope. Just your name and email to start. On the thank-you page you can optionally share your LinkedIn or a resume link to help your coach prepare, but it\u2019s not required." },
-  { q: "How long is the turnaround for the consult?", a: "After you opt in, you book a time directly. Most clients get on a call within 2\u20135 days depending on availability." },
+  { q: "How quickly will I get the scorecard and checklist?", a: "Instantly. As soon as you submit the form, your 14-day checklist and LinkedIn/Resume scorecard are sent straight to your inbox." },
+  { q: "I don't have much experience. Is this still for me?", a: "Absolutely. Most of our clients start with little or no experience. The whole point is to help you position what you have and build from there." },
+  { q: "I'm an international student. Can I still use this?", a: "Yes -- as long as you have a valid work permit, study permit, or visa that allows you to work. We've helped international students across Canada, the US, and the UK." },
+  { q: "What types of roles does C2C focus on?", a: "Internships, co-ops, and new grad roles across industries -- finance, consulting, tech, marketing, and more. We tailor our approach to your target." },
+  { q: "Do I need to upload anything before the consult?", a: "Nope. Just your name and email to start. On the thank-you page you can optionally share your LinkedIn or a resume link to help your coach prepare, but it's not required." },
+  { q: "How long is the turnaround for the consult?", a: "After you opt in, you book a time directly. Most clients get on a call within 2-5 days depending on availability." },
 ]
 
 /* ─────────────────────── Lead Form (2-step) ─────────────────────── */
@@ -387,50 +387,46 @@ export default function ConsultPage() {
 
         {/* ─── B) Cinematic Dark Hero ─── */}
         <section className="relative overflow-hidden">
-          {/* Desktop: rooftop photo; Mobile: homepage hero images */}
           <div className="absolute inset-0 z-0">
-            <Image src="/images/consult-hero.jpg" alt="" fill sizes="100vw" className="hidden lg:block object-cover object-[50%_25%]" priority />
-            <Image src="/images/hero-bg.jpg" alt="" fill sizes="100vw" className="hidden md:block lg:hidden object-cover object-top" priority />
+            <Image src="/images/hero-bg.jpg" alt="" fill sizes="100vw" className="hidden md:block object-cover object-top" priority />
             <Image src="/images/hero-mobile.jpg" alt="" fill sizes="100vw" className="md:hidden object-cover object-[50%_30%]" priority />
-            {/* Desktop scrim -- stronger for rooftop photo readability */}
-            <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-c2c-navy/95 via-c2c-navy/85 to-c2c-navy/75" />
-            <div className="hidden md:block lg:hidden absolute inset-0 bg-gradient-to-b from-c2c-navy/80 via-c2c-navy/90 to-c2c-navy/98" />
+            <div className="hidden md:block absolute inset-0 bg-gradient-to-b from-c2c-navy/80 via-c2c-navy/90 to-c2c-navy/98" />
             <div className="md:hidden absolute inset-0 bg-gradient-to-b from-c2c-navy/70 via-c2c-navy/85 to-c2c-navy" />
           </div>
 
-          {/* Desktop: spacious hero; Mobile: tighter */}
-          <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6 py-10 md:py-24 lg:py-24">
-            <div className="grid md:grid-cols-2 gap-8 md:gap-14 lg:gap-20 items-start">
+          {/* Mobile: tighter py-10; Desktop unchanged */}
+          <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6 py-10 md:py-24 lg:py-20">
+            <div className="grid md:grid-cols-2 gap-8 md:gap-14 lg:gap-16 items-start">
               {/* Left - copy */}
               <motion.div
                 initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
-                <h1 className="text-2xl md:text-4xl lg:text-5xl font-semibold text-white leading-tight mb-4 md:mb-5 lg:mb-6 text-balance">
+                <h1 className="text-2xl md:text-4xl lg:text-[2.75rem] font-semibold text-white leading-tight mb-4 md:mb-5 text-balance">
                   Walk away with a 2-week action plan&nbsp;&mdash; and fix what{"'"}s blocking your callbacks.
                 </h1>
-                <p className="text-base md:text-xl lg:text-[1.35rem] text-white/80 mb-5 md:mb-6 lg:mb-8 leading-relaxed font-medium">
-                  Get a 14-day checklist + a LinkedIn/Resume scorecard + a free 30-minute consult.
+                <p className="text-base md:text-xl text-white/80 mb-5 md:mb-6 leading-relaxed font-medium">
+                  Get my 14-day checklist + a LinkedIn/Resume scorecard + a free 30-minute consult.
                 </p>
 
-                <ul className="flex flex-col gap-2.5 md:gap-3 lg:gap-3.5 mb-6 md:mb-8 lg:mb-10">
+                <ul className="flex flex-col gap-2.5 md:gap-3 mb-6 md:mb-8">
                   {[
-                    "Pinpoint what\u2019s killing callbacks (resume + LinkedIn red flags)",
-                    "Map a week-by-week 2-week plan you can actually follow",
-                    "Walk into the consult with clarity + next steps",
+                    "Spot what's killing callbacks (resume + LinkedIn red flags)",
+                    "Get a week-by-week 2-week plan you can actually follow",
+                    "Show up to the consult with clarity + next steps",
                   ].map((text) => (
                     <li key={text} className="flex items-start gap-2.5">
                       <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 text-c2c-teal mt-0.5 flex-shrink-0" />
-                      <span className="text-white text-sm md:text-base lg:text-[1.05rem]">{text}</span>
+                      <span className="text-white text-sm md:text-base">{text}</span>
                     </li>
                   ))}
                 </ul>
 
-                <p className="text-white/50 text-xs md:text-sm mb-4 lg:mb-5">{TRUST_MICROCOPY}</p>
+                <p className="text-white/50 text-xs md:text-sm mb-4">{TRUST_MICROCOPY}</p>
 
                 {/* Logo proof -- horizontally scrollable on mobile, white pill on desktop */}
-                <div className="flex items-center gap-3 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-hide lg:overflow-visible lg:pb-0 lg:bg-white/90 lg:backdrop-blur lg:rounded-xl lg:px-5 lg:py-3.5 lg:shadow-sm lg:inline-flex lg:gap-5">
+                <div className="flex items-center gap-3 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-hide lg:overflow-visible lg:pb-0 lg:bg-white/90 lg:backdrop-blur lg:rounded-xl lg:px-4 lg:py-3 lg:shadow-sm lg:inline-flex">
                   {companies.map((c) => (
                     <div key={c.name} className="bg-white/10 lg:bg-transparent rounded-lg p-1.5 lg:p-0 flex items-center justify-center flex-shrink-0 snap-start">
                       <Image
@@ -439,7 +435,7 @@ export default function ConsultPage() {
                         width={c.w}
                         height={c.h}
                         priority
-                        className="opacity-70 lg:opacity-80 object-contain max-h-[24px] lg:max-h-[28px]"
+                        className="opacity-70 lg:opacity-80 object-contain max-h-[24px] lg:max-h-[26px]"
                         style={{ width: "auto", height: "auto" }}
                       />
                     </div>
@@ -447,12 +443,12 @@ export default function ConsultPage() {
                 </div>
               </motion.div>
 
-              {/* Right - form */}
+              {/* Right - form (full-width on mobile) */}
               <motion.div
                 initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full max-w-none lg:max-w-[440px]"
+                className="w-full max-w-none lg:max-w-md"
               >
                 <LeadForm id="hero-form" variant="dark" />
               </motion.div>
@@ -466,7 +462,7 @@ export default function ConsultPage() {
           <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
             <motion.div variants={fadeUp} initial="hidden" animate={callView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
               <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">What happens on the call</h2>
-              <p className="text-c2c-navy/70 text-sm md:text-lg lg:text-xl max-w-2xl mx-auto">30 minutes. Zero fluff. You{"'"}ll leave with a plan you can execute today.</p>
+              <p className="text-c2c-navy/70 text-sm md:text-lg max-w-xl mx-auto">30 minutes. Zero fluff. Here{"'"}s the playbook.</p>
             </motion.div>
 
             {/* Mobile: horizontal swipe row; Desktop: 3-col grid */}
@@ -480,16 +476,11 @@ export default function ConsultPage() {
                       <s.icon className="w-5 h-5 md:w-6 md:h-6 text-c2c-teal" />
                     </div>
                     <h3 className="text-base md:text-lg font-semibold text-c2c-navy mb-1.5 md:mb-2">{s.title}</h3>
-                    <p className="text-c2c-navy/70 text-sm md:text-[0.9375rem] leading-relaxed">{s.desc}</p>
+                    <p className="text-c2c-navy/70 text-sm leading-relaxed">{s.desc}</p>
                   </Card>
                 </motion.div>
               ))}
             </motion.div>
-
-            <motion.p variants={fadeUp} initial="hidden" animate={callView.isInView ? "visible" : "hidden"}
-              className="text-center text-c2c-navy/50 text-sm mt-6 md:mt-10 max-w-xl mx-auto">
-              Built from the same system we{"'"}ve used with students pushing into competitive internships + new grad roles.
-            </motion.p>
           </div>
         </section>
 
@@ -499,7 +490,7 @@ export default function ConsultPage() {
           <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
             <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
               <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">What you get</h2>
-              <p className="text-c2c-navy/70 text-sm md:text-lg lg:text-xl max-w-2xl mx-auto">A clear audit, a 14-day sprint plan, and the exact next steps to start landing interviews.</p>
+              <p className="text-c2c-navy/70 text-sm md:text-lg max-w-xl mx-auto">Everything you need to go from stalled to strategic.</p>
             </motion.div>
 
             {/* Mobile: horizontal swipe; Desktop: 2x2 grid */}
@@ -513,17 +504,16 @@ export default function ConsultPage() {
                       <b.icon className="w-5 h-5 md:w-6 md:h-6 text-c2c-teal" />
                     </div>
                     <h3 className="text-base md:text-lg font-semibold text-c2c-navy mb-1.5 md:mb-2">{b.title}</h3>
-                    <p className="text-c2c-navy/70 text-sm md:text-[0.9375rem] leading-relaxed">{b.desc}</p>
+                    <p className="text-c2c-navy/70 text-sm leading-relaxed">{b.desc}</p>
                   </Card>
                 </motion.div>
               ))}
             </motion.div>
 
-            <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="flex flex-col items-center mt-8 md:mt-10">
+            <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="flex justify-center mt-8 md:mt-10">
               <Button onClick={scrollToForm} className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-6 text-base rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl shadow-[0_0_25px_rgba(58,166,168,0.3)]">
                 Get My Free Resources <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
-              <p className="text-c2c-navy/40 text-xs mt-3">No pressure to buy. You{"'"}ll still leave with clarity and a plan.</p>
             </motion.div>
           </div>
         </section>
@@ -547,7 +537,7 @@ export default function ConsultPage() {
                       <span className="text-c2c-teal text-base md:text-lg font-bold">{s.num}</span>
                     </div>
                     <h3 className="text-lg md:text-xl font-semibold text-c2c-navy mb-1.5 md:mb-2">{s.title}</h3>
-                    <p className="text-c2c-navy/70 text-sm md:text-[0.9375rem] leading-relaxed">{s.desc}</p>
+                    <p className="text-c2c-navy/70 text-sm leading-relaxed">{s.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -570,9 +560,9 @@ export default function ConsultPage() {
                   </div>
                   <ul className="flex flex-col gap-2 md:gap-2.5">
                     {[
-                      "You\u2019re a student or recent grad looking for internships, co-ops, or entry-level roles",
+                      "You're a student or recent grad looking for internships, co-ops, or entry-level roles",
                       "You want a structured plan instead of guessing what to do next",
-                      "You\u2019re ready to put in the work \u2014 you just need the right direction",
+                      "You're ready to put in the work -- you just need the right direction",
                     ].map((t) => (
                       <li key={t} className="flex items-start gap-2">
                         <CheckCircle2 className="w-4 h-4 text-c2c-teal mt-0.5 flex-shrink-0" />
@@ -591,8 +581,8 @@ export default function ConsultPage() {
                   </div>
                   <ul className="flex flex-col gap-2 md:gap-2.5">
                     {[
-                      "You\u2019re looking for guaranteed job placement \u2014 we help you become a stronger candidate, but there are no guarantees",
-                      "You\u2019re not willing to follow through \u2014 this is a partnership, not a shortcut",
+                      "You're looking for guaranteed job placement -- we help you become a stronger candidate, but there are no guarantees",
+                      "You're not willing to follow through -- this is a partnership, not a shortcut",
                     ].map((t) => (
                       <li key={t} className="flex items-start gap-2">
                         <XCircle className="w-4 h-4 text-c2c-navy/40 mt-0.5 flex-shrink-0" />
@@ -606,7 +596,7 @@ export default function ConsultPage() {
           </div>
         </section>
 
-        {/* ─── G) Testimonials + Community Photo ─── */}
+        {/* ─── G) Testimonials ─── */}
         <section ref={testimonialsView.ref} className="py-10 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
           <SectionBackground />
           <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6">
@@ -647,25 +637,6 @@ export default function ConsultPage() {
                 </motion.div>
               ))}
             </motion.div>
-
-            {/* Community photo -- desktop only */}
-            <motion.div variants={fadeUp} initial="hidden" animate={testimonialsView.isInView ? "visible" : "hidden"}
-              className="hidden lg:block mt-14">
-              <div className="relative rounded-2xl overflow-hidden shadow-xl max-w-3xl mx-auto">
-                <Image
-                  src="/images/consult-community.jpg"
-                  alt="C2C community members collaborating together"
-                  width={900}
-                  height={500}
-                  className="object-cover object-top w-full h-[320px]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-c2c-navy/60 via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <p className="text-white font-semibold text-lg">Join a community that gets it.</p>
-                  <p className="text-white/70 text-sm mt-1">100+ students and grads sharpening their edge together.</p>
-                </div>
-              </div>
-            </motion.div>
           </div>
         </section>
 
@@ -705,10 +676,10 @@ export default function ConsultPage() {
           <SectionBackground />
           <div className="relative z-10 max-w-2xl mx-auto px-5 md:px-6">
             <div className="text-center mb-6 md:mb-10">
-              <h2 className="text-2xl md:text-4xl lg:text-[2.5rem] font-semibold text-c2c-navy mb-2 md:mb-3 text-balance">
-                Your callbacks start here.
+              <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3 text-balance">
+                Ready to stop guessing and start landing callbacks?
               </h2>
-              <p className="text-c2c-navy/70 text-sm md:text-lg lg:text-xl max-w-lg mx-auto">Get your free resources, book a call, and leave with a plan. No pressure.</p>
+              <p className="text-c2c-navy/70 text-sm md:text-lg">Get your free resources and book a call. No pressure.</p>
             </div>
             <LeadForm id="bottom-form" variant="light" />
           </div>
