@@ -37,6 +37,16 @@ import {
   AlertCircle,
   XCircle,
   Check,
+  Ghost,
+  HelpCircle,
+  Flame,
+  Sparkles,
+  CalendarDays,
+  Lightbulb,
+  Building2,
+  Award,
+  Briefcase,
+  TrendingUp,
 } from "lucide-react"
 
 /* ─────────────────────── constants ─────────────────────── */
@@ -68,18 +78,18 @@ const companies = [
 const callSteps = [
   {
     icon: Search,
-    title: "Diagnose blockers",
-    desc: "We review what's holding you back -- your resume, LinkedIn, outreach, or positioning.",
+    title: "Find the leaks",
+    desc: "If your apps aren't converting, something's off. We identify the exact \"leak\" in your resume/LinkedIn/strategy that's costing you callbacks.",
   },
   {
     icon: Target,
-    title: "Build a 2-week plan",
-    desc: "Walk away with a clear, day-by-day checklist you can act on immediately.",
+    title: "Create your next 14 days",
+    desc: "You'll walk away with a tailored checklist that tells you what to do each day to increase visibility and land interviews faster.",
   },
   {
     icon: Zap,
-    title: "Choose the fastest path",
-    desc: "Whether you need coaching or just resources, we'll map the best route for your situation.",
+    title: "Lock your next step",
+    desc: "You'll leave knowing the best move: self-serve resources, a focused coaching package, or a specific action plan you can run immediately.",
   },
 ]
 
@@ -87,28 +97,28 @@ const benefits = [
   {
     icon: FileText,
     title: "LinkedIn & Resume Scorecard",
-    desc: "A detailed audit of what recruiters actually see -- and where you're losing them.",
+    desc: "We score your resume + LinkedIn the way recruiters do, then show you what's blocking callbacks (positioning, keywords, readability, impact).",
   },
   {
     icon: ListChecks,
     title: "14-Day Action Checklist",
-    desc: "A day-by-day plan designed to sharpen your materials and build momentum fast.",
+    desc: "A day-by-day plan tailored to your target roles, so you know exactly what to fix, what to apply to, and who to reach out to each day.",
   },
   {
     icon: Wrench,
     title: "3 Quick Fixes",
-    desc: "High-impact changes you can make today to improve how your profile reads.",
+    desc: "Three high-impact edits you can make today to instantly improve how your profile reads and how you show up in searches.",
   },
   {
     icon: CalendarCheck,
     title: "Free 30-Min Consult",
-    desc: "Walk through your plan live with a coach who knows recruiting inside-out.",
+    desc: "We walk through your scorecard, map your fastest path, and leave you with a clear next move (DIY resources or coaching).",
   },
 ]
 
 const howItWorks = [
   { num: "01", title: "Opt in", desc: "Drop your name and email. Takes 30 seconds." },
-  { num: "02", title: "Get your resources", desc: "Your scorecard + checklist hit your inbox right away." },
+  { num: "02", title: "Get your resources", desc: "Your scorecard + checklist will be discussed in the consultation to ensure accuracy and takeaways for your goals." },
   { num: "03", title: "Book your consult", desc: "Pick a time and walk away with a real game plan." },
 ]
 
@@ -152,7 +162,7 @@ const testimonials = [
 ]
 
 const faqs = [
-  { q: "How quickly will I get the scorecard and checklist?", a: "Instantly. As soon as you submit the form, your 14-day checklist and LinkedIn/Resume scorecard are sent straight to your inbox." },
+  { q: "How quickly will I get the scorecard and checklist?", a: "To ensure accuracy and discuss the results, you will receive them during our 30-minute consultation. This will ensure your goals are aligned with our scorecard and 14-day checklist. We don't want you to get generic advice, but advice specific to your situation." },
   { q: "I don't have much experience. Is this still for me?", a: "Absolutely. Most of our clients start with little or no experience. The whole point is to help you position what you have and build from there." },
   { q: "I'm an international student. Can I still use this?", a: "Yes -- as long as you have a valid work permit, study permit, or visa that allows you to work. We've helped international students across Canada, the US, and the UK." },
   { q: "What types of roles does C2C focus on?", a: "Internships, co-ops, and new grad roles across industries -- finance, consulting, tech, marketing, and more. We tailor our approach to your target." },
@@ -335,6 +345,8 @@ function LeadForm({ id, variant = "dark" }: { id?: string; variant?: "dark" | "l
 /* ─────────────────────── Page ─────────────────────── */
 export default function ConsultPage() {
   const prefersReducedMotion = usePrefersReducedMotion()
+  const painView = useSectionInView()
+  const credView = useSectionInView()
   const callView = useSectionInView()
   const benefitsView = useSectionInView()
   const stepsView = useSectionInView()
@@ -394,16 +406,16 @@ export default function ConsultPage() {
             <div className="md:hidden absolute inset-0 bg-gradient-to-b from-c2c-navy/70 via-c2c-navy/85 to-c2c-navy" />
           </div>
 
-          {/* Mobile: tighter py-10; Desktop unchanged */}
           <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6 py-10 md:py-24 lg:py-20">
-            <div className="grid md:grid-cols-2 gap-8 md:gap-14 lg:gap-16 items-start">
+            <div className="grid md:grid-cols-2 gap-8 md:gap-14 lg:gap-20 items-start">
               {/* Left - copy */}
               <motion.div
                 initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="lg:max-w-lg"
               >
-                <h1 className="text-2xl md:text-4xl lg:text-[2.75rem] font-semibold text-white leading-tight mb-4 md:mb-5 text-balance">
+                <h1 className="text-2xl md:text-4xl lg:text-5xl font-semibold text-white leading-tight mb-4 md:mb-5 text-balance">
                   Walk away with a 2-week action plan&nbsp;&mdash; and fix what{"'"}s blocking your callbacks.
                 </h1>
                 <p className="text-base md:text-xl text-white/80 mb-5 md:mb-6 leading-relaxed font-medium">
@@ -412,47 +424,131 @@ export default function ConsultPage() {
 
                 <ul className="flex flex-col gap-2.5 md:gap-3 mb-6 md:mb-8">
                   {[
-                    "Spot what's killing callbacks (resume + LinkedIn red flags)",
-                    "Get a week-by-week 2-week plan you can actually follow",
-                    "Show up to the consult with clarity + next steps",
-                  ].map((text) => (
-                    <li key={text} className="flex items-start gap-2.5">
-                      <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 text-c2c-teal mt-0.5 flex-shrink-0" />
-                      <span className="text-white text-sm md:text-base">{text}</span>
+                    { icon: Ghost, text: "Applying nonstop but still getting ignored" },
+                    { icon: HelpCircle, text: "Not sure what to fix first (resume vs LinkedIn vs strategy)" },
+                    { icon: Lightbulb, text: "You want a plan that tells you what to do this week" },
+                  ].map((item) => (
+                    <li key={item.text} className="flex items-start gap-2.5">
+                      <item.icon className="w-4 h-4 md:w-5 md:h-5 text-c2c-teal mt-0.5 flex-shrink-0" />
+                      <span className="text-white text-sm md:text-base lg:text-white/90">{item.text}</span>
                     </li>
                   ))}
                 </ul>
 
                 <p className="text-white/50 text-xs md:text-sm mb-4">{TRUST_MICROCOPY}</p>
 
-                {/* Logo proof -- horizontally scrollable on mobile, white pill on desktop */}
-                <div className="flex items-center gap-3 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-hide lg:overflow-visible lg:pb-0 lg:bg-white/90 lg:backdrop-blur lg:rounded-xl lg:px-4 lg:py-3 lg:shadow-sm lg:inline-flex">
-                  {companies.map((c) => (
-                    <div key={c.name} className="bg-white/10 lg:bg-transparent rounded-lg p-1.5 lg:p-0 flex items-center justify-center flex-shrink-0 snap-start">
-                      <Image
-                        src={c.logo}
-                        alt={`${c.name} logo`}
-                        width={c.w}
-                        height={c.h}
-                        priority
-                        className="opacity-70 lg:opacity-80 object-contain max-h-[24px] lg:max-h-[26px]"
-                        style={{ width: "auto", height: "auto" }}
-                      />
-                    </div>
-                  ))}
+                {/* Logo proof */}
+                <div>
+                  <p className="hidden lg:block text-white/40 text-xs font-medium tracking-wider uppercase mb-2">Trusted by students landing roles at</p>
+                  <div className="flex items-center gap-3 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-hide lg:overflow-visible lg:pb-0 lg:bg-white/90 lg:backdrop-blur lg:rounded-xl lg:px-5 lg:py-3.5 lg:shadow-sm lg:inline-flex lg:gap-5">
+                    {companies.map((c) => (
+                      <div key={c.name} className="bg-white/10 lg:bg-transparent rounded-lg p-1.5 lg:p-0 flex items-center justify-center flex-shrink-0 snap-start">
+                        <Image
+                          src={c.logo}
+                          alt={`${c.name} logo`}
+                          width={c.w}
+                          height={c.h}
+                          priority
+                          className="opacity-70 lg:opacity-80 object-contain max-h-[24px] lg:max-h-[30px]"
+                          style={{ width: "auto", height: "auto" }}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
 
-              {/* Right - form (full-width on mobile) */}
+              {/* Right - form */}
               <motion.div
                 initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full max-w-none lg:max-w-md"
+                className="w-full max-w-none lg:max-w-[440px]"
               >
                 <LeadForm id="hero-form" variant="dark" />
               </motion.div>
             </div>
+          </div>
+        </section>
+
+        {/* ─── B2) Pain → After Band (lg+ only) ─── */}
+        <section ref={painView.ref} className="hidden lg:block py-16 bg-white relative overflow-hidden">
+          <SectionBackground />
+          <div className="relative z-10 max-w-5xl mx-auto px-6">
+            <motion.div variants={fadeUp} initial="hidden" animate={painView.isInView ? "visible" : "hidden"}>
+              <div className="grid lg:grid-cols-2 gap-6">
+                {/* Pain card */}
+                <div className="bg-c2c-navy/[0.03] border border-c2c-navy/10 rounded-2xl p-8">
+                  <h3 className="text-lg font-semibold text-c2c-navy mb-5 flex items-center gap-2.5">
+                    <Flame className="w-5 h-5 text-c2c-gold" />
+                    If this is you...
+                  </h3>
+                  <ul className="flex flex-col gap-4">
+                    {[
+                      { icon: Ghost, text: "You're applying everywhere and hearing nothing back" },
+                      { icon: HelpCircle, text: "You don't know whether to fix your resume, LinkedIn, or strategy first" },
+                      { icon: Flame, text: "You're burning out from the cycle of apply-wait-repeat" },
+                    ].map((item) => (
+                      <li key={item.text} className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-c2c-navy/[0.06] flex items-center justify-center flex-shrink-0">
+                          <item.icon className="w-4 h-4 text-c2c-navy/50" />
+                        </div>
+                        <span className="text-c2c-navy/70 text-sm leading-relaxed pt-1">{item.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* After card */}
+                <div className="bg-c2c-teal/[0.04] border border-c2c-teal/15 rounded-2xl p-8">
+                  <h3 className="text-lg font-semibold text-c2c-navy mb-5 flex items-center gap-2.5">
+                    <Sparkles className="w-5 h-5 text-c2c-teal" />
+                    After a call with Shania...
+                  </h3>
+                  <ul className="flex flex-col gap-4">
+                    {[
+                      { icon: Target, text: "You'll know exactly what's costing you callbacks and how to fix it" },
+                      { icon: CalendarDays, text: "You'll have a 14-day sprint plan tailored to your target roles" },
+                      { icon: Zap, text: "You'll leave with your single best next move, ready to execute" },
+                    ].map((item) => (
+                      <li key={item.text} className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-c2c-teal/10 flex items-center justify-center flex-shrink-0">
+                          <item.icon className="w-4 h-4 text-c2c-teal" />
+                        </div>
+                        <span className="text-c2c-navy/70 text-sm leading-relaxed pt-1">{item.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ─── B3) Why Shania Credibility Row (lg+ only) ─── */}
+        <section ref={credView.ref} className="hidden lg:block py-12 bg-c2c-offwhite">
+          <div className="max-w-5xl mx-auto px-6">
+            <motion.div variants={fadeUp} initial="hidden" animate={credView.isInView ? "visible" : "hidden"}>
+              <p className="text-c2c-navy/40 text-xs font-medium tracking-widest uppercase text-center mb-6">
+                {"Shania's"} track record
+              </p>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+                {[
+                  { icon: Building2, label: "Apple", detail: "First Canadian intern + return offer" },
+                  { icon: Award, label: "Scotiabank", detail: "Family Office (UHNW)" },
+                  { icon: Briefcase, label: "MLSE", detail: "Brand Marketing" },
+                  { icon: TrendingUp, label: "Interviews", detail: "Microsoft, BlackRock, Morgan Stanley & more" },
+                ].map((item) => (
+                  <div key={item.label} className="text-center">
+                    <div className="w-10 h-10 rounded-full bg-c2c-teal/10 flex items-center justify-center mx-auto mb-2.5">
+                      <item.icon className="w-5 h-5 text-c2c-teal" />
+                    </div>
+                    <p className="text-c2c-navy font-semibold text-sm">{item.label}</p>
+                    <p className="text-c2c-navy/50 text-xs leading-relaxed mt-0.5">{item.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </section>
 
@@ -462,10 +558,9 @@ export default function ConsultPage() {
           <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
             <motion.div variants={fadeUp} initial="hidden" animate={callView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
               <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">What happens on the call</h2>
-              <p className="text-c2c-navy/70 text-sm md:text-lg max-w-xl mx-auto">30 minutes. Zero fluff. Here{"'"}s the playbook.</p>
+              <p className="text-c2c-navy/70 text-sm md:text-lg max-w-xl mx-auto">{"30 minutes. Zero fluff. You'll leave with a plan you can execute today."}</p>
             </motion.div>
 
-            {/* Mobile: horizontal swipe row; Desktop: 3-col grid */}
             <motion.div variants={staggerContainer} initial="hidden" animate={callView.isInView ? "visible" : "hidden"}
               className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide md:grid md:grid-cols-3 md:overflow-visible md:pb-0"
             >
@@ -481,6 +576,10 @@ export default function ConsultPage() {
                 </motion.div>
               ))}
             </motion.div>
+
+            <p className="hidden lg:block text-c2c-navy/50 text-sm text-center mt-8 max-w-2xl mx-auto italic">
+              {"Built from the same system we've used with students pushing into competitive internships + new grad roles."}
+            </p>
           </div>
         </section>
 
@@ -490,10 +589,9 @@ export default function ConsultPage() {
           <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
             <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
               <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">What you get</h2>
-              <p className="text-c2c-navy/70 text-sm md:text-lg max-w-xl mx-auto">Everything you need to go from stalled to strategic.</p>
+              <p className="text-c2c-navy/70 text-sm md:text-lg max-w-2xl mx-auto">A clear audit, a 14-day sprint plan, and the exact next steps to start landing interviews.</p>
             </motion.div>
 
-            {/* Mobile: horizontal swipe; Desktop: 2x2 grid */}
             <motion.div variants={staggerContainer} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"}
               className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0"
             >
@@ -510,10 +608,11 @@ export default function ConsultPage() {
               ))}
             </motion.div>
 
-            <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="flex justify-center mt-8 md:mt-10">
+            <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="flex flex-col items-center mt-8 md:mt-10">
               <Button onClick={scrollToForm} className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-6 text-base rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl shadow-[0_0_25px_rgba(58,166,168,0.3)]">
                 Get My Free Resources <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
+              <p className="hidden lg:block text-c2c-navy/40 text-xs mt-3">{"No pressure to buy. You'll still leave with clarity and a plan."}</p>
             </motion.div>
           </div>
         </section>
@@ -604,7 +703,6 @@ export default function ConsultPage() {
               <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">What our clients say</h2>
             </motion.div>
 
-            {/* Mobile: horizontal swipe; Desktop: 4-col grid */}
             <motion.div variants={staggerContainer} initial="hidden" animate={testimonialsView.isInView ? "visible" : "hidden"}
               className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 scrollbar-hide sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible sm:pb-0"
             >
@@ -637,6 +735,22 @@ export default function ConsultPage() {
                 </motion.div>
               ))}
             </motion.div>
+
+            {/* ─── Photo Strip (lg+ only) ─── */}
+            <div className="hidden lg:flex items-center justify-center gap-6 mt-12">
+              {[
+                { src: "/images/consult/consult-1.jpg", caption: "Work-ready" },
+                { src: "/images/consult/consult-2.jpg", caption: "Community" },
+                { src: "/images/consult/consult-3.jpg", caption: "Behind the scenes" },
+              ].map((img) => (
+                <div key={img.caption} className="flex flex-col items-center gap-2">
+                  <div className="relative w-48 h-32 rounded-xl overflow-hidden shadow-lg ring-1 ring-c2c-border">
+                    <Image src={img.src} alt={img.caption} fill sizes="192px" className="object-cover" />
+                  </div>
+                  <span className="text-c2c-navy/40 text-xs font-medium">{img.caption}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
