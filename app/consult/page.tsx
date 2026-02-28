@@ -228,11 +228,11 @@ function LeadForm({ id, variant = "dark" }: { id?: string; variant?: "dark" | "l
   const isDark = variant === "dark"
 
   const cardCls = isDark
-    ? "bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-2xl p-5 lg:p-8 shadow-2xl"
+    ? "bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-2xl p-5 lg:p-8 shadow-2xl lg:border-white/[0.18] lg:shadow-[0_25px_60px_rgba(0,0,0,0.4)]"
     : "bg-white border border-c2c-border rounded-2xl p-5 lg:p-8 shadow-xl"
 
   const inputCls = isDark
-    ? "bg-white/10 border-white/20 text-white placeholder:text-white/40 rounded-lg focus:border-c2c-teal focus:ring-c2c-teal text-base h-12"
+    ? "bg-white/10 lg:bg-white/[0.14] border-white/20 text-white placeholder:text-white/40 lg:placeholder:text-white/50 rounded-lg focus:border-c2c-teal focus:ring-c2c-teal text-base h-12"
     : "bg-c2c-offwhite border-c2c-border text-c2c-navy placeholder:text-c2c-navy/30 rounded-lg focus:border-c2c-teal focus:ring-c2c-teal text-base h-12"
 
   const selectCls = isDark
@@ -382,8 +382,8 @@ export default function ConsultPage() {
         <header className="sticky top-0 z-50 bg-c2c-navy/95 backdrop-blur-md border-b border-white/5">
           <div className="max-w-6xl mx-auto px-5 md:px-6 flex items-center justify-between h-14 md:h-16">
             <Link href="/" className="flex items-center">
-              <span className="hidden lg:flex items-center justify-center bg-white rounded-full p-1.5 shadow-sm mr-2">
-                <Image src="/images/c2c-logo.png" alt="C2C" width={36} height={36} sizes="36px" className="h-7 w-7 object-contain" priority />
+              <span className="hidden lg:flex items-center justify-center bg-white rounded-full p-2.5 shadow-md mr-2.5">
+                <Image src="/images/c2c-logo.png" alt="C2C" width={40} height={40} sizes="40px" className="h-8 w-8 object-contain" priority />
               </span>
               <Image src="/images/c2c-logo.png" alt="C2C - From Campus 2 Corporate" width={190} height={75} sizes="120px" className="h-12 md:h-14 -my-2 lg:hidden" style={{ width: "auto" }} priority />
               <span className="hidden lg:inline text-white font-semibold text-sm">C2C Coaching</span>
@@ -415,10 +415,10 @@ export default function ConsultPage() {
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className="lg:max-w-lg"
               >
-                <h1 className="text-2xl md:text-4xl lg:text-5xl font-semibold text-white leading-tight mb-4 md:mb-5 text-balance">
+                <h1 className="text-2xl md:text-4xl lg:text-[2.75rem] lg:leading-[1.15] xl:text-5xl font-semibold text-white leading-tight mb-4 md:mb-5 text-balance lg:max-w-md">
                   Walk away with a 2-week action plan&nbsp;&mdash; and fix what{"'"}s blocking your callbacks.
                 </h1>
-                <p className="text-base md:text-xl text-white/80 mb-5 md:mb-6 leading-relaxed font-medium">
+                <p className="text-base md:text-xl text-white/80 lg:text-white/90 mb-5 md:mb-6 leading-relaxed font-medium">
                   Get my 14-day checklist + a LinkedIn/Resume scorecard + a free 30-minute consult.
                 </p>
 
@@ -430,17 +430,17 @@ export default function ConsultPage() {
                   ].map((item) => (
                     <li key={item.text} className="flex items-start gap-2.5">
                       <item.icon className="w-4 h-4 md:w-5 md:h-5 text-c2c-teal mt-0.5 flex-shrink-0" />
-                      <span className="text-white text-sm md:text-base lg:text-white/90">{item.text}</span>
+                      <span className="text-white text-sm md:text-base lg:text-white/95">{item.text}</span>
                     </li>
                   ))}
                 </ul>
 
-                <p className="text-white/50 text-xs md:text-sm mb-4">{TRUST_MICROCOPY}</p>
+                <p className="text-white/50 lg:text-white/60 text-xs md:text-sm mb-4">{TRUST_MICROCOPY}</p>
 
                 {/* Logo proof */}
                 <div>
                   <p className="hidden lg:block text-white/40 text-xs font-medium tracking-wider uppercase mb-2">Trusted by students landing roles at</p>
-                  <div className="flex items-center gap-3 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-hide lg:overflow-visible lg:pb-0 lg:bg-white/90 lg:backdrop-blur lg:rounded-xl lg:px-5 lg:py-3.5 lg:shadow-sm lg:inline-flex lg:gap-5">
+                  <div className="flex items-center gap-3 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-hide lg:overflow-visible lg:pb-0 lg:bg-white/95 lg:backdrop-blur-sm lg:rounded-xl lg:px-6 lg:py-4 lg:shadow-md lg:border lg:border-black/10 lg:inline-flex lg:gap-7">
                     {companies.map((c) => (
                       <div key={c.name} className="bg-white/10 lg:bg-transparent rounded-lg p-1.5 lg:p-0 flex items-center justify-center flex-shrink-0 snap-start">
                         <Image
@@ -449,7 +449,7 @@ export default function ConsultPage() {
                           width={c.w}
                           height={c.h}
                           priority
-                          className="opacity-70 lg:opacity-80 object-contain max-h-[24px] lg:max-h-[30px]"
+                          className="opacity-70 lg:opacity-90 object-contain max-h-[24px] lg:max-h-[32px]"
                           style={{ width: "auto", height: "auto" }}
                         />
                       </div>
@@ -557,7 +557,7 @@ export default function ConsultPage() {
           <SectionBackground />
           <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
             <motion.div variants={fadeUp} initial="hidden" animate={callView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
-              <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">What happens on the call</h2>
+              <h2 className="text-2xl md:text-4xl lg:text-3xl font-semibold text-c2c-navy mb-2 md:mb-3">What happens on the call</h2>
               <p className="text-c2c-navy/70 text-sm md:text-lg max-w-xl mx-auto">{"30 minutes. Zero fluff. You'll leave with a plan you can execute today."}</p>
             </motion.div>
 
@@ -588,7 +588,7 @@ export default function ConsultPage() {
           <SectionBackground />
           <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
             <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
-              <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">What you get</h2>
+              <h2 className="text-2xl md:text-4xl lg:text-3xl font-semibold text-c2c-navy mb-2 md:mb-3">What you get</h2>
               <p className="text-c2c-navy/70 text-sm md:text-lg max-w-2xl mx-auto">A clear audit, a 14-day sprint plan, and the exact next steps to start landing interviews.</p>
             </motion.div>
 
@@ -621,7 +621,7 @@ export default function ConsultPage() {
         <section ref={stepsView.ref} className="py-10 md:py-24 lg:py-16 bg-c2c-offwhite relative overflow-hidden">
           <div className="relative z-10 max-w-4xl mx-auto px-5 md:px-6">
             <motion.div variants={fadeUp} initial="hidden" animate={stepsView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
-              <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">How it works</h2>
+              <h2 className="text-2xl md:text-4xl lg:text-3xl font-semibold text-c2c-navy mb-2 md:mb-3">How it works</h2>
               <p className="text-c2c-navy/70 text-sm md:text-lg">Three steps. No guesswork.</p>
             </motion.div>
 
@@ -700,7 +700,7 @@ export default function ConsultPage() {
           <SectionBackground />
           <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-6">
             <motion.div variants={fadeUp} initial="hidden" animate={testimonialsView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
-              <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">What our clients say</h2>
+              <h2 className="text-2xl md:text-4xl lg:text-3xl font-semibold text-c2c-navy mb-2 md:mb-3">What our clients say</h2>
             </motion.div>
 
             <motion.div variants={staggerContainer} initial="hidden" animate={testimonialsView.isInView ? "visible" : "hidden"}
@@ -758,7 +758,7 @@ export default function ConsultPage() {
         <section id="faq" ref={faqView.ref} className="py-10 md:py-24 lg:py-16 bg-white relative overflow-hidden">
           <div className="relative z-10 max-w-3xl mx-auto px-5 md:px-6">
             <motion.div variants={fadeUp} initial="hidden" animate={faqView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10">
-              <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3">Frequently asked questions</h2>
+              <h2 className="text-2xl md:text-4xl lg:text-3xl font-semibold text-c2c-navy mb-2 md:mb-3">Frequently asked questions</h2>
             </motion.div>
 
             <motion.div variants={fadeUp} initial="hidden" animate={faqView.isInView ? "visible" : "hidden"}>
@@ -790,7 +790,7 @@ export default function ConsultPage() {
           <SectionBackground />
           <div className="relative z-10 max-w-2xl mx-auto px-5 md:px-6">
             <div className="text-center mb-6 md:mb-10">
-              <h2 className="text-2xl md:text-4xl font-semibold text-c2c-navy mb-2 md:mb-3 text-balance">
+              <h2 className="text-2xl md:text-4xl lg:text-3xl font-semibold text-c2c-navy mb-2 md:mb-3 text-balance">
                 Ready to stop guessing and start landing callbacks?
               </h2>
               <p className="text-c2c-navy/70 text-sm md:text-lg">Get your free resources and book a call. No pressure.</p>
