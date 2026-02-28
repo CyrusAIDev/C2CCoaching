@@ -228,22 +228,22 @@ function LeadForm({ id, variant = "dark" }: { id?: string; variant?: "dark" | "l
   const isDark = variant === "dark"
 
   const cardCls = isDark
-    ? "bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-2xl p-5 lg:p-8 shadow-2xl lg:border-white/[0.18] lg:shadow-[0_25px_60px_rgba(0,0,0,0.4)]"
-    : "bg-white border border-c2c-border rounded-2xl p-5 lg:p-8 shadow-xl"
+    ? "bg-white/[0.08] backdrop-blur-md border border-white/15 rounded-2xl p-6 lg:p-8 shadow-2xl lg:border-white/[0.18] lg:shadow-[0_25px_60px_rgba(0,0,0,0.4)]"
+    : "bg-white border border-c2c-border rounded-2xl p-6 lg:p-8 shadow-xl"
 
   const inputCls = isDark
-    ? "bg-white/10 lg:bg-white/[0.14] border-white/20 text-white placeholder:text-white/40 lg:placeholder:text-white/50 rounded-lg focus:border-c2c-teal focus:ring-c2c-teal text-base h-12"
-    : "bg-c2c-offwhite border-c2c-border text-c2c-navy placeholder:text-c2c-navy/30 rounded-lg focus:border-c2c-teal focus:ring-c2c-teal text-base h-12"
+    ? "bg-white/[0.12] border-white/25 text-white placeholder:text-white/50 lg:bg-white/[0.14] lg:placeholder:text-white/50 rounded-lg focus:border-c2c-teal focus:ring-c2c-teal text-base h-12"
+    : "bg-c2c-offwhite border-c2c-border text-c2c-navy placeholder:text-c2c-navy/40 rounded-lg focus:border-c2c-teal focus:ring-c2c-teal text-base h-12"
 
   const selectCls = isDark
     ? "flex h-12 w-full rounded-lg border bg-white/10 border-white/20 px-3 py-2 text-base text-white ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-c2c-teal focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
     : "flex h-12 w-full rounded-lg border bg-c2c-offwhite border-c2c-border px-3 py-2 text-base text-c2c-navy ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-c2c-teal focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 appearance-none"
 
-  const labelCls = isDark ? "block text-white/80 text-sm font-medium mb-1.5" : "block text-c2c-navy/80 text-sm font-medium mb-1.5"
+  const labelCls = isDark ? "block text-white/90 text-sm font-medium mb-1.5" : "block text-c2c-navy/80 text-sm font-medium mb-1.5"
   const stepActiveCls = "bg-c2c-teal text-white"
   const stepInactiveCls = isDark ? "bg-white/10 text-white/40" : "bg-c2c-navy/10 text-c2c-navy/40"
   const barBg = isDark ? "bg-white/10" : "bg-c2c-navy/10"
-  const stepLabel = isDark ? "text-white/60" : "text-c2c-navy/60"
+  const stepLabel = isDark ? "text-white/75" : "text-c2c-navy/60"
   const errorCls = "text-red-400 text-sm flex items-center gap-1.5"
   const microCls = isDark ? "text-white/50 text-xs text-center" : "text-c2c-navy/50 text-xs text-center"
   const privacyCls = isDark ? "text-white/40 text-[11px] text-center leading-relaxed" : "text-c2c-navy/40 text-[11px] text-center leading-relaxed"
@@ -385,7 +385,7 @@ export default function ConsultPage() {
               <span className="hidden lg:flex items-center justify-center bg-white rounded-full p-2.5 shadow-md mr-2.5">
                 <Image src="/images/c2c-logo.png" alt="C2C" width={40} height={40} sizes="40px" className="h-8 w-8 object-contain" priority />
               </span>
-              <Image src="/images/c2c-logo.png" alt="C2C - From Campus 2 Corporate" width={190} height={75} sizes="120px" className="h-12 md:h-14 -my-2 lg:hidden" style={{ width: "auto" }} priority />
+              <Image src="/images/c2c-logo.png" alt="C2C - From Campus 2 Corporate" width={190} height={75} sizes="130px" className="h-14 -my-2 lg:hidden" style={{ width: "auto" }} priority />
               <span className="hidden lg:inline text-white font-semibold text-sm">C2C Coaching</span>
             </Link>
             <div className="flex items-center gap-4">
@@ -418,7 +418,7 @@ export default function ConsultPage() {
                 <h1 className="text-2xl md:text-4xl lg:text-[2.75rem] lg:leading-[1.15] xl:text-5xl font-semibold text-white leading-tight mb-4 md:mb-5 text-balance lg:max-w-md">
                   Walk away with a 2-week action plan&nbsp;&mdash; and fix what{"'"}s blocking your callbacks.
                 </h1>
-                <p className="text-base md:text-xl text-white/80 lg:text-white/90 mb-5 md:mb-6 leading-relaxed font-medium">
+                <p className="text-base md:text-xl text-white/90 lg:text-white/90 mb-5 md:mb-6 leading-relaxed font-medium">
                   Get my 14-day checklist + a LinkedIn/Resume scorecard + a free 30-minute consult.
                 </p>
 
@@ -429,27 +429,27 @@ export default function ConsultPage() {
                     { icon: Lightbulb, text: "You want a plan that tells you what to do this week" },
                   ].map((item) => (
                     <li key={item.text} className="flex items-start gap-2.5">
-                      <item.icon className="w-4 h-4 md:w-5 md:h-5 text-c2c-teal mt-0.5 flex-shrink-0" />
-                      <span className="text-white text-sm md:text-base lg:text-white/95">{item.text}</span>
+                      <item.icon className="w-5 h-5 text-c2c-teal mt-0.5 flex-shrink-0" />
+                      <span className="text-white/95 text-base lg:text-white/95">{item.text}</span>
                     </li>
                   ))}
                 </ul>
 
-                <p className="text-white/50 lg:text-white/60 text-xs md:text-sm mb-4">{TRUST_MICROCOPY}</p>
+                <p className="text-white/70 lg:text-white/60 text-sm mb-4">{TRUST_MICROCOPY}</p>
 
                 {/* Logo proof */}
                 <div>
-                  <p className="hidden lg:block text-white/40 text-xs font-medium tracking-wider uppercase mb-2">Trusted by students landing roles at</p>
-                  <div className="flex items-center gap-3 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-hide lg:overflow-visible lg:pb-0 lg:bg-white/95 lg:backdrop-blur-sm lg:rounded-xl lg:px-6 lg:py-4 lg:shadow-md lg:border lg:border-black/10 lg:inline-flex lg:gap-7">
+                  <p className="text-white/80 text-xs font-medium tracking-wider uppercase mb-2 lg:text-white/40">Trusted by students landing roles at</p>
+                  <div className="flex items-center gap-4 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-hide bg-white/95 rounded-xl px-4 py-3 border border-white/20 lg:overflow-visible lg:pb-0 lg:backdrop-blur-sm lg:px-6 lg:py-4 lg:shadow-md lg:border-black/10 lg:inline-flex lg:gap-7">
                     {companies.map((c) => (
-                      <div key={c.name} className="bg-white/10 lg:bg-transparent rounded-lg p-1.5 lg:p-0 flex items-center justify-center flex-shrink-0 snap-start">
+                      <div key={c.name} className="flex items-center justify-center flex-shrink-0 snap-start lg:bg-transparent lg:p-0">
                         <Image
                           src={c.logo}
                           alt={`${c.name} logo`}
                           width={c.w}
                           height={c.h}
                           priority
-                          className="opacity-70 lg:opacity-90 object-contain max-h-[24px] lg:max-h-[32px]"
+                          className="opacity-80 lg:opacity-90 object-contain h-6 lg:max-h-[32px]"
                           style={{ width: "auto", height: "auto" }}
                         />
                       </div>
@@ -558,7 +558,7 @@ export default function ConsultPage() {
           <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
             <motion.div variants={fadeUp} initial="hidden" animate={callView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
               <h2 className="text-2xl md:text-4xl lg:text-3xl font-semibold text-c2c-navy mb-2 md:mb-3">What happens on the call</h2>
-              <p className="text-c2c-navy/70 text-sm md:text-lg max-w-xl mx-auto">{"30 minutes. Zero fluff. You'll leave with a plan you can execute today."}</p>
+              <p className="text-c2c-navy/80 text-sm md:text-lg max-w-xl mx-auto leading-6">{"30 minutes. Zero fluff. You'll leave with a plan you can execute today."}</p>
             </motion.div>
 
             <motion.div variants={staggerContainer} initial="hidden" animate={callView.isInView ? "visible" : "hidden"}
@@ -571,7 +571,7 @@ export default function ConsultPage() {
                       <s.icon className="w-5 h-5 md:w-6 md:h-6 text-c2c-teal" />
                     </div>
                     <h3 className="text-base md:text-lg font-semibold text-c2c-navy mb-1.5 md:mb-2">{s.title}</h3>
-                    <p className="text-c2c-navy/70 text-sm leading-relaxed">{s.desc}</p>
+                    <p className="text-c2c-navy/80 text-sm leading-6">{s.desc}</p>
                   </Card>
                 </motion.div>
               ))}
@@ -589,7 +589,7 @@ export default function ConsultPage() {
           <div className="relative z-10 max-w-5xl mx-auto px-5 md:px-6">
             <motion.div variants={fadeUp} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
               <h2 className="text-2xl md:text-4xl lg:text-3xl font-semibold text-c2c-navy mb-2 md:mb-3">What you get</h2>
-              <p className="text-c2c-navy/70 text-sm md:text-lg max-w-2xl mx-auto">A clear audit, a 14-day sprint plan, and the exact next steps to start landing interviews.</p>
+              <p className="text-c2c-navy/80 text-sm md:text-lg max-w-2xl mx-auto leading-6">A clear audit, a 14-day sprint plan, and the exact next steps to start landing interviews.</p>
             </motion.div>
 
             <motion.div variants={staggerContainer} initial="hidden" animate={benefitsView.isInView ? "visible" : "hidden"}
@@ -602,7 +602,7 @@ export default function ConsultPage() {
                       <b.icon className="w-5 h-5 md:w-6 md:h-6 text-c2c-teal" />
                     </div>
                     <h3 className="text-base md:text-lg font-semibold text-c2c-navy mb-1.5 md:mb-2">{b.title}</h3>
-                    <p className="text-c2c-navy/70 text-sm leading-relaxed">{b.desc}</p>
+                    <p className="text-c2c-navy/80 text-sm leading-6">{b.desc}</p>
                   </Card>
                 </motion.div>
               ))}
@@ -622,7 +622,7 @@ export default function ConsultPage() {
           <div className="relative z-10 max-w-4xl mx-auto px-5 md:px-6">
             <motion.div variants={fadeUp} initial="hidden" animate={stepsView.isInView ? "visible" : "hidden"} className="text-center mb-6 md:mb-10 lg:mb-12">
               <h2 className="text-2xl md:text-4xl lg:text-3xl font-semibold text-c2c-navy mb-2 md:mb-3">How it works</h2>
-              <p className="text-c2c-navy/70 text-sm md:text-lg">Three steps. No guesswork.</p>
+              <p className="text-c2c-navy/80 text-sm md:text-lg leading-6">Three steps. No guesswork.</p>
             </motion.div>
 
             <motion.div variants={staggerContainer} initial="hidden" animate={stepsView.isInView ? "visible" : "hidden"} className="grid md:grid-cols-3 gap-4 md:gap-6">
@@ -636,7 +636,7 @@ export default function ConsultPage() {
                       <span className="text-c2c-teal text-base md:text-lg font-bold">{s.num}</span>
                     </div>
                     <h3 className="text-lg md:text-xl font-semibold text-c2c-navy mb-1.5 md:mb-2">{s.title}</h3>
-                    <p className="text-c2c-navy/70 text-sm leading-relaxed">{s.desc}</p>
+                    <p className="text-c2c-navy/80 text-sm leading-6">{s.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -665,7 +665,7 @@ export default function ConsultPage() {
                     ].map((t) => (
                       <li key={t} className="flex items-start gap-2">
                         <CheckCircle2 className="w-4 h-4 text-c2c-teal mt-0.5 flex-shrink-0" />
-                        <span className="text-c2c-navy/70 text-sm leading-relaxed">{t}</span>
+                        <span className="text-c2c-navy/80 text-sm leading-6">{t}</span>
                       </li>
                     ))}
                   </ul>
@@ -685,7 +685,7 @@ export default function ConsultPage() {
                     ].map((t) => (
                       <li key={t} className="flex items-start gap-2">
                         <XCircle className="w-4 h-4 text-c2c-navy/40 mt-0.5 flex-shrink-0" />
-                        <span className="text-c2c-navy/70 text-sm leading-relaxed">{t}</span>
+                        <span className="text-c2c-navy/80 text-sm leading-6">{t}</span>
                       </li>
                     ))}
                   </ul>
@@ -724,7 +724,7 @@ export default function ConsultPage() {
                       ))}
                     </div>
                     <h4 className="text-base font-semibold text-c2c-navy mb-1.5 md:mb-2 leading-snug">&ldquo;{t.headline}&rdquo;</h4>
-                    <p className="text-c2c-navy/70 text-sm leading-relaxed mb-3">{t.body}</p>
+                    <p className="text-c2c-navy/80 text-sm leading-6 mb-3">{t.body}</p>
                     <div className="bg-c2c-teal/[0.08] rounded-lg p-3 border-l-[3px] border-c2c-teal">
                       <p className="text-sm">
                         <span className="font-bold text-c2c-teal">Result: </span>
@@ -768,7 +768,7 @@ export default function ConsultPage() {
                     <AccordionTrigger className="text-c2c-navy font-semibold text-sm md:text-base text-left py-4 md:py-5 hover:no-underline">
                       {faq.q}
                     </AccordionTrigger>
-                    <AccordionContent className="text-c2c-navy/70 text-sm md:text-base leading-relaxed">
+                    <AccordionContent className="text-c2c-navy/80 text-sm md:text-base leading-6">
                       {faq.a}
                     </AccordionContent>
                   </AccordionItem>
@@ -793,7 +793,7 @@ export default function ConsultPage() {
               <h2 className="text-2xl md:text-4xl lg:text-3xl font-semibold text-c2c-navy mb-2 md:mb-3 text-balance">
                 Ready to stop guessing and start landing callbacks?
               </h2>
-              <p className="text-c2c-navy/70 text-sm md:text-lg">Get your free resources and book a call. No pressure.</p>
+              <p className="text-c2c-navy/80 text-sm md:text-lg leading-6">Get your free resources and book a call. No pressure.</p>
             </div>
             <LeadForm id="bottom-form" variant="light" />
           </div>
