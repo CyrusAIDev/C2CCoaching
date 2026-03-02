@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import Image from "next/image"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
-import { BOOKING_URL } from "@/lib/constants"
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -252,7 +251,7 @@ function HeaderComponent() {
             asChild
             className="relative bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-3 text-base rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg shadow-[0_0_15px_rgba(58,166,168,0.3)] ring-2 ring-c2c-teal/20 ring-offset-2 ring-offset-c2c-offwhite"
           >
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+            <a href="/consult">
               Book Now
             </a>
           </Button>
@@ -278,7 +277,7 @@ function HeaderComponent() {
               size="sm"
               className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-3.5 py-2 text-xs rounded-lg shadow-[0_0_15px_rgba(58,166,168,0.3)] ring-1 ring-c2c-teal/30 ring-offset-1 ring-offset-c2c-offwhite h-8"
             >
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+              <a href="/consult">
                 Free Consult
               </a>
             </Button>
@@ -411,7 +410,7 @@ function HeaderComponent() {
                     asChild
                     className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold py-4 text-base rounded-lg w-full shadow-[0_0_20px_rgba(58,166,168,0.25)]"
                   >
-                    <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                    <a href="/consult">
                       Book Free Consultation
                     </a>
                   </Button>
