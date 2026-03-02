@@ -44,8 +44,8 @@ const prepItems = [
 function ThankYouContent() {
   const searchParams = useSearchParams()
   const name = searchParams.get("name") || ""
-  const [linkedinUrl, setLinkedinUrl] = useState("")
-  const [resumeLink, setResumeLink] = useState("")
+  const [linkedinUrl, setLinkedinUrl] = useState(searchParams.get("linkedin") || "")
+  const [resumeLink, setResumeLink] = useState(searchParams.get("resume") || "")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
 
@@ -79,7 +79,18 @@ function ThankYouContent() {
             <span className="hidden lg:flex items-center justify-center bg-white rounded-full p-1.5 shadow-sm mr-2">
               <Image src="/images/c2c-logo.png" alt="C2C" width={36} height={36} sizes="36px" className="h-7 w-7 object-contain" priority />
             </span>
-            <Image src="/images/c2c-logo.png" alt="C2C - From Campus 2 Corporate" width={190} height={75} sizes="120px" className="h-12 md:h-14 -my-2 lg:hidden" style={{ width: "auto" }} priority />
+            <span className="lg:hidden inline-flex items-center justify-center bg-white/95 rounded-lg px-2 py-1 shadow-md border border-white/70">
+              <Image
+                src="/images/c2c-logo.png"
+                alt="C2C - From Campus 2 Corporate"
+                width={190}
+                height={75}
+                sizes="120px"
+                className="h-9 object-contain"
+                style={{ width: "auto" }}
+                priority
+              />
+            </span>
             <span className="hidden lg:inline text-white font-semibold text-sm">C2C Coaching</span>
           </Link>
           <Link href="/consult" className="text-white/70 hover:text-white text-sm font-medium transition-colors">

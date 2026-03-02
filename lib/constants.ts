@@ -1,6 +1,6 @@
 export const STRIPE_FAST_TRACK_URL = "https://buy.stripe.com/00weVdguObhy0ilac5cIE00"
 export const STRIPE_MOMENTUM_URL = "https://buy.stripe.com/cNiaEX2DY5Xe7KN83XcIE01"
 export const STRIPE_INSIDER_EDGE_URL = "https://buy.stripe.com/28EfZh3I2fxO7KN0BvcIE02"
-export const BOOKING_URL = "https://cal.com/shaniaxc2c/30min?month=2026-02"
+export const BOOKING_URL = "https://cal.com/shaniaxc2c/30min"
 export const EMAIL = "shania@fromcampus2corporate.com"
 export const TRUST_MICROCOPY = "30-min call • Free game plan • No pressure"

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 import { useIsMobile } from "@/hooks/use-is-mobile"
-import { BOOKING_URL, TRUST_MICROCOPY } from "@/lib/constants"
+import { TRUST_MICROCOPY } from "@/lib/constants"
 
 const rotatingWords = [
   "your resume.",
@@ -171,7 +171,7 @@ export function Hero() {
                   size="lg"
                   className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 md:px-8 py-5 md:py-6 text-base md:text-lg rounded-lg transition-all duration-200 hover:-translate-y-1 hover:shadow-xl shadow-[0_0_25px_rgba(58,166,168,0.4)] ring-2 ring-c2c-teal/30 ring-offset-2 ring-offset-c2c-navy/80"
                 >
-                  <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                  <a href="/consult">
                     Book Free Consultation
                   </a>
                 </Button>
