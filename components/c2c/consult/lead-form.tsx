@@ -65,6 +65,8 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
     [form.firstName, emailValid]
   )
 
+  const isDark = variant === "dark"
+
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault()
@@ -109,8 +111,6 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
     if (form.resumeLink) params.set("resume", form.resumeLink)
     router.push(`/consult/thank-you?${params.toString()}`)
   }, [form.firstName, form.email, form.linkedinUrl, form.resumeLink, router])
-
-  const isDark = variant === "dark"
 
   const cardCls = isDark
     ? "bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-2xl p-5 lg:p-8 shadow-2xl lg:border-white/[0.18] lg:shadow-[0_25px_60px_rgba(0,0,0,0.4)]"
