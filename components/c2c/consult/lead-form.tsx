@@ -71,6 +71,26 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
       setIsSubmitting(true)
       setError("")
       try {
+        const source = isDark ? "consult_dark_form" : "consult_light_form"
+        const response = await fetch("/api/consult-lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName: form.firstName,
+            email: form.email,
+            phone: form.phone,
+            roleTarget: form.roleTarget,
+            visa: form.visa,
+            linkedinUrl: form.linkedinUrl,
+            resumeLink: form.resumeLink,
+            source,
+          }),
+        })
+
+        if (!response.ok) {
+          throw new Error("Lead capture failed")
+        }
+
         const params = new URLSearchParams({ name: form.firstName, email: form.email })
         if (form.linkedinUrl) params.set("linkedin", form.linkedinUrl)
         if (form.resumeLink) params.set("resume", form.resumeLink)
@@ -80,7 +100,7 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
         setIsSubmitting(false)
       }
     },
-    [form.firstName, form.email, form.linkedinUrl, form.resumeLink, router]
+    [form.firstName, form.email, form.phone, form.roleTarget, form.visa, form.linkedinUrl, form.resumeLink, isDark, router]
   )
 
   const handleSkipToSubmit = useCallback(() => {
