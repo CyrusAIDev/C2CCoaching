@@ -45,7 +45,8 @@ const features = [
       "Interview prep that makes you calm, not shaky",
       "Application support so deadlines don't beat you",
     ],
-    image: "/images/shania-apple-hq-new.jpg",
+    image: "/images/meet Shania.jpg",
+    imagePosition: "50% 20%",
   },
 ]
 
@@ -98,7 +99,8 @@ function FeatureCard({ feature, itemVariants, prefersReducedMotion, isMobile }: 
             loading="lazy"
             className="object-cover transition-transform duration-500"
             style={{
-              transform: isHovered ? 'scale(1.05)' : 'scale(1)'
+              transform: isHovered ? "scale(1.05)" : "scale(1)",
+              objectPosition: feature.imagePosition || "center",
             }}
           />
         </div>
@@ -209,6 +211,7 @@ export function WhyC2C() {
                     sizes="(max-width: 768px) 90vw, 33vw"
                     loading="lazy"
                     className="object-cover"
+                    style={{ objectPosition: feature.imagePosition || "center" }}
                   />
                 </div>
                 <div className="p-5">

@@ -17,6 +17,8 @@ import { SectionBackground } from "@/components/c2c/section-background"
 import { CTAButton } from "@/components/c2c/cta-button"
 import { Footer } from "@/components/c2c/footer"
 import { BOOKING_URL, TRUST_MICROCOPY } from "@/lib/constants"
+import { useIsMobile } from "@/hooks/use-is-mobile"
+import { track } from "@vercel/analytics"
 import {
   CheckCircle2,
   CalendarCheck,
@@ -41,6 +43,7 @@ const prepItems = [
 /* ─────────────────────── Inner content ─────────────────────── */
 function ThankYouContent() {
   const searchParams = useSearchParams()
+  const isMobile = useIsMobile()
   const queryName = (searchParams.get("name") || "").trim()
   const [displayName, setDisplayName] = useState(queryName)
 
@@ -66,6 +69,21 @@ function ThankYouContent() {
       window.scrollTo({ top: offset, behavior: "smooth" })
     }
   }, [])
+
+  const openMobileCalendar = useCallback(() => {
+    if (!isMobile) return
+
+    track("thankyou_mobile_calendar_cta_click")
+    const newTab = window.open(BOOKING_URL, "_blank", "noopener,noreferrer")
+
+    if (newTab) {
+      track("thankyou_mobile_calendar_open_success")
+      return
+    }
+
+    track("thankyou_mobile_calendar_open_fallback")
+    window.location.assign(BOOKING_URL)
+  }, [isMobile])
 
   return (
     <main className="relative min-h-screen bg-c2c-offwhite overflow-x-hidden">
@@ -146,20 +164,54 @@ function ThankYouContent() {
             {TRUST_MICROCOPY}
           </motion.p>
 
-          {/* Mobile: "Jump to calendar" button */}
+          {isMobile && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.34 }}
+              className="text-white/80 text-sm mb-2"
+            >
+              Next step: book your call in the full calendar view.
+            </motion.p>
+          )}
+
+          {/* Mobile: primary conversion CTA */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.35 }}
             className="lg:hidden"
           >
-            <Button
-              onClick={scrollToBook}
-              variant="ghost"
-              className="mt-1 rounded-full border border-white/35 bg-white/15 px-4 py-2 text-white shadow-sm hover:text-white hover:bg-white/20 text-sm font-medium"
-            >
-              Jump to calendar <ArrowDown className="w-3.5 h-3.5 ml-1.5" />
-            </Button>
+            {isMobile ? (
+              <div className="mt-2">
+                <Button
+                  onClick={openMobileCalendar}
+                  className="w-full bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold py-6 text-base rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl shadow-[0_0_25px_rgba(58,166,168,0.3)] ring-2 ring-c2c-teal/30 ring-offset-2 ring-offset-c2c-navy/80"
+                  aria-label="Open your full-screen calendar"
+                >
+                  Open your full-screen calendar
+                </Button>
+                <p className="text-white/80 text-xs mt-2">
+                  Opens in a new tab so you can see all times clearly
+                </p>
+                <button
+                  type="button"
+                  onClick={openMobileCalendar}
+                  className="mt-2 text-white/80 hover:text-white underline underline-offset-2 text-sm"
+                  aria-label="If nothing opened, tap here"
+                >
+                  If nothing opened, tap here
+                </button>
+              </div>
+            ) : (
+              <Button
+                onClick={scrollToBook}
+                variant="ghost"
+                className="mt-1 rounded-full border border-white/35 bg-white/15 px-4 py-2 text-white shadow-sm hover:text-white hover:bg-white/20 text-sm font-medium"
+              >
+                Jump to calendar <ArrowDown className="w-3.5 h-3.5 ml-1.5" />
+              </Button>
+            )}
           </motion.div>
         </div>
       </section>
@@ -177,25 +229,29 @@ function ThankYouContent() {
             <div className="grid lg:grid-cols-1 2xl:grid-cols-[1fr_340px] gap-5 lg:gap-5 items-start">
               {/* Left -- calendar embed */}
               <div>
-                <Card className="bg-white border-c2c-border rounded-2xl overflow-hidden shadow-2xl shadow-c2c-navy/8 lg:p-1">
-                  <iframe
-                    src={BOOKING_URL}
-                    title="Book your 30-minute consult with C2C"
-                    className="block w-full border-0 h-[470px] min-h-[390px] md:h-[580px] md:min-h-[480px] lg:h-[620px] lg:min-h-[620px] lg:rounded-[14px]"
-                    loading="lazy"
-                  />
-                </Card>
+                {!isMobile && (
+                  <>
+                    <Card className="bg-white border-c2c-border rounded-2xl overflow-hidden shadow-2xl shadow-c2c-navy/8 lg:p-1">
+                      <iframe
+                        src={BOOKING_URL}
+                        title="Book your 30-minute consult with C2C"
+                        className="block w-full border-0 h-[470px] min-h-[390px] md:h-[580px] md:min-h-[480px] lg:h-[620px] lg:min-h-[620px] lg:rounded-[14px]"
+                        loading="lazy"
+                      />
+                    </Card>
 
-                <div className="mt-4 md:mt-5 text-center">
-                  <CTAButton href={BOOKING_URL} size="default">
-                    <span className="flex items-center gap-2">
-                      <CalendarCheck className="w-4 h-4" />
-                      Open calendar in a new tab
-                      <ExternalLink className="w-3.5 h-3.5 opacity-60" />
-                    </span>
-                  </CTAButton>
-                  {/* TODO: Add booking confirmation tracking (e.g., Cal.com webhook or postMessage listener) */}
-                </div>
+                    <div className="mt-4 md:mt-5 text-center">
+                      <CTAButton href={BOOKING_URL} size="default">
+                        <span className="flex items-center gap-2">
+                          <CalendarCheck className="w-4 h-4" />
+                          Open calendar in a new tab
+                          <ExternalLink className="w-3.5 h-3.5 opacity-60" />
+                        </span>
+                      </CTAButton>
+                      {/* TODO: Add booking confirmation tracking (e.g., Cal.com webhook or postMessage listener) */}
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Right -- prep checklist (lg sidebar) */}
