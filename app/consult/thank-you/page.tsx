@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useCallback, useEffect, useState } from "react"
+import { Suspense, useCallback, useEffect, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
@@ -46,6 +46,8 @@ function ThankYouContent() {
   const isMobile = useIsMobile()
   const queryName = (searchParams.get("name") || "").trim()
   const [displayName, setDisplayName] = useState(queryName)
+  const [mobileLaunchState, setMobileLaunchState] = useState<"loading" | "success" | "blocked">("loading")
+  const didAttemptAutoLaunchRef = useRef(false)
 
   useEffect(() => {
     if (queryName) {
@@ -73,16 +75,38 @@ function ThankYouContent() {
   const openMobileCalendar = useCallback(() => {
     if (!isMobile) return
 
-    track("thankyou_mobile_calendar_cta_click")
+    track("thankyou_mobile_manual_open_click")
     const newTab = window.open(BOOKING_URL, "_blank", "noopener,noreferrer")
 
     if (newTab) {
-      track("thankyou_mobile_calendar_open_success")
+      setMobileLaunchState("success")
       return
     }
 
-    track("thankyou_mobile_calendar_open_fallback")
+    track("thankyou_mobile_manual_open_fallback_same_tab")
     window.location.assign(BOOKING_URL)
+  }, [isMobile])
+
+  useEffect(() => {
+    if (!isMobile || didAttemptAutoLaunchRef.current) return
+    didAttemptAutoLaunchRef.current = true
+    setMobileLaunchState("loading")
+
+    const timer = window.setTimeout(() => {
+      track("thankyou_mobile_autolaunch_attempt")
+      const newTab = window.open(BOOKING_URL, "_blank", "noopener,noreferrer")
+
+      if (newTab) {
+        track("thankyou_mobile_autolaunch_success")
+        setMobileLaunchState("success")
+        return
+      }
+
+      track("thankyou_mobile_autolaunch_blocked")
+      setMobileLaunchState("blocked")
+    }, 450)
+
+    return () => window.clearTimeout(timer)
   }, [isMobile])
 
   return (
@@ -175,35 +199,13 @@ function ThankYouContent() {
             </motion.p>
           )}
 
-          {/* Mobile: primary conversion CTA */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.35 }}
-            className="lg:hidden"
-          >
-            {isMobile ? (
-              <div className="mt-2">
-                <Button
-                  onClick={openMobileCalendar}
-                  className="w-full bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold py-6 text-base rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl shadow-[0_0_25px_rgba(58,166,168,0.3)] ring-2 ring-c2c-teal/30 ring-offset-2 ring-offset-c2c-navy/80"
-                  aria-label="Open your full-screen calendar"
-                >
-                  Open your full-screen calendar
-                </Button>
-                <p className="text-white/80 text-xs mt-2">
-                  Opens in a new tab so you can see all times clearly
-                </p>
-                <button
-                  type="button"
-                  onClick={openMobileCalendar}
-                  className="mt-2 text-white/80 hover:text-white underline underline-offset-2 text-sm"
-                  aria-label="If nothing opened, tap here"
-                >
-                  If nothing opened, tap here
-                </button>
-              </div>
-            ) : (
+          {!isMobile && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.35 }}
+              className="lg:hidden"
+            >
               <Button
                 onClick={scrollToBook}
                 variant="ghost"
@@ -211,8 +213,8 @@ function ThankYouContent() {
               >
                 Jump to calendar <ArrowDown className="w-3.5 h-3.5 ml-1.5" />
               </Button>
-            )}
-          </motion.div>
+            </motion.div>
+          )}
         </div>
       </section>
 
@@ -229,6 +231,44 @@ function ThankYouContent() {
             <div className="grid lg:grid-cols-1 2xl:grid-cols-[1fr_340px] gap-5 lg:gap-5 items-start">
               {/* Left -- calendar embed */}
               <div>
+                {isMobile && (
+                  <Card className="bg-white border-c2c-border rounded-2xl p-5 shadow-xl shadow-c2c-navy/8">
+                    <div className="text-center" aria-live="polite">
+                      <h3 className="text-c2c-navy text-xl font-semibold">
+                        {mobileLaunchState === "loading" ? "Opening your calendar..." : mobileLaunchState === "success" ? "Calendar opened in a new tab." : "Your browser blocked auto-open."}
+                      </h3>
+                      <p className="text-c2c-navy/70 text-sm mt-2">
+                        {mobileLaunchState === "loading" ? "We're launching the full-screen booking view now." : mobileLaunchState === "success" ? "If you don't see it, tap below." : "Tap below to open your full-screen booking calendar."}
+                      </p>
+                      {mobileLaunchState === "loading" && (
+                        <div className="flex justify-center mt-4">
+                          <Loader2 className="w-6 h-6 text-c2c-teal animate-spin" aria-hidden="true" />
+                        </div>
+                      )}
+                      <div className="mt-5">
+                        <Button
+                          onClick={openMobileCalendar}
+                          className="w-full bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold py-6 text-base rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl shadow-[0_0_25px_rgba(58,166,168,0.3)]"
+                          aria-label="Open calendar now"
+                        >
+                          Open calendar now
+                        </Button>
+                        <p className="text-c2c-navy/60 text-xs mt-2">
+                          Opens in a new tab so you can see all times clearly
+                        </p>
+                        <button
+                          type="button"
+                          onClick={openMobileCalendar}
+                          className="mt-2 text-c2c-navy/70 hover:text-c2c-navy underline underline-offset-2 text-sm"
+                          aria-label="If nothing opened, tap here"
+                        >
+                          If nothing opened, tap here
+                        </button>
+                      </div>
+                    </div>
+                  </Card>
+                )}
+
                 {!isMobile && (
                   <>
                     <Card className="bg-white border-c2c-border rounded-2xl overflow-hidden shadow-2xl shadow-c2c-navy/8 lg:p-1">
