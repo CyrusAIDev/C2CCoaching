@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState, useMemo, useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
@@ -17,19 +17,28 @@ const rotatingWords = [
 ]
 
 export function Hero() {
+  const sectionRef = useRef<HTMLElement | null>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
   const isMobile = useIsMobile()
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [displayedText, setDisplayedText] = useState("")
   const [isTyping, setIsTyping] = useState(true)
   
-  // Parallax scroll effects - reduced on mobile
-  const { scrollY } = useScroll()
-  const backgroundY = useTransform(scrollY, [0, 1000], [0, isMobile ? 150 : 300])
-  const contentY = useTransform(scrollY, [0, 1000], [0, isMobile ? 75 : 150])
-  const opacity = useTransform(scrollY, [0, 400], [1, 0])
+  // Parallax/fade driven by hero section progress to avoid stale route-transition scroll values.
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  })
+  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 150 : 300])
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 75 : 150])
+  const opacity = useTransform(scrollYProgress, [0, 0.4], [1, 0])
   
   const shouldAnimate = !prefersReducedMotion && !isMobile
+
+  // Ensure hero content is visible immediately when navigating back home.
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   // Typewriter effect
   useEffect(() => {
@@ -94,7 +103,7 @@ export function Hero() {
   )
 
   return (
-    <section className="relative min-h-[100svh] md:min-h-screen flex items-center overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-[100svh] md:min-h-screen flex items-center overflow-hidden">
       {/* Background Image - newspaper job seekers with parallax */}
       <motion.div 
         className="absolute inset-0 z-0"
@@ -171,7 +180,7 @@ export function Hero() {
                   size="lg"
                   className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 md:px-8 py-5 md:py-6 text-base md:text-lg rounded-lg transition-all duration-200 hover:-translate-y-1 hover:shadow-xl shadow-[0_0_25px_rgba(58,166,168,0.4)] ring-2 ring-c2c-teal/30 ring-offset-2 ring-offset-c2c-navy/80"
                 >
-                  <a href="/consult">
+                  <a href="/consult" target="_blank" rel="noopener noreferrer">
                     Book Free Consultation
                   </a>
                 </Button>

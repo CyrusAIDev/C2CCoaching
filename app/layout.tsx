@@ -12,10 +12,42 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.fromcampus2corporate.ca"),
   title: 'From Campus 2 Corporate | Land Your Dream Internship & New Grad Role',
   description: '1:1 coaching for students and early-career professionals. Land internships and new grad roles at top companies like IBM, Deloitte, Amazon, and more.',
   keywords: ['career coaching', 'internship', 'new grad', 'recruiting', 'student jobs', 'career development'],
-  generator: 'v0.app',
+  alternates: {
+    canonical: "https://www.fromcampus2corporate.ca",
+    languages: {
+      "x-default": "https://www.fromcampus2corporate.ca",
+      "en-CA": "https://www.fromcampus2corporate.ca",
+      "en-US": "https://www.fromcampus2corporate.com",
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_CA",
+    url: "https://www.fromcampus2corporate.ca",
+    siteName: "From Campus 2 Corporate",
+    title: "From Campus 2 Corporate | Land Your Dream Internship & New Grad Role",
+    description:
+      "1:1 coaching for students and early-career professionals. Land internships and new grad roles at top companies like IBM, Deloitte, Amazon, and more.",
+    images: [
+      {
+        url: "/images/hero-desktop.jpg",
+        width: 1200,
+        height: 630,
+        alt: "From Campus 2 Corporate homepage",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "From Campus 2 Corporate | Land Your Dream Internship & New Grad Role",
+    description:
+      "1:1 coaching for students and early-career professionals. Land internships and new grad roles at top companies like IBM, Deloitte, Amazon, and more.",
+    images: ["/images/hero-desktop.jpg"],
+  },
   icons: {
     icon: [
       {
