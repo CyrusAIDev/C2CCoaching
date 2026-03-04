@@ -12,6 +12,7 @@ type ConsultLeadPayload = {
 }
 
 export async function POST(req: Request) {
+  const requestStartedAt = Date.now()
   const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL
 
   if (!webhookUrl) {
@@ -53,23 +54,34 @@ export async function POST(req: Request) {
   }
 
   try {
+    const webhookStartedAt = Date.now()
     const response = await fetch(webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(webhookPayload),
       cache: "no-store",
     })
+    const webhookDurationMs = Date.now() - webhookStartedAt
 
     if (!response.ok) {
       const errorText = await response.text()
+      console.error(
+        `[consult-lead] webhook failed status=${response.status} webhookMs=${webhookDurationMs} totalMs=${Date.now() - requestStartedAt} body=${errorText.slice(0, 200)}`
+      )
       return NextResponse.json(
-        { ok: false, error: `Webhook error (${response.status}): ${errorText || "Unknown error"}` },
+        { ok: false, error: "Lead capture service unavailable." },
         { status: 502 }
       )
     }
 
+    console.info(
+      `[consult-lead] webhook success status=${response.status} webhookMs=${webhookDurationMs} totalMs=${Date.now() - requestStartedAt}`
+    )
     return NextResponse.json({ ok: true }, { status: 200 })
   } catch {
+    console.error(
+      `[consult-lead] webhook request threw error totalMs=${Date.now() - requestStartedAt}`
+    )
     return NextResponse.json(
       { ok: false, error: "Failed to connect to webhook." },
       { status: 502 }

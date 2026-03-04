@@ -98,8 +98,8 @@ function ThankYouContent() {
       {/* ─── 1) Short Dark Hero Header ─── */}
       <section className="relative overflow-hidden pt-12 pb-7 md:pt-24 md:pb-14 lg:pt-14 lg:pb-4">
         <div className="absolute inset-0 z-0">
-          <Image src="/images/hero-bg.jpg" alt="" fill sizes="100vw" className="hidden md:block object-cover object-top" priority />
-          <Image src="/images/hero-mobile.jpg" alt="" fill sizes="100vw" className="md:hidden object-cover object-[50%_30%]" priority />
+          <Image src="/images/hero-bg.jpg" alt="" fill sizes="100vw" className="hidden md:block object-cover object-top" />
+          <Image src="/images/hero-mobile.jpg" alt="" fill sizes="100vw" className="md:hidden object-cover object-[50%_30%]" />
           <div className="hidden md:block absolute inset-0 bg-gradient-to-b from-c2c-navy/80 via-c2c-navy/90 to-c2c-navy/98" />
           <div className="md:hidden absolute inset-0 bg-gradient-to-b from-c2c-navy/70 via-c2c-navy/85 to-c2c-navy" />
         </div>
@@ -182,7 +182,7 @@ function ThankYouContent() {
                     src={BOOKING_URL}
                     title="Book your 30-minute consult with C2C"
                     className="block w-full border-0 h-[470px] min-h-[390px] md:h-[580px] md:min-h-[480px] lg:h-[620px] lg:min-h-[620px] lg:rounded-[14px]"
-                    loading="eager"
+                    loading="lazy"
                   />
                 </Card>
 

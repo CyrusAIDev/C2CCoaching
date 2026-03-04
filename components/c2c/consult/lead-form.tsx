@@ -59,6 +59,10 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
     return () => media.removeEventListener("change", update)
   }, [])
 
+  useEffect(() => {
+    router.prefetch("/consult/thank-you")
+  }, [router])
+
   const goStep2 = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault()
@@ -79,11 +83,25 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
       setIsSubmitting(true)
       setError("")
       try {
+        const submitTimer = `[consult] submit-to-thankyou-${Date.now()}`
+        const leadTimer = `[consult] lead-request-${Date.now()}`
+        console.time(submitTimer)
+        console.info("[consult] submit clicked")
+
         const firstName = form.firstName.trim()
         const linkedin = normalizeOptionalUrl(form.linkedinUrl)
         const resume = normalizeOptionalUrl(form.resumeLink)
         const source = isDark ? "consult_dark_form" : "consult_light_form"
-        const response = await fetch("/api/consult-lead", {
+        const params = new URLSearchParams({ name: firstName, email: form.email })
+        if (typeof window !== "undefined" && firstName) {
+          window.sessionStorage.setItem("c2c_consult_name", firstName)
+        }
+        if (linkedin) params.set("linkedin", linkedin)
+        if (resume) params.set("resume", resume)
+
+        let leadSettled = false
+        console.time(leadTimer)
+        const leadRequest = fetch("/api/consult-lead", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -96,19 +114,32 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
             resumeLink: resume,
             source,
           }),
+          keepalive: true,
+          cache: "no-store",
         })
+          .then((response) => {
+            if (!response.ok) {
+              console.warn("[consult] lead capture returned non-OK status", response.status)
+            }
+          })
+          .catch((requestError) => {
+            console.warn("[consult] lead capture request failed", requestError)
+          })
+          .finally(() => {
+            leadSettled = true
+            console.timeEnd(leadTimer)
+          })
 
-        if (!response.ok) {
-          throw new Error("Lead capture failed")
+        await Promise.race([
+          leadRequest,
+          new Promise<void>((resolve) => window.setTimeout(resolve, 900)),
+        ])
+        if (!leadSettled) {
+          console.info("[consult] lead request still pending after 900ms; continuing navigation")
         }
 
-        const params = new URLSearchParams({ name: firstName, email: form.email })
-        if (typeof window !== "undefined" && firstName) {
-          window.sessionStorage.setItem("c2c_consult_name", firstName)
-        }
-        if (linkedin) params.set("linkedin", linkedin)
-        if (resume) params.set("resume", resume)
         router.push(`/consult/thank-you?${params.toString()}`)
+        console.timeEnd(submitTimer)
       } catch {
         setError("Something went wrong. Please try again.")
         setIsSubmitting(false)
