@@ -71,6 +71,8 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
     [form.firstName, emailValid]
   )
 
+  const isDark = variant === "dark"
+
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault()
@@ -80,6 +82,26 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
         const firstName = form.firstName.trim()
         const linkedin = normalizeOptionalUrl(form.linkedinUrl)
         const resume = normalizeOptionalUrl(form.resumeLink)
+        const source = isDark ? "consult_dark_form" : "consult_light_form"
+        const response = await fetch("/api/consult-lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName,
+            email: form.email,
+            phone: form.phone,
+            roleTarget: form.roleTarget,
+            visa: form.visa,
+            linkedinUrl: linkedin,
+            resumeLink: resume,
+            source,
+          }),
+        })
+
+        if (!response.ok) {
+          throw new Error("Lead capture failed")
+        }
+
         const params = new URLSearchParams({ name: firstName, email: form.email })
         if (typeof window !== "undefined" && firstName) {
           window.sessionStorage.setItem("c2c_consult_name", firstName)
@@ -92,7 +114,7 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
         setIsSubmitting(false)
       }
     },
-    [form.firstName, form.email, form.linkedinUrl, form.resumeLink, router, normalizeOptionalUrl]
+    [form.firstName, form.email, form.phone, form.roleTarget, form.visa, form.linkedinUrl, form.resumeLink, isDark, router, normalizeOptionalUrl]
   )
 
   const handleSkipToSubmit = useCallback(() => {
@@ -107,8 +129,6 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
     if (resume) params.set("resume", resume)
     router.push(`/consult/thank-you?${params.toString()}`)
   }, [form.firstName, form.email, form.linkedinUrl, form.resumeLink, router, normalizeOptionalUrl])
-
-  const isDark = variant === "dark"
 
   const cardCls = isDark
     ? "bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-2xl p-5 lg:p-8 shadow-2xl lg:border-white/[0.18] lg:shadow-[0_25px_60px_rgba(0,0,0,0.4)]"
