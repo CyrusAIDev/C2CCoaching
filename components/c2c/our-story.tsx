@@ -8,7 +8,7 @@ import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion"
 import { useIsMobile } from "@/hooks/use-is-mobile"
 import { useSectionInView } from "@/hooks/use-section-in-view"
 import { createStaggerVariants } from "@/lib/animations"
-import { BOOKING_URL, TRUST_MICROCOPY } from "@/lib/constants"
+import { TRUST_MICROCOPY } from "@/lib/constants"
 
 // ==================== AutoPlayYouTubeEmbed Component ====================
 // Robust implementation: always renders visible iframe, never blanks out
@@ -363,7 +363,7 @@ export function OurStory() {
               asChild
               className="w-full bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 py-5 rounded-lg shadow-[0_0_25px_rgba(58,166,168,0.3)]"
             >
-              <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+              <a href="/consult" target="_blank" rel="noopener noreferrer">
                 Free Consultation
               </a>
             </Button>
@@ -457,7 +457,7 @@ export function OurStory() {
                 asChild
                 className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-6 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg shadow-[0_0_25px_rgba(58,166,168,0.3)]"
               >
-                <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+                <a href="/consult" target="_blank" rel="noopener noreferrer">
                   Free Consultation
                 </a>
               </Button>

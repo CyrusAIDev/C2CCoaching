@@ -30,6 +30,12 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
   })
 
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
+  const normalizeOptionalUrl = useCallback((value: string) => {
+    const trimmed = value.trim()
+    if (!trimmed) return ""
+    if (/^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//.test(trimmed)) return trimmed
+    return `https://${trimmed}`
+  }, [])
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -71,24 +77,36 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
       setIsSubmitting(true)
       setError("")
       try {
-        const params = new URLSearchParams({ name: form.firstName, email: form.email })
-        if (form.linkedinUrl) params.set("linkedin", form.linkedinUrl)
-        if (form.resumeLink) params.set("resume", form.resumeLink)
+        const firstName = form.firstName.trim()
+        const linkedin = normalizeOptionalUrl(form.linkedinUrl)
+        const resume = normalizeOptionalUrl(form.resumeLink)
+        const params = new URLSearchParams({ name: firstName, email: form.email })
+        if (typeof window !== "undefined" && firstName) {
+          window.sessionStorage.setItem("c2c_consult_name", firstName)
+        }
+        if (linkedin) params.set("linkedin", linkedin)
+        if (resume) params.set("resume", resume)
         router.push(`/consult/thank-you?${params.toString()}`)
       } catch {
         setError("Something went wrong. Please try again.")
         setIsSubmitting(false)
       }
     },
-    [form.firstName, form.email, form.linkedinUrl, form.resumeLink, router]
+    [form.firstName, form.email, form.linkedinUrl, form.resumeLink, router, normalizeOptionalUrl]
   )
 
   const handleSkipToSubmit = useCallback(() => {
-    const params = new URLSearchParams({ name: form.firstName, email: form.email })
-    if (form.linkedinUrl) params.set("linkedin", form.linkedinUrl)
-    if (form.resumeLink) params.set("resume", form.resumeLink)
+    const firstName = form.firstName.trim()
+    const linkedin = normalizeOptionalUrl(form.linkedinUrl)
+    const resume = normalizeOptionalUrl(form.resumeLink)
+    const params = new URLSearchParams({ name: firstName, email: form.email })
+    if (typeof window !== "undefined" && firstName) {
+      window.sessionStorage.setItem("c2c_consult_name", firstName)
+    }
+    if (linkedin) params.set("linkedin", linkedin)
+    if (resume) params.set("resume", resume)
     router.push(`/consult/thank-you?${params.toString()}`)
-  }, [form.firstName, form.email, form.linkedinUrl, form.resumeLink, router])
+  }, [form.firstName, form.email, form.linkedinUrl, form.resumeLink, router, normalizeOptionalUrl])
 
   const isDark = variant === "dark"
 
@@ -172,14 +190,14 @@ export function LeadForm({ id, variant = "dark" }: LeadFormProps) {
               <LinkIcon className="w-4 h-4 text-c2c-teal" />
               LinkedIn profile URL <span className={isDark ? "text-white/40 font-normal" : "text-c2c-navy/40 font-normal"}>(optional)</span>
             </label>
-            <Input id={`${id}-linkedin`} name="linkedinUrl" type="url" placeholder="https://linkedin.com/in/your-profile" value={form.linkedinUrl} onChange={handleChange} className={inputCls} />
+            <Input id={`${id}-linkedin`} name="linkedinUrl" type="text" inputMode="url" autoComplete="url" placeholder="https://linkedin.com/in/your-profile" value={form.linkedinUrl} onChange={handleChange} className={inputCls} />
           </div>
           <div>
             <label htmlFor={`${id}-resume`} className={`${labelCls} flex items-center gap-1.5`}>
               <FileText className="w-4 h-4 text-c2c-teal" />
               Resume link <span className={isDark ? "text-white/40 font-normal" : "text-c2c-navy/40 font-normal"}>(optional)</span>
             </label>
-            <Input id={`${id}-resume`} name="resumeLink" type="url" placeholder="https://drive.google.com/... or Dropbox link" value={form.resumeLink} onChange={handleChange} className={inputCls} />
+            <Input id={`${id}-resume`} name="resumeLink" type="text" inputMode="url" autoComplete="url" placeholder="https://drive.google.com/... or Dropbox link" value={form.resumeLink} onChange={handleChange} className={inputCls} />
           </div>
           <div>
             <label htmlFor={`${id}-phone`} className={labelCls}>

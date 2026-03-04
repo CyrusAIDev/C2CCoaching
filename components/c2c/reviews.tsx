@@ -12,7 +12,6 @@ import { useSectionInView } from "@/hooks/use-section-in-view"
 import { createStaggerVariants } from "@/lib/animations"
 import { SectionHeading } from "@/components/c2c/section-heading"
 import { SectionBackground } from "@/components/c2c/section-background"
-import { BOOKING_URL } from "@/lib/constants"
 import { MobileAutoCarousel } from "@/components/c2c/mobile-auto-carousel"
 
 const testimonials = [
@@ -210,7 +209,7 @@ export function Reviews() {
             asChild
             className="w-full max-w-xs bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-6 py-5 rounded-lg shadow-[0_0_25px_rgba(58,166,168,0.25)]"
           >
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+            <a href="/consult" target="_blank" rel="noopener noreferrer">
               Book Free Consultation
             </a>
           </Button>
@@ -323,7 +322,7 @@ export function Reviews() {
             asChild
             className="bg-c2c-teal hover:bg-c2c-teal/90 text-white font-semibold px-8 py-6 rounded-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg shadow-[0_0_25px_rgba(58,166,168,0.25)]"
           >
-            <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer">
+            <a href="/consult" target="_blank" rel="noopener noreferrer">
               Book Free Consultation
             </a>
           </Button>
